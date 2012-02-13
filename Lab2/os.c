@@ -22,7 +22,7 @@ return;
 // input:  pointer to a semaphore
 // output: none
 void OS_InitSemaphore(Sema4Type *semaPt, long value){
-	semaPt->Value=value
+	semaPt->Value=value;
 } 
 
 // ******** OS_Wait ************
