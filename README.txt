@@ -1,0 +1,3 @@
+These are lab files for EE345M at The University of Texas at Austin for Spring 2012. Authors are Cruz Monnreal and Austin Blackstone. This repository is only for their use, but because we're cheap bastards were not paying for privacy. So no, you are not liscenced to reuse, redistribute or in any way use this code as your own. If you do it is provided with no guarantees, warranty, liability or promises as to its efficassy, in fact im pretty sure none of it will work so dont even bother looking at it. 
+
+-Los Pollos Loco

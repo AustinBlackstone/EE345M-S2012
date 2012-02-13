@@ -1,0 +1,11 @@
+os.o: os.c
+os.o: ..\..\..\EE345M\inc/hw_types.h
+os.o: ..\..\..\EE345M\inc/hw_ints.h
+os.o: ..\..\..\EE345M\inc/hw_memmap.h
+os.o: ..\..\..\EE345M\driverlib/debug.h
+os.o: ..\..\..\EE345M\driverlib/interrupt.h
+os.o: ..\..\..\EE345M\driverlib/sysctl.h
+os.o: ..\..\..\EE345M\driverlib/gpio.h
+os.o: C:\Keil\ARM\INC\Luminary\lm3s1968.h
+os.o: ..\..\..\EE345M\driverlib/timer.h
+os.o: os.h

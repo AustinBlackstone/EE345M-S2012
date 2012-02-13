@@ -1,0 +1,712 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html><head>
+<title>Static Call Graph - [C:\Users\Cruz Monrreal II\Desktop\Dropbox\EE345M\Lab1\procedure\Lab1.axf]</title></head>
+<body><HR>
+<H1>Static Call Graph for image C:\Users\Cruz Monrreal II\Desktop\Dropbox\EE345M\Lab1\procedure\Lab1.axf</H1><HR>
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, RVCT4.0 [Build 728]: Last Updated: Fri Feb 10 23:48:26 2012
+<BR><P>
+<H3>Maximum Stack Usage =        168 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+Call chain for Maximum Stack Depth:</H3>
+main &rArr; UARTIntHandler &rArr; oLED_Message &rArr; RIT128x96x4StringDraw &rArr; RITWriteData
+<P>
+<H3>
+Functions with no stack information
+</H3><UL>
+ <LI><a href="#[23ae61c]">DisableInterrupts</a>
+ <LI><a href="#[23ae5e0]">EnableInterrupts</a>
+ <LI><a href="#[23ae5a4]">StartCritical</a>
+ <LI><a href="#[23ae568]">EndCritical</a>
+ <LI><a href="#[23ae52c]">WaitForInterrupt</a>
+ <LI><a href="#[23ae4f0]">Reset_Handler</a>
+ <LI><a href="#[23ae7fc]">NmiSR</a>
+ <LI><a href="#[23ae7c0]">FaultISR</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+</UL>
+</UL>
+<P>
+<H3>
+Mutually Recursive functions
+</H3> <LI><a href="#[23ab430]">SSIDataPut</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[23ab430]">SSIDataPut</a><BR>
+ <LI><a href="#[23acaec]">UARTConfigSetExpClk</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[23acaec]">UARTConfigSetExpClk</a><BR>
+ <LI><a href="#[2f4362c]">SysCtlDelay</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[2f4362c]">SysCtlDelay</a><BR>
+ <LI><a href="#[23ae7fc]">NmiSR</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[23ae7fc]">NmiSR</a><BR>
+ <LI><a href="#[23ae7c0]">FaultISR</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[23ae7c0]">FaultISR</a><BR>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>&nbsp;&nbsp;&nbsp;&rArr;&nbsp;&nbsp;&nbsp;<a href="#[23ae784]">IntDefaultHandler</a><BR>
+</UL>
+<P>
+<H3>
+Function Pointers
+</H3><UL>
+ <LI><a href="#[23ae4f0]">Reset_Handler</a>
+ <LI><a href="#[23ae7fc]">NmiSR</a>
+ <LI><a href="#[23ae7c0]">FaultISR</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae43c]">UARTIntHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae478]">Timer2A_Handler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23ae784]">IntDefaultHandler</a>
+ <LI><a href="#[23acdbc]">main</a>
+ <LI><a href="#[2f391e0]">_sputc</a>
+</UL>
+<P>
+<H3>
+Global Symbols
+</H3>
+<P><STRONG><a name="[23ae61c]"></a>DisableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET), UNUSED, KEPT)
+
+<P><STRONG><a name="[23ae5e0]"></a>EnableInterrupts</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET), UNUSED, KEPT)
+
+<P><STRONG><a name="[23ae5a4]"></a>StartCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Called By]<UL><LI><a href="#[23acf24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdFifo_Init
+<LI><a href="#[23ad014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutFifo_Init
+<LI><a href="#[23ad104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InFifo_Init
+</UL>
+
+<P><STRONG><a name="[23ae568]"></a>EndCritical</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Called By]<UL><LI><a href="#[23acf24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdFifo_Init
+<LI><a href="#[23ad014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutFifo_Init
+<LI><a href="#[23ad104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InFifo_Init
+</UL>
+
+<P><STRONG><a name="[23ae52c]"></a>WaitForInterrupt</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET), UNUSED, KEPT)
+
+<P><STRONG><a name="[23ae4f0]"></a>Reset_Handler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[2f3b6e8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+</UL>
+
+<P><STRONG><a name="[2f3b6e8]"></a>__main</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry.o(.ARM.Collect$$$$00000000))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae4f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Reset_Handler
+</UL>
+
+<P><STRONG><a name="[300a170]"></a>_main_stk</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry2.o(.ARM.Collect$$$$00000001))
+
+<P><STRONG><a name="[300a044]"></a>_main_scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
+<BR><BR>[Calls]<UL><LI><a href="#[3009414]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+</UL>
+
+<P><STRONG><a name="[300a008]"></a>__main_after_scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry5.o(.ARM.Collect$$$$00000004))
+<BR><BR>[Called By]<UL><LI><a href="#[3009414]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
+</UL>
+
+<P><STRONG><a name="[3009f18]"></a>_main_init</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, entry7.o(.ARM.Collect$$$$00000007))
+
+<P><STRONG><a name="[2f4362c]"></a>SysCtlDelay</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, sysctl.o(.emb_text))
+<BR><BR>[Calls]<UL><LI><a href="#[2f4362c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlDelay
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acc18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlClockSet
+<LI><a href="#[2f4362c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlDelay
+</UL>
+
+<P><STRONG><a name="[23a4d88]"></a>CPUcpsid</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+
+<P><STRONG><a name="[2f3b88c]"></a>CPUprimask</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+
+<P><STRONG><a name="[23a4d4c]"></a>CPUcpsie</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, cpu.o(.emb_text))
+<BR><BR>[Called By]<UL><LI><a href="#[23acd08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
+</UL>
+
+<P><STRONG><a name="[2f42b28]"></a>CPUwfi</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+
+<P><STRONG><a name="[23a4dc4]"></a>CPUbasepriSet</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+
+<P><STRONG><a name="[23a4e00]"></a>CPUbasepriGet</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, cpu.o(.emb_text), UNUSED)
+
+<P><STRONG><a name="[23ad104]"></a>InFifo_Init</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = InFifo_Init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ae568]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EndCritical
+<LI><a href="#[23ae5a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCritical
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23ad0c8]"></a>InFifo_Put</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[23ad08c]"></a>InFifo_Get</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23ad050]"></a>InFifo_Size</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, uart_echo_mod.o(.text), UNUSED)
+
+<P><STRONG><a name="[23ad014]"></a>OutFifo_Init</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = OutFifo_Init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ae568]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EndCritical
+<LI><a href="#[23ae5a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCritical
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23acfd8]"></a>OutFifo_Put</STRONG> (Thumb, 50 bytes, Stack size 0 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[23ace34]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTSend
+</UL>
+
+<P><STRONG><a name="[23acf9c]"></a>OutFifo_Get</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[23acf60]"></a>OutFifo_Size</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, uart_echo_mod.o(.text), UNUSED)
+
+<P><STRONG><a name="[23acf24]"></a>CmdFifo_Init</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8 + Unknown Stack Size
+<LI>Call Chain = CmdFifo_Init
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ae568]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EndCritical
+<LI><a href="#[23ae5a4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartCritical
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23acee8]"></a>CmdFifo_Put</STRONG> (Thumb, 48 bytes, Stack size 0 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23aceac]"></a>CmdFifo_Get</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23ace70]"></a>CmdFifo_Size</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, uart_echo_mod.o(.text), UNUSED)
+
+<P><STRONG><a name="[23ae43c]"></a>UARTIntHandler</STRONG> (Thumb, 90 bytes, Stack size 16 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = UARTIntHandler &rArr; oLED_Message &rArr; RIT128x96x4StringDraw &rArr; RITWriteData
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ac984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;oLED_Message
+<LI><a href="#[23ac9fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTSpaceAvail
+<LI><a href="#[23aca38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntStatus
+<LI><a href="#[23acab0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntClear
+<LI><a href="#[23acb28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharsAvail
+<LI><a href="#[23acb64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharPutNonBlocking
+<LI><a href="#[23acba0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharGetNonBlocking
+<LI><a href="#[23acf9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutFifo_Get
+<LI><a href="#[23ad0c8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InFifo_Put
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[23ace34]"></a>UARTSend</STRONG> (Thumb, 26 bytes, Stack size 8 bytes, uart_echo_mod.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[23acfd8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutFifo_Put
+</UL>
+
+<P><STRONG><a name="[23acdf8]"></a>dummy</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, uart_echo_mod.o(.text), UNUSED)
+
+<P><STRONG><a name="[23acdbc]"></a>main</STRONG> (Thumb, 320 bytes, Stack size 56 bytes, uart_echo_mod.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 168 + Unknown Stack Size
+<LI>Call Chain = main &rArr; UARTIntHandler &rArr; oLED_Message &rArr; RIT128x96x4StringDraw &rArr; RITWriteData
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ac984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;oLED_Message
+<LI><a href="#[23aca74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntEnable
+<LI><a href="#[23acaec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTConfigSetExpClk
+<LI><a href="#[23acb64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTCharPutNonBlocking
+<LI><a href="#[23acbdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlPeripheralEnable
+<LI><a href="#[23acc18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlClockSet
+<LI><a href="#[23acc54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlClockGet
+<LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+<LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+<LI><a href="#[23acd08]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntMasterEnable
+<LI><a href="#[23acd44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntEnable
+<LI><a href="#[23acd80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
+<LI><a href="#[23aceac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdFifo_Get
+<LI><a href="#[23acee8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdFifo_Put
+<LI><a href="#[23acf24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CmdFifo_Init
+<LI><a href="#[23acfd8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutFifo_Put
+<LI><a href="#[23ad014]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OutFifo_Init
+<LI><a href="#[23ad08c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InFifo_Get
+<LI><a href="#[23ad104]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;InFifo_Init
+<LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+<LI><a href="#[2f3afe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+<LI><a href="#[2f3b0d0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strncpy
+<LI><a href="#[2f3b1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strstr
+<LI><a href="#[2f3b328]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr4
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> entry7.o(.ARM.Collect$$$$00000007)
+</UL>
+<P><STRONG><a name="[23ab7b4]"></a>RIT128x96x4Clear</STRONG> (Thumb, 70 bytes, Stack size 16 bytes, rit128x96x4.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = RIT128x96x4Clear &rArr; RITWriteData
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ac2b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteData
+<LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+</UL>
+
+<P><STRONG><a name="[23ab778]"></a>RIT128x96x4StringDraw</STRONG> (Thumb, 266 bytes, Stack size 32 bytes, rit128x96x4.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 48<LI>Call Chain = RIT128x96x4StringDraw &rArr; RITWriteData
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ac2b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteData
+<LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab610]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;oLED_Message_Scroll
+<LI><a href="#[23ac984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;oLED_Message
+</UL>
+
+<P><STRONG><a name="[23ab73c]"></a>RIT128x96x4ImageDraw</STRONG> (Thumb, 114 bytes, Stack size 24 bytes, rit128x96x4.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[23ac2b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteData
+<LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+</UL>
+
+<P><STRONG><a name="[23ab700]"></a>RIT128x96x4Enable</STRONG> (Thumb, 90 bytes, Stack size 24 bytes, rit128x96x4.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = RIT128x96x4Enable &rArr; GPIOPinTypeSSI
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ab3b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIEnable
+<LI><a href="#[23ab3f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIDisable
+<LI><a href="#[23ab4a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIConfigSetExpClk
+<LI><a href="#[23ab55c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeSSI
+<LI><a href="#[23ab5d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPadConfigSet
+<LI><a href="#[23acc54]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlClockGet
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+</UL>
+
+<P><STRONG><a name="[23ab6c4]"></a>RIT128x96x4Disable</STRONG> (Thumb, 84 bytes, Stack size 8 bytes, rit128x96x4.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[23ab3f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIDisable
+<LI><a href="#[23ab46c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIDataGetNonBlocking
+<LI><a href="#[23ab520]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinWrite
+<LI><a href="#[23ab598]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeGPIOOutput
+<LI><a href="#[23ab5d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPadConfigSet
+</UL>
+
+<P><STRONG><a name="[23acc90]"></a>RIT128x96x4Init</STRONG> (Thumb, 180 bytes, Stack size 16 bytes, rit128x96x4.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 52<LI>Call Chain = RIT128x96x4Init &rArr; RIT128x96x4Enable &rArr; GPIOPinTypeSSI
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ab520]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinWrite
+<LI><a href="#[23ab55c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeSSI
+<LI><a href="#[23ab598]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeGPIOOutput
+<LI><a href="#[23ab5d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPadConfigSet
+<LI><a href="#[23ab700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Enable
+<LI><a href="#[23ab7b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Clear
+<LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+<LI><a href="#[23acbdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlPeripheralEnable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23ab688]"></a>RIT128x96x4DisplayOn</STRONG> (Thumb, 36 bytes, Stack size 8 bytes, rit128x96x4.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+</UL>
+
+<P><STRONG><a name="[23ab64c]"></a>RIT128x96x4DisplayOff</STRONG> (Thumb, 14 bytes, Stack size 8 bytes, rit128x96x4.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+</UL>
+
+<P><STRONG><a name="[23ac984]"></a>oLED_Message</STRONG> (Thumb, 136 bytes, Stack size 48 bytes, rit128x96x4.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = oLED_Message &rArr; RIT128x96x4StringDraw &rArr; RITWriteData
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ab778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4StringDraw
+<LI><a href="#[2f38f10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[2f3afe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[23ab610]"></a>oLED_Message_Scroll</STRONG> (Thumb, 224 bytes, Stack size 48 bytes, rit128x96x4.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[23ab778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4StringDraw
+<LI><a href="#[2f38f10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf
+<LI><a href="#[2f3afe0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;strlen
+</UL>
+
+<P><STRONG><a name="[23ae478]"></a>Timer2A_Handler</STRONG> (Thumb, 48 bytes, Stack size 8 bytes, os.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = Timer2A_Handler
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23aab0c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerIntClear
+<LI><a href="#[23ab520]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinWrite
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[23acccc]"></a>OS_AddPeriodicThread</STRONG> (Thumb, 86 bytes, Stack size 16 bytes, os.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = OS_AddPeriodicThread &rArr; GPIOPinTypeGPIOOutput
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23aaa94]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerLoadSet
+<LI><a href="#[23aaad0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerIntEnable
+<LI><a href="#[23aab48]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerEnable
+<LI><a href="#[23aabc0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerConfigure
+<LI><a href="#[23ab520]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinWrite
+<LI><a href="#[23ab598]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeGPIOOutput
+<LI><a href="#[23acbdc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlPeripheralEnable
+<LI><a href="#[23acd44]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntEnable
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23aac38]"></a>OS_ClearMsTime</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, os.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[23aab84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimerDisable
+</UL>
+
+<P><STRONG><a name="[23aabfc]"></a>OS_MsTime</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, os.o(.text), UNUSED)
+
+<P><STRONG><a name="[2f3b418]"></a>__aeabi_memset</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2f3b2b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_memset$wrapper
+<LI><a href="#[2f3b364]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memclr
+</UL>
+
+<P><STRONG><a name="[2f3b3dc]"></a>__aeabi_memset4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[2f3b3a0]"></a>__aeabi_memset8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[2f3b364]"></a>__aeabi_memclr</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2f3b418]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
+</UL>
+
+<P><STRONG><a name="[2f3b328]"></a>__aeabi_memclr4</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[2f3b2ec]"></a>__aeabi_memclr8</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, memseta.o(.text), UNUSED)
+
+<P><STRONG><a name="[2f3b2b0]"></a>_memset$wrapper</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, memseta.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2f3b418]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memset
+</UL>
+
+<P><STRONG><a name="[2f3b1c0]"></a>strstr</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, strstr.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = strstr
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[2f3b0d0]"></a>strncpy</STRONG> (Thumb, 24 bytes, Stack size 8 bytes, strncpy.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = strncpy
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[2f3afe0]"></a>strlen</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, strlen.o(.text))
+<BR><BR>[Called By]<UL><LI><a href="#[23ab610]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;oLED_Message_Scroll
+<LI><a href="#[23ac984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;oLED_Message
+<LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[3009c0c]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
+
+<P><STRONG><a name="[3009bd0]"></a>__aeabi_uidivmod</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2f39258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
+</UL>
+
+<P><STRONG><a name="[3009414]"></a>__scatterload</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, init.o(.text))
+<BR><BR>[Calls]<UL><LI><a href="#[300a008]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main_after_scatterload
+</UL>
+<BR>[Called By]<UL><LI><a href="#[300a044]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_main_scatterload
+</UL>
+
+<P><STRONG><a name="[30093d8]"></a>__scatterload_rt2</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, init.o(.text), UNUSED)
+
+<P><STRONG><a name="[23a7128]"></a>GPIODirModeSet</STRONG> (Thumb, 40 bytes, Stack size 0 bytes, gpio.o(i.GPIODirModeSet))
+<BR><BR>[Called By]<UL><LI><a href="#[23ab55c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeSSI
+<LI><a href="#[23ab598]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeGPIOOutput
+<LI><a href="#[23acd80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
+</UL>
+
+<P><STRONG><a name="[23ab5d4]"></a>GPIOPadConfigSet</STRONG> (Thumb, 176 bytes, Stack size 0 bytes, gpio.o(i.GPIOPadConfigSet))
+<BR><BR>[Called By]<UL><LI><a href="#[23ab55c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeSSI
+<LI><a href="#[23ab598]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeGPIOOutput
+<LI><a href="#[23ab6c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Disable
+<LI><a href="#[23ab700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Enable
+<LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+<LI><a href="#[23acd80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinTypeUART
+</UL>
+
+<P><STRONG><a name="[23ab598]"></a>GPIOPinTypeGPIOOutput</STRONG> (Thumb, 28 bytes, Stack size 12 bytes, gpio.o(i.GPIOPinTypeGPIOOutput))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = GPIOPinTypeGPIOOutput
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23a7128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIODirModeSet
+<LI><a href="#[23ab5d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPadConfigSet
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab6c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Disable
+<LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+<LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+</UL>
+
+<P><STRONG><a name="[23ab55c]"></a>GPIOPinTypeSSI</STRONG> (Thumb, 28 bytes, Stack size 12 bytes, gpio.o(i.GPIOPinTypeSSI))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = GPIOPinTypeSSI
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23a7128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIODirModeSet
+<LI><a href="#[23ab5d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPadConfigSet
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Enable
+<LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+</UL>
+
+<P><STRONG><a name="[23acd80]"></a>GPIOPinTypeUART</STRONG> (Thumb, 28 bytes, Stack size 12 bytes, gpio.o(i.GPIOPinTypeUART))
+<BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = GPIOPinTypeUART
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23a7128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIODirModeSet
+<LI><a href="#[23ab5d4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPadConfigSet
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23ab520]"></a>GPIOPinWrite</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, gpio.o(i.GPIOPinWrite))
+<BR><BR>[Called By]<UL><LI><a href="#[23ab6c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Disable
+<LI><a href="#[23ac2b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteData
+<LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+<LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+<LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+<LI><a href="#[23ae478]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer2A_Handler
+</UL>
+
+<P><STRONG><a name="[23acd44]"></a>IntEnable</STRONG> (Thumb, 108 bytes, Stack size 0 bytes, interrupt.o(i.IntEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+<LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23acd08]"></a>IntMasterEnable</STRONG> (Thumb, 10 bytes, Stack size 8 bytes, interrupt.o(i.IntMasterEnable))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = IntMasterEnable
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23a4d4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CPUcpsie
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23ab4e4]"></a>SSIBusy</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, ssi.o(i.SSIBusy))
+<BR><BR>[Called By]<UL><LI><a href="#[23ac2b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteData
+<LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+</UL>
+
+<P><STRONG><a name="[23ab4a8]"></a>SSIConfigSetExpClk</STRONG> (Thumb, 74 bytes, Stack size 8 bytes, ssi.o(i.SSIConfigSetExpClk))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SSIConfigSetExpClk
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Enable
+</UL>
+
+<P><STRONG><a name="[23ab46c]"></a>SSIDataGetNonBlocking</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, ssi.o(i.SSIDataGetNonBlocking), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[23ab6c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Disable
+</UL>
+
+<P><STRONG><a name="[23ab430]"></a>SSIDataPut</STRONG> (Thumb, 12 bytes, Stack size 0 bytes, ssi.o(i.SSIDataPut))
+<BR><BR>[Calls]<UL><LI><a href="#[23ab430]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIDataPut
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab430]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIDataPut
+<LI><a href="#[23ac2b8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteData
+<LI><a href="#[23ac2f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RITWriteCommand
+</UL>
+
+<P><STRONG><a name="[23ab3f4]"></a>SSIDisable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, ssi.o(i.SSIDisable))
+<BR><BR>[Called By]<UL><LI><a href="#[23ab6c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Disable
+<LI><a href="#[23ab700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Enable
+</UL>
+
+<P><STRONG><a name="[23ab3b8]"></a>SSIEnable</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, ssi.o(i.SSIEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[23ab700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Enable
+</UL>
+
+<P><STRONG><a name="[23acc54]"></a>SysCtlClockGet</STRONG> (Thumb, 444 bytes, Stack size 8 bytes, sysctl.o(i.SysCtlClockGet))
+<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SysCtlClockGet
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab700]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Enable
+<LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23acc18]"></a>SysCtlClockSet</STRONG> (Thumb, 292 bytes, Stack size 24 bytes, sysctl.o(i.SysCtlClockSet))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = SysCtlClockSet
+</UL>
+<BR>[Calls]<UL><LI><a href="#[2f4362c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysCtlDelay
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23acbdc]"></a>SysCtlPeripheralEnable</STRONG> (Thumb, 26 bytes, Stack size 0 bytes, sysctl.o(i.SysCtlPeripheralEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+<LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+<LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23aabc0]"></a>TimerConfigure</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, timer.o(i.TimerConfigure))
+<BR><BR>[Called By]<UL><LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+</UL>
+
+<P><STRONG><a name="[23aab84]"></a>TimerDisable</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, timer.o(i.TimerDisable), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[23aac38]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_ClearMsTime
+</UL>
+
+<P><STRONG><a name="[23aab48]"></a>TimerEnable</STRONG> (Thumb, 14 bytes, Stack size 0 bytes, timer.o(i.TimerEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+</UL>
+
+<P><STRONG><a name="[23aab0c]"></a>TimerIntClear</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, timer.o(i.TimerIntClear))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae478]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Timer2A_Handler
+</UL>
+
+<P><STRONG><a name="[23aaad0]"></a>TimerIntEnable</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, timer.o(i.TimerIntEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+</UL>
+
+<P><STRONG><a name="[23aaa94]"></a>TimerLoadSet</STRONG> (Thumb, 18 bytes, Stack size 0 bytes, timer.o(i.TimerLoadSet))
+<BR><BR>[Called By]<UL><LI><a href="#[23acccc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;OS_AddPeriodicThread
+</UL>
+
+<P><STRONG><a name="[23acba0]"></a>UARTCharGetNonBlocking</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, uart.o(i.UARTCharGetNonBlocking))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[23acb64]"></a>UARTCharPutNonBlocking</STRONG> (Thumb, 16 bytes, Stack size 0 bytes, uart.o(i.UARTCharPutNonBlocking))
+<BR><BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+<LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[23acb28]"></a>UARTCharsAvail</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, uart.o(i.UARTCharsAvail))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[23acaec]"></a>UARTConfigSetExpClk</STRONG> (Thumb, 110 bytes, Stack size 0 bytes, uart.o(i.UARTConfigSetExpClk))
+<BR><BR>[Calls]<UL><LI><a href="#[23acaec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTConfigSetExpClk
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23acaec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTConfigSetExpClk
+<LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23acab0]"></a>UARTIntClear</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, uart.o(i.UARTIntClear))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[23aca74]"></a>UARTIntEnable</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, uart.o(i.UARTIntEnable))
+<BR><BR>[Called By]<UL><LI><a href="#[23acdbc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
+</UL>
+
+<P><STRONG><a name="[23aca38]"></a>UARTIntStatus</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, uart.o(i.UARTIntStatus))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[23ac9fc]"></a>UARTSpaceAvail</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, uart.o(i.UARTSpaceAvail))
+<BR><BR>[Called By]<UL><LI><a href="#[23ae43c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UARTIntHandler
+</UL>
+
+<P><STRONG><a name="[2f38f88]"></a>__0sprintf$1</STRONG> (Thumb, 34 bytes, Stack size 24 bytes, printf1.o(i.__0sprintf$1), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2f391e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sputc
+<LI><a href="#[2f39258]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_core
+</UL>
+
+<P><STRONG><a name="[2f38f4c]"></a>__1sprintf$1</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf1.o(i.__0sprintf$1), UNUSED)
+
+<P><STRONG><a name="[2f38f10]"></a>__2sprintf</STRONG> (Thumb, 0 bytes, Stack size 24 bytes, printf1.o(i.__0sprintf$1))
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = __2sprintf
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab610]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;oLED_Message_Scroll
+<LI><a href="#[23ac984]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;oLED_Message
+</UL>
+
+<P><STRONG><a name="[3008b2c]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
+
+<P><STRONG><a name="[3008af0]"></a>__scatterload_null</STRONG> (Thumb, 2 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_null), UNUSED)
+
+<P><STRONG><a name="[3008ab4]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
+<P>
+<H3>
+Local Symbols
+</H3>
+<P><STRONG><a name="[23ae7fc]"></a>NmiSR</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[23ae7fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NmiSR
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ae7fc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NmiSR
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[23ae7c0]"></a>FaultISR</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[23ae7c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FaultISR
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ae7c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FaultISR
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[23ae784]"></a>IntDefaultHandler</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, startup.o(RESET))
+<BR><BR>[Calls]<UL><LI><a href="#[23ae784]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntDefaultHandler
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ae784]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;IntDefaultHandler
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> startup.o(RESET)
+</UL>
+<P><STRONG><a name="[23ac2f4]"></a>RITWriteCommand</STRONG> (Thumb, 124 bytes, Stack size 16 bytes, rit128x96x4.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = RITWriteCommand
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ab430]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIDataPut
+<LI><a href="#[23ab4e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIBusy
+<LI><a href="#[23ab520]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinWrite
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab64c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4DisplayOff
+<LI><a href="#[23ab688]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4DisplayOn
+<LI><a href="#[23ab73c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4ImageDraw
+<LI><a href="#[23ab778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4StringDraw
+<LI><a href="#[23ab7b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Clear
+<LI><a href="#[23acc90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Init
+</UL>
+
+<P><STRONG><a name="[23ac2b8]"></a>RITWriteData</STRONG> (Thumb, 124 bytes, Stack size 16 bytes, rit128x96x4.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = RITWriteData
+</UL>
+<BR>[Calls]<UL><LI><a href="#[23ab430]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIDataPut
+<LI><a href="#[23ab4e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SSIBusy
+<LI><a href="#[23ab520]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIOPinWrite
+</UL>
+<BR>[Called By]<UL><LI><a href="#[23ab73c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4ImageDraw
+<LI><a href="#[23ab778]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4StringDraw
+<LI><a href="#[23ab7b4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RIT128x96x4Clear
+</UL>
+
+<P><STRONG><a name="[2f39258]"></a>_printf_core</STRONG> (Thumb, 336 bytes, Stack size 88 bytes, printf1.o(i._printf_core), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[3009bd0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+</UL>
+<BR>[Called By]<UL><LI><a href="#[2f38f88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0sprintf$1
+</UL>
+
+<P><STRONG><a name="[2f391e0]"></a>_sputc</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, printf1.o(i._sputc))
+<BR><BR>[Called By]<UL><LI><a href="#[2f38f88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__0sprintf$1
+</UL>
+<BR>[Address Reference Count : 1]<UL><LI> printf1.o(i.__0sprintf$1)
+</UL><P>
+<H3>
+Undefined Global Symbols
+</H3><HR></body></html>
