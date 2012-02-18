@@ -400,6 +400,31 @@
               <FileType>1</FileType>
               <FilePath>C:\Users\Cruz Monrreal II\Desktop\Dropbox\EE345M\rit128x96x4.c</FilePath>
             </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>main.1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\main.1.c</FilePath>
+            </File>
+            <File>
+              <FileName>os.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\os.c</FilePath>
+            </File>
+            <File>
+              <FileName>Output.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Output.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

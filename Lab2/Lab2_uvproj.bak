@@ -389,22 +389,32 @@
             <File>
               <FileName>Startup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>C:\Users\Cruz Monrreal II\Desktop\Dropbox\EE345M\Startup.s</FilePath>
-            </File>
-            <File>
-              <FileName>uart_echo_mod.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\uart_echo_mod.c</FilePath>
+              <FilePath>C:\Users\Jack\EE345M-S2012\Startup.s</FilePath>
             </File>
             <File>
               <FileName>rit128x96x4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>C:\Users\Cruz Monrreal II\Desktop\Dropbox\EE345M\rit128x96x4.c</FilePath>
+              <FilePath>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</FilePath>
             </File>
             <File>
               <FileName>os.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\os.c</FilePath>
+            </File>
+            <File>
+              <FileName>os.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\os.h</FilePath>
+            </File>
+            <File>
+              <FileName>Lab2.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lab2.c</FilePath>
+            </File>
+            <File>
+              <FileName>lm3s8962.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\lm3s8962.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -414,7 +424,7 @@
             <File>
               <FileName>driverlib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>C:\Users\Cruz Monrreal II\Desktop\Dropbox\EE345M\driverlib\rvmdk\driverlib.lib</FilePath>
+              <FilePath>C:\Users\Jack\EE345M-S2012\driverlib\rvmdk\driverlib.lib</FilePath>
             </File>
           </Files>
         </Group>

@@ -1,0 +1,53 @@
+Things you should know
+
+
+Globals:
+RUNPT = pointer to currently running thread
+RUNNEXTPT = pointer to next thread to be run, loaded right before pendsv uses it
+
+
+
+
+Sema4's:
+oLED
+
+
+
+
+
+
+
+
+
+ ---------------
+|   ***TCB***	|
+__________________
+ ---------------
+|long *sp	|
+ ---------------
+|tcb *next	|
+ ---------------
+|tcb *previous	|
+ ---------------
+|long id	|
+ ---------------
+|long used	|
+ ---------------
+|sema4 *block	|
+ ---------------
+|long sleep	|
+ ---------------
+|long actualPriority	|
+ ---------------
+|long workingPriority	|
+ ---------------
+|	|
+ ---------------
+|		|
+ ---------------
+|Stack [128]	|
+ ---------------
+|		|
+ ---------------
+
+

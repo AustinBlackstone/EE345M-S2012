@@ -8,10 +8,12 @@
 #include <stdio.h>
 #include <string.h>
 #include "inc/hw_types.h"
-#include "serial.h"
+//#include "serial.h"
+//#include "uart_echo_mod.h"
 #include "rit128x96x4.h"
 #include "adc.h"
 #include "os.h"
+#include "inc/lm3s8962.h"
 
 unsigned long NumCreated;   // number of foreground threads created
 unsigned long PIDWork;      // current number of PID calculations finished

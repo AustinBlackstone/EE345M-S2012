@@ -1,19 +1,36 @@
 // filename **********OS.c***********
 // Real Time Operating System for Labs 2 and 3 
-// Austin Blackstone, Cruz Monnreal II 2/8/2012
+// Austin Blackstone, Cruz Monnreal II 2/16/2012
 //***********Ready to go*************
 // You may use, edit, run or distribute this file 
 // You are free to change the syntax/organization of this file
  
 #include "os.h"
- 
- 
+#include "lm3s8962.h"
+#include "Startup.h"
+
+
+
+tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
+tcbType *RUNPT;
+tcbType *NEXTRUNPT;
+
+//global incrimented to generate unique thread id's
+int IDCOUNT;
+
+//Semaphores used for program
+Sema4Type oled;
+
+
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
 // initialize OS controlled I/O: serial, ADC, systick, select switch and timer2 
 // input:  none
 // output: none
 void OS_Init(void){
+
+//TODO: i have no fucking clue what to do here...
+
 return;
 }
 
@@ -21,8 +38,8 @@ return;
 // initialize semaphore 
 // input:  pointer to a semaphore
 // output: none
-void OS_InitSemaphore(Sema4Type *semaPt, long value){
-	semaPt->Value=value;
+void OS_InitSemaphore(Sema4Type *semaPt, long initialValue){
+	semaPt->Value=initialValue;   //assuming all semaphores are initialized to 1
 } 
 
 // ******** OS_Wait ************
@@ -31,11 +48,12 @@ void OS_InitSemaphore(Sema4Type *semaPt, long value){
 // output: none
 void OS_Wait(Sema4Type *s){
 	DisableInterrupts();
-	while(*s<=0){
+	while( s->Value <= 0){
+		//TODO: implement Blocking
 		EnableInterrupts();
 		DisableInterrupts();
 	}
-	*s =*s-1;
+	s->Value =s->Value-1;
 	EnableInterrupts();
 }
 
@@ -44,10 +62,11 @@ void OS_Wait(Sema4Type *s){
 // input:  pointer to a counting semaphore
 // output: none
 void OS_Signal(Sema4Type *s){
-	Sema4Type status;
+	long status;
 	status=StartCritical();
-	*s= *s+1;
+	s->Value= s->Value+1;
 	EndCritical(status);
+	//TODO: wakeup blocked thread
 }
 
 // ******** OS_bWait ************
@@ -56,6 +75,15 @@ void OS_Signal(Sema4Type *s){
 // input:  pointer to a binary semaphore
 // output: none
 void OS_bWait(Sema4Type *semaPt){
+	DisableInterrupts();
+	while( semaPt->Value == 0){
+		//TODO: implement Blocking
+		EnableInterrupts();
+		DisableInterrupts();
+	}
+	semaPt->Value =0;
+	EnableInterrupts();
+
 return;
 }
 
@@ -64,6 +92,13 @@ return;
 // input:  pointer to a binary semaphore
 // output: none
 void OS_bSignal(Sema4Type *semaPt){
+	long status;
+	status=StartCritical();
+	semaPt->Value= 1;
+	EndCritical(status);
+
+	//TODO: wakeup blocked thread
+
 return;
 }
 
@@ -78,7 +113,26 @@ return;
 // In Lab 3, you can ignore the stackSize fields
 int OS_AddThread(void(*task)(void), 
    unsigned long stackSize, unsigned long priority){
-return;
+	  int x,found;
+	  for(x=0,found=0;(x<NUMTHREADS) && (found==0);x++){	 //loop untill you find a non used thread
+			if(tcbs[x].used==0){
+				found=1;
+				//possible critical section?	
+				OS_ThreadInit(&tcbs[x],0xFF-x);
+				tcbs[x].used=1;
+				tcbs[x].next=RUNPT;			// set prev / next on new thread
+				tcbs[x].prev=RUNPT->prev;		//
+				RUNPT->prev->next=&tcbs[x];		// insert thread into current linked list of running threads
+				RUNPT->prev=&tcbs[x];			//
+				//end of possible critical section?
+				tcbs[x].realPriority=priority;
+				tcbs[x].workingPriority=priority;
+				tcbs[x].id=IDCOUNT++;
+				//TODO: implement adjustable stacksize using input variable 'stackSize'
+				
+			}	  
+	  }
+return found;
 }
 
 //******** OS_Id *************** 
@@ -86,7 +140,7 @@ return;
 // Inputs: none
 // Outputs: Thread ID, number greater than zero 
 unsigned long OS_Id(void){
-return;
+	return RUNPT->id;
 }
 
 //******** OS_AddPeriodicThread *************** 
@@ -108,6 +162,8 @@ return;
 //           determines the relative priority of these four threads
 int OS_AddPeriodicThread(void(*task)(void), 
    unsigned long period, unsigned long priority){
+
+
 return;
 }
 
@@ -129,7 +185,7 @@ return;
 }
 
 //******** OS_AddDownTask *************** 
-// add a background task to run whenever the Down arror button is pushed
+// add a background task to run whenever the Down arrow button is pushed
 // Inputs: pointer to a void/void background function
 //         priority 0 is highest, 5 is lowest
 // Outputs: 1 if successful, 0 if this thread can not be added
@@ -152,6 +208,11 @@ return;
 // You are free to select the time resolution for this function
 // OS_Sleep(0) implements cooperative multitasking
 void OS_Sleep(unsigned long sleepTime){
+	RUNPT->sleep = sleepTime;
+	//cause SYSTICK Interrupt / switch threads
+	NVIC_ST_CURRENT_R =0;
+	NVIC_INT_CTRL_R = 0x04000000;
+
 return;
 }
 
@@ -160,6 +221,15 @@ return;
 // input:  none
 // output: none
 void OS_Kill(void){
+	//set used=0, take it out of linked list, Possible ERROR, not 100% sure of efficacy
+	RUNPT->used=0;
+	RUNPT->prev->next=RUNPT->next;
+	RUNPT->next->prev=RUNPT->prev;
+	RUNPT->id=0x0DEADDEAD; //get it, the threads dead, hehehe, clever little bastard aint i?
+	//trigger SysTick, .'. the thread scheduler to run, next loop around this thread wont be here
+	NVIC_ST_CURRENT_R =0;
+	NVIC_INT_CTRL_R = 0x04000000;
+
 return;
 }
 
@@ -171,6 +241,9 @@ return;
 // input:  none
 // output: none
 void OS_Suspend(void){
+	//trigger SysTick (aka the thread scheduler)
+	NVIC_ST_CURRENT_R =0;
+	NVIC_INT_CTRL_R = 0x04000000;
 return;
 }
  
@@ -295,5 +368,69 @@ return;
 // In Lab 2, you can ignore the theTimeSlice field
 // In Lab 3, you should implement the user-defined TimeSlice field
 void OS_Launch(unsigned long theTimeSlice){
+	NVIC_ST_RELOAD_R=theTimeSlice-1; //reload value
+	NVIC_ST_CTRL_R = 0x00000007; //enable, core clock and interrupt arm
+	StartOS();
+
 return;
+}
+
+// ******** OS_Thread_Init ************
+// Initialize Thread Stack 
+// input:  pointer to thread to initialize, value to fill in extra part of stack with
+// output: none
+void OS_ThreadInit(tcbType *toSet, long  filler){
+	  int i;
+	  //fill up extra part of the stack
+	  for(i=0;i<STACKSIZE-16;i++){
+	  toSet->stack[i]=filler;
+	  }
+
+	  //setup initial stack to be loaded on first run, filled with debuggin info.
+	  toSet->sp = &toSet->stack[STACKSIZE-16]; // thread stack pointer
+	  toSet->stack[STACKSIZE-1]= 0x01000000;				// thumb bit
+	  toSet->stack[STACKSIZE-3]= 0x14141414;				// R14
+	  toSet->stack[STACKSIZE-4]= 0x12121212;				// R12
+	  toSet->stack[STACKSIZE-5]= 0x03030303;				// R3
+	  toSet->stack[STACKSIZE-6]= 0x02020202;				// R2
+	  toSet->stack[STACKSIZE-7]= 0x01010101;				// R1
+	  toSet->stack[STACKSIZE-8]= 0x00000000;				// R0
+	  toSet->stack[STACKSIZE-9]= 0x11111111;				// R11
+	  toSet->stack[STACKSIZE-12]=0x10101010;				// R10
+	  toSet->stack[STACKSIZE-11]=0x09090909;				// R9
+	  toSet->stack[STACKSIZE-12]=0x08080808;				// R8
+	  toSet->stack[STACKSIZE-13]=0x07070707;				// R7
+	  toSet->stack[STACKSIZE-14]=0x06060606;				// R6
+	  toSet->stack[STACKSIZE-15]=0x05050505;				// R5
+	  toSet->stack[STACKSIZE-16]=0x04040404;				// R4
+
+	  toSet->id=0x80008135;									//set initial ID to 'booobies', yes i know it's immature but i'll remember it 
+	  toSet->used=0;										//mark thread as unused, ie free to be allocated
+	  toSet->sleep=0;										//sleep =0
+	  toSet->blockedOn=0;								//
+	  toSet->realPriority=0;
+	  toSet->workingPriority=0;
+
+
+
+return;
+}
+
+// ******** OS_SysTick_Handler ************
+// Thread Switcher, uses SysTick as periodic timer, calls PendSV to actually switch threads
+// Implement Thread Manager implicitly here 
+// input: none, uses globals RUNPT and NEXTRUNPT 
+// output: none, should switch threads when finished
+void OS_SysTick_Handler(void){
+	tcbType *i;
+	//Thread Scheduler
+	for(i=RUNPT->next; i->sleep!=0 || i->blockedOn!=0; i=i->next){
+		if(i->sleep>0){//decriment sleep counter
+			i->sleep=i->sleep-1;
+			}
+	}
+	NEXTRUNPT=i;
+
+	//Switch Threads (trigger PendSV)
+	NVIC_INT_CTRL_R = 0x10000000;
 }

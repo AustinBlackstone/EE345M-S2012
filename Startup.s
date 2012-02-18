@@ -84,6 +84,9 @@ __heap_limit
 ;******************************************************************************
         EXTERN  UARTIntHandler
         EXTERN  Timer2A_Handler
+		EXTERN  RUNPT
+		EXTERN  OS_SysTick_Handler
+		EXTERN  PendSV_Handler
 ;******************************************************************************
 ;
 ; The vector table.
@@ -105,8 +108,8 @@ __Vectors
         DCD     IntDefaultHandler           ; SVCall Handler
         DCD     IntDefaultHandler           ; Debug Monitor Handler
         DCD     0                           ; Reserved
-        DCD     IntDefaultHandler           ; PendSV Handler
-        DCD     IntDefaultHandler           ; SysTick Handler
+        DCD     PendSV_Handler              ; PendSV Handler
+        DCD     OS_SysTick_Handler          ; SysTick Handler
         DCD     IntDefaultHandler           ; GPIO Port A
         DCD     IntDefaultHandler           ; GPIO Port B
         DCD     IntDefaultHandler           ; GPIO Port C
@@ -128,9 +131,9 @@ __Vectors
         DCD     IntDefaultHandler           ; Watchdog
         DCD     IntDefaultHandler           ; Timer 0A
         DCD     IntDefaultHandler           ; Timer 0B
-        DCD     IntDefaultHandler             ; Timer 1A
+        DCD     IntDefaultHandler           ; Timer 1A
         DCD     IntDefaultHandler           ; Timer 1B
-        DCD     Timer2A_Handler           ; Timer 2A
+        DCD     IntDefaultHandler           ; Timer 2A
         DCD     IntDefaultHandler           ; Timer 2B
         DCD     IntDefaultHandler           ; Comp 0
         DCD     IntDefaultHandler           ; Comp 1
@@ -167,6 +170,7 @@ __Vectors
         EXPORT  StartCritical
         EXPORT  EndCritical
         EXPORT  WaitForInterrupt
+
 
 ;*********** DisableInterrupts ***************
 ; disable interrupts

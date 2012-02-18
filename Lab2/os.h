@@ -4,13 +4,18 @@
 //***********Ready to go*************
 // You may use, edit, run or distribute this file 
 // You are free to change the syntax/organization of this file
+
+//Skeleton provided by professor valano, actual code written by Austin Blackstone and Cruz Monnreal
  
 #ifndef __OS_H
 #define __OS_H  1
+#define NUMTHREADS 10  // max number of threads
+#define STACKSIZE 128  // size of stack for each TCB
 
 // fill these depending on your clock        
 #define TIME_1MS  50000          
 #define TIME_2MS  2*TIME_1MS  
+
 
 // feel free to change the type of semaphore, there are lots of good solutions
 struct  Sema4{
@@ -18,6 +23,22 @@ struct  Sema4{
 // add other components here, if necessary to implement blocking
 };
 typedef struct Sema4 Sema4Type;
+
+// struct for Thread Control Blocks
+struct  tcb{
+  long *sp;						// Stack Pointer saved for this thread
+  struct tcb *next;				// Next Thread
+  struct tcb *prev;				// Previous Thread
+  unsigned long id;				// unique ID for thread
+  unsigned long used;			//0=unused(free), 1=in use
+  struct Sema4  *blockedOn;		// pointer to semaphore thread is blocked on, NULL if not blocked
+  unsigned long sleep;					// 0=not sleeping, >0 = how long to sleep
+  unsigned long realPriority;			// priority of thread
+  unsigned long workingPriority;			// working priority of thread (used to implement aging)
+  long stack[STACKSIZE]; 					// stack for thread, 
+
+};
+typedef struct tcb tcbType;
 
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
@@ -247,5 +268,19 @@ unsigned long OS_MsTime(void);
 // In Lab 2, you can ignore the theTimeSlice field
 // In Lab 3, you should implement the user-defined TimeSlice field
 void OS_Launch(unsigned long theTimeSlice);
+
+// ******** OS_ThreadInit ************
+// Initialize Thread Stack 
+// input:  pointer to thread to initialize, value to initialize extra part of stack with
+// output: none, returns an initialized thread, filled with debuggable values
+void OS_ThreadInit(tcbType *toSet, long filler);
+
+// ******** OS_SysTick_Handler ************
+// Thread Switcher, uses SysTick as periodic timer, calls PendSV to actually switch threads 
+// input: none, uses globals RUNPT and NEXTRUNPT 
+// output: none, should switch threads when finished
+void OS_SysTick_Handler(void);
+
+
 
 #endif
