@@ -17,6 +17,7 @@
 #include "driverlib/gpio.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/sysctl.h"
+#include "driverlib/systick.h"
 #include "driverlib/uart.h"
 #include "../../rit128x96x4.h"
 #include "FIFO.h"
@@ -77,7 +78,6 @@ void OS_Init(void){
 	////Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
 	SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
 	delay = SYSCTL_RCGC2_R;		  //delay, cause i said so
-	delay = SYSCTL_RCGC2_R;
 	GPIO_PORTF_DIR_R &= ~0x02;    // (c) make PF1 in
 	GPIO_PORTF_DEN_R |= 0x02;     //     enable digital I/O on PF1
 	GPIO_PORTF_IS_R &= ~0x02;     // (d) PF1 is edge-sensitive
@@ -233,10 +233,11 @@ unsigned long OS_Id(void){
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
 int OS_AddPeriodicThread(void(*task)(void), 
-   unsigned long period, unsigned long priority){
-
-
-return;
+  unsigned long period, unsigned long priority){
+  
+  
+  
+  return 0; // For now
 }
 
 //******** OS_AddButtonTask *************** 
@@ -257,7 +258,7 @@ int OS_AddButtonTask(void(*task)(void), unsigned long priority){
 	BUTTONTASK=task;
 	//for the record the header on this is confusing as balls, this doesnt add a thread, it sets up an interrupt so IT will call a function that will add a thread. FML
 
-return;
+return 1;
 }
 
 //******** OS_AddDownTask *************** 
@@ -274,7 +275,7 @@ return;
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
 int OS_AddDownTask(void(*task)(void), unsigned long priority){
-return;
+return 0;
 }
 
 // ******** OS_Sleep ************

@@ -8,19 +8,21 @@
 ### List of Objects: adding '"os_asm.o"'
 ### List of Objects: adding '"cr4_fft_64_stm32.o"'
 ### List of Objects: adding '"pid_stm32.o"'
-### List of Objects: adding '"uart_echo_mod.o"'
+### List of Objects: adding '"adc.o"'
+### List of Objects: adding '"fifo.o"'
+### List of Objects: adding '"uart.o"'
 ### List of Objects: adding '"..\driverlib\rvmdk\driverlib.lib"'
 ### ADS-LD Command completed:
---cpu Cortex-M3 ".\startup.o" "rit128x96x4.o" "os.o" "lab2.o" "os_asm.o" "cr4_fft_64_stm32.o" "pid_stm32.o" "uart_echo_mod.o" "..\driverlib\rvmdk\driverlib.lib" --library_type=microlib --ro-base 0x00000000 --entry 0x00000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
+--cpu Cortex-M3 ".\startup.o" "rit128x96x4.o" "os.o" "lab2.o" "os_asm.o" "cr4_fft_64_stm32.o" "pid_stm32.o" "adc.o" "fifo.o" "uart.o" "..\driverlib\rvmdk\driverlib.lib" --library_type=microlib --ro-base 0x00000000 --entry 0x00000000 --rw-base 0x20000000 --entry Reset_Handler --first __Vectors --strict --autoat --summary_stderr --info summarysizes --map --xref --callgraph --symbols 
 --info sizes --info totals --info unused --info veneers 
  --list ".\Lab1.map" -o "Lab1.axf"### Preparing Environment (PrepEnvAds)
 ### ADS-LD Output File: 'Lab1.axf'
 ### ADS-LD Command File: 'Lab1.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile 'Lab1.lnp', Handle=0x00000258
+### Creating CmdFile 'Lab1.lnp', Handle=0x00000474
 ### Writing '.lnp' file
 ### ADS-LD Command file 'Lab1.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.
-### ADS-LD: executed with 3 errors
+### ADS-LD: executed with 0 errors
 ### Updating obj list
 ### LDADS_file() completed.

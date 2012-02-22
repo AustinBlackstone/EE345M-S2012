@@ -6,4 +6,5 @@ lab2.o: ..\uart_echo_mod.h
 lab2.o: ..\rit128x96x4.h
 lab2.o: ..\adc.h
 lab2.o: os.h
+lab2.o: ..\uart.h
 lab2.o: ..\inc/lm3s8962.h

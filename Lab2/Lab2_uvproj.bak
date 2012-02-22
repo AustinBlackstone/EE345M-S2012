@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_proj.xsd">
 
-  <SchemaVersion>1.1</SchemaVersion>
+  <SchemaVersion>1.0</SchemaVersion>
 
   <Header>### uVision Project, (C) Keil Software</Header>
 
@@ -29,7 +29,6 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile></SFDFile>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -346,7 +345,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..;..\..;..\driverlib;\..\EE345M;..\driverlib\rvmdk</IncludePath>
+              <IncludePath>..;..\..;..\driverlib;\..\EE345M;..\driverlib\rvmdk;..\..\EE345M-S2012;..\Lab2</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -389,12 +388,12 @@
             <File>
               <FileName>Startup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>C:\Users\Jack\EE345M-S2012\Startup.s</FilePath>
+              <FilePath>C:\Users\Cruz Monrreal II\Desktop\New folder (2)\EE345M-S2012\Startup.s</FilePath>
             </File>
             <File>
               <FileName>rit128x96x4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</FilePath>
+              <FilePath>C:\Users\Cruz Monrreal II\Desktop\New folder (2)\EE345M-S2012\rit128x96x4.c</FilePath>
             </File>
             <File>
               <FileName>os.c</FileName>
@@ -402,29 +401,14 @@
               <FilePath>.\os.c</FilePath>
             </File>
             <File>
-              <FileName>os.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\os.h</FilePath>
-            </File>
-            <File>
               <FileName>Lab2.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Lab2.c</FilePath>
             </File>
             <File>
-              <FileName>lm3s8962.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\lm3s8962.h</FilePath>
-            </File>
-            <File>
               <FileName>os_asm.s</FileName>
               <FileType>2</FileType>
               <FilePath>.\os_asm.s</FilePath>
-            </File>
-            <File>
-              <FileName>Startup.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Startup.h</FilePath>
             </File>
             <File>
               <FileName>cr4_fft_64_stm32.s</FileName>
@@ -436,6 +420,21 @@
               <FileType>2</FileType>
               <FilePath>.\PID_stm32.s</FilePath>
             </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>FIFO.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\FIFO.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\uart.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -444,7 +443,7 @@
             <File>
               <FileName>driverlib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>C:\Users\Jack\EE345M-S2012\driverlib\rvmdk\driverlib.lib</FilePath>
+              <FilePath>C:\Users\Cruz Monrreal II\Desktop\New folder (2)\EE345M-S2012\driverlib\rvmdk\driverlib.lib</FilePath>
             </File>
           </Files>
         </Group>

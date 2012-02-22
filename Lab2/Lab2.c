@@ -34,7 +34,7 @@ unsigned long JitterHistogram[JITTERSIZE]={0,};
 long x[64],y[64];         // input and output arrays for FFT
 void cr4_fft_64_stm32(void *pssOUT, void *pssIN, unsigned short Nbin);
 
-extern OSMAILBOX;
+extern int OSMAILBOX;
 
 //------------------Task 1--------------------------------
 // 2 kHz sampling ADC channel 1, using software start trigger
