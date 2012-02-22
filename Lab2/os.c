@@ -20,6 +20,8 @@
 #include "driverlib/uart.h"
 #include "../../rit128x96x4.h"
 #include "FIFO.h"
+#include "adc.h"
+#include "uart.h"
 
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
 tcbType *RUNPT;
@@ -33,7 +35,7 @@ long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous v
 long TIMELORD; 
 
 //Semaphores used for program
-Sema4Type oled;
+Sema4Type oled_free;
 Sema4Type OSMailBoxSema4;
 
 //Fifos
@@ -61,7 +63,7 @@ void OS_Init(void){
 		 //taken care of in OS_Launch
 
 	//Semaphores, OS Stuff
-	OS_InitSemaphore(&oled,0);
+	OS_InitSemaphore(&oled_free,0);
 	//OS_InitSemaphore(&OSMailBoxSema4,0);
 	OS_MailBox_Init();
 	//UART & OLED 
@@ -69,9 +71,8 @@ void OS_Init(void){
 	RIT128x96x4Init(1000000); //Init OLED
 	
 	//ADC
+    ADC_Init(1000); // Init ADC to run @ 1KHz
 
-
-	//Timer2
 
 	////Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
 	SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F

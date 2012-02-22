@@ -13,6 +13,7 @@
 #include "rit128x96x4.h"
 #include "adc.h"
 #include "os.h"
+#include "uart.h"
 #include "inc/lm3s8962.h"
 
 unsigned long NumCreated;   // number of foreground threads created
@@ -33,6 +34,7 @@ unsigned long JitterHistogram[JITTERSIZE]={0,};
 long x[64],y[64];         // input and output arrays for FFT
 void cr4_fft_64_stm32(void *pssOUT, void *pssIN, unsigned short Nbin);
 
+extern OSMAILBOX;
 
 //------------------Task 1--------------------------------
 // 2 kHz sampling ADC channel 1, using software start trigger
@@ -142,8 +144,24 @@ void Producer(unsigned short data){
     } 
   } 
 }
-void Display(void); 
 
+//******** Display *************** 
+// foreground thread, accepts data from consumer
+// displays calculated results on the LCD
+// inputs:  none                            
+// outputs: none
+void Display(void){ 
+  unsigned long data, voltage;
+  
+  oLED_Message(0,0,"Run length is",(RUNLENGTH)/1000);   // top half used for Display
+  while(NumSamples < RUNLENGTH) { 
+    oLED_Message(0,1,"Time left is",(RUNLENGTH-NumSamples)/1000);   // top half used for Display
+    data = OS_MailBox_Recv();
+    voltage = 3000*data/1024;               // calibrate your device so voltage is in mV
+    oLED_Message(0,2,"v(mV) =",voltage);  
+  } 
+  OS_Kill();  // done
+} 
 //******** Consumer *************** 
 // foreground thread, accepts data from producer
 // calculates FFT, sends DC component to Display
@@ -167,23 +185,6 @@ void Consumer(void){
   }
   OS_Kill();  // done
 }
-//******** Display *************** 
-// foreground thread, accepts data from consumer
-// displays calculated results on the LCD
-// inputs:  none                            
-// outputs: none
-void Display(void){ 
-  unsigned long data,voltage;
-  
-  oLED_Message(0,0,"Run length is",(RUNLENGTH)/1000);   // top half used for Display
-  while(NumSamples < RUNLENGTH) { 
-    oLED_Message(0,1,"Time left is",(RUNLENGTH-NumSamples)/1000);   // top half used for Display
-    data = OS_MailBox_Recv();
-    voltage = 3000*data/1024;               // calibrate your device so voltage is in mV
-    oLED_Message(0,2,"v(mV) =",voltage);  
-  } 
-  OS_Kill();  // done
-} 
 
 //--------------end of Task 3-----------------------------
 
@@ -232,7 +233,12 @@ unsigned long myId = OS_Id();
 // foreground thread, accepts input from serial port, outputs to serial port
 // inputs:  none
 // outputs: none
-void Interpreter(void);    // just a prototype, link to your interpreter
+void Interpreter(void){ // Pipe to UART Parser (localvars in uart.c, etc...)
+  while(1){
+    UARTParse();
+  }
+}
+
 // add the following commands, leave other commands, if they make sense
 // 1) print performance measures 
 //    time-jitter, number of data points lost, number of calculations performed
