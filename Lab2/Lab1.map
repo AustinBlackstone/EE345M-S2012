@@ -30,9 +30,10 @@ Section Cross References
     os.o(.text) refers to sysctl.o(i.SysCtlClockSet) for SysCtlClockSet
     os.o(.text) refers to uart_echo_mod.o(.text) for UARTInit
     os.o(.text) refers to rit128x96x4.o(.text) for RIT128x96x4Init
-    os.o(.text) refers to os_asm.o(RESET) for StartOS
     os.o(.text) refers to os.o(.data) for OSGetI
     os.o(.text) refers to os.o(.bss) for OSFifo
+    os.o(.text) refers to systick.o(i.SysTickValueGet) for SysTickValueGet
+    os.o(.text) refers to os_asm.o(RESET) for StartOS
     lab2.o(.text) refers to os.o(.text) for OS_Time
     lab2.o(.text) refers to rit128x96x4.o(.text) for oLED_Message
     lab2.o(.text) refers to cr4_fft_64_stm32.o(.text) for cr4_fft_64_stm32
@@ -137,6 +138,8 @@ Section Cross References
     sysctl.o(i.SysCtlPeripheralSleepDisable) refers to sysctl.o(.constdata) for .constdata
     sysctl.o(i.SysCtlPeripheralSleepEnable) refers to sysctl.o(.constdata) for .constdata
     sysctl.o(i.SysCtlSleep) refers to cpu.o(.emb_text) for CPUwfi
+    systick.o(i.SysTickIntRegister) refers to interrupt.o(i.IntRegister) for IntRegister
+    systick.o(i.SysTickIntUnregister) refers to interrupt.o(i.IntUnregister) for IntUnregister
     uart.o(i.UARTIntRegister) refers to interrupt.o(i.IntRegister) for IntRegister
     uart.o(i.UARTIntRegister) refers to interrupt.o(i.IntEnable) for IntEnable
     uart.o(i.UARTIntUnregister) refers to interrupt.o(i.IntDisable) for IntDisable
@@ -504,6 +507,14 @@ Removing Unused input sections from the image.
     Removing sysctl.o(i.SysCtlSleep), (4 bytes).
     Removing sysctl.o(i.SysCtlUSBPLLDisable), (16 bytes).
     Removing sysctl.o(i.SysCtlUSBPLLEnable), (16 bytes).
+    Removing systick.o(i.SysTickDisable), (14 bytes).
+    Removing systick.o(i.SysTickEnable), (14 bytes).
+    Removing systick.o(i.SysTickIntDisable), (14 bytes).
+    Removing systick.o(i.SysTickIntEnable), (14 bytes).
+    Removing systick.o(i.SysTickIntRegister), (24 bytes).
+    Removing systick.o(i.SysTickIntUnregister), (18 bytes).
+    Removing systick.o(i.SysTickPeriodGet), (10 bytes).
+    Removing systick.o(i.SysTickPeriodSet), (10 bytes).
     Removing uart.o(i.UARTBreakCtl), (18 bytes).
     Removing uart.o(i.UARTBusy), (8 bytes).
     Removing uart.o(i.UARTCharGet), (12 bytes).
@@ -543,7 +554,7 @@ Removing Unused input sections from the image.
     Removing cdrcmple.o(.text), (40 bytes).
     Removing depilogue.o(.text), (194 bytes).
 
-136 unused section(s) (total 4814 bytes) removed from the image.
+144 unused section(s) (total 4932 bytes) removed from the image.
 
 ==============================================================================
 
@@ -551,89 +562,89 @@ Memory Map of the image
 
   Image Entry point : 0x00000000
 
-  Load Region LR_1 (Base: 0x00000000, Size: 0x00002854, Max: 0xffffffff, ABSOLUTE)
+  Load Region LR_1 (Base: 0x00000000, Size: 0x000029c8, Max: 0xffffffff, ABSOLUTE)
 
-    Execution Region ER_RO (Base: 0x00000000, Size: 0x000027a8, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RO (Base: 0x00000000, Size: 0x00002910, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x00000000   0x00000124   Code   RO            3  * RESET               startup.o
-    0x00000124   0x00000000   Code   RO         1162  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x00000124   0x00000004   Code   RO         1434    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x00000128   0x00000004   Code   RO         1437    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x0000012c   0x00000008   Code   RO         1438    .ARM.Collect$$$$00000007  mc_w.l(entry7.o)
-    0x00000134   0x00000004   Code   RO         1435    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x00000124   0x00000000   Code   RO         1225  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x00000124   0x00000004   Code   RO         1497    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x00000128   0x00000004   Code   RO         1500    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x0000012c   0x00000008   Code   RO         1501    .ARM.Collect$$$$00000007  mc_w.l(entry7.o)
+    0x00000134   0x00000004   Code   RO         1498    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
     0x00000138   0x00000006   Code   RO          619    .emb_text           driverlib.lib(sysctl.o)
     0x0000013e   0x00000002   PAD
-    0x00000140   0x00000026   Code   RO         1152    .emb_text           driverlib.lib(cpu.o)
+    0x00000140   0x00000026   Code   RO         1215    .emb_text           driverlib.lib(cpu.o)
     0x00000166   0x00000002   PAD
     0x00000168   0x00000614   Code   RO           11    .text               rit128x96x4.o
-    0x0000077c   0x00000458   Code   RO           63    .text               os.o
-    0x00000bd4   0x00000910   Code   RO          118    .text               lab2.o
-    0x000014e4   0x000002ce   Code   RO          147    .text               cr4_fft_64_stm32.o
-    0x000017b2   0x00000002   PAD
-    0x000017b4   0x00000048   Code   RO          150    .text               pid_stm32.o
-    0x000017fc   0x00000414   Code   RO          153    .text               uart_echo_mod.o
-    0x00001c10   0x00000026   Code   RO         1165    .text               mc_w.l(memseta.o)
-    0x00001c36   0x0000002c   Code   RO         1167    .text               mc_w.l(strstr.o)
-    0x00001c62   0x00000018   Code   RO         1169    .text               mc_w.l(strncpy.o)
-    0x00001c7a   0x00000010   Code   RO         1171    .text               mc_w.l(strlen.o)
-    0x00001c8a   0x0000002c   Code   RO         1442    .text               mc_w.l(uidiv.o)
-    0x00001cb6   0x00000002   PAD
-    0x00001cb8   0x00000024   Code   RO         1457    .text               mc_w.l(init.o)
-    0x00001cdc   0x00000048   Code   RO          144    RESET               os_asm.o
-    0x00001d24   0x00000028   Code   RO          176    i.GPIODirModeSet    driverlib.lib(gpio.o)
-    0x00001d4c   0x000000b0   Code   RO          181    i.GPIOPadConfigSet  driverlib.lib(gpio.o)
-    0x00001dfc   0x0000001c   Code   RO          194    i.GPIOPinTypeGPIOOutput  driverlib.lib(gpio.o)
-    0x00001e18   0x0000001c   Code   RO          200    i.GPIOPinTypeSSI    driverlib.lib(gpio.o)
-    0x00001e34   0x0000001c   Code   RO          202    i.GPIOPinTypeUART   driverlib.lib(gpio.o)
-    0x00001e50   0x00000006   Code   RO          205    i.GPIOPinWrite      driverlib.lib(gpio.o)
-    0x00001e56   0x0000006c   Code   RO          406    i.IntEnable         driverlib.lib(interrupt.o)
-    0x00001ec2   0x0000000a   Code   RO          408    i.IntMasterEnable   driverlib.lib(interrupt.o)
-    0x00001ecc   0x00000008   Code   RO          508    i.SSIBusy           driverlib.lib(ssi.o)
-    0x00001ed4   0x0000004a   Code   RO          509    i.SSIConfigSetExpClk  driverlib.lib(ssi.o)
-    0x00001f1e   0x00000012   Code   RO          513    i.SSIDataGetNonBlocking  driverlib.lib(ssi.o)
-    0x00001f30   0x0000000c   Code   RO          514    i.SSIDataPut        driverlib.lib(ssi.o)
-    0x00001f3c   0x0000000a   Code   RO          516    i.SSIDisable        driverlib.lib(ssi.o)
-    0x00001f46   0x0000000a   Code   RO          517    i.SSIEnable         driverlib.lib(ssi.o)
-    0x00001f50   0x000001e8   Code   RO          624    i.SysCtlClockGet    driverlib.lib(sysctl.o)
-    0x00002138   0x0000013c   Code   RO          625    i.SysCtlClockSet    driverlib.lib(sysctl.o)
-    0x00002274   0x00000020   Code   RO          652    i.SysCtlPeripheralEnable  driverlib.lib(sysctl.o)
-    0x00002294   0x00000010   Code   RO          904    i.UARTCharGetNonBlocking  driverlib.lib(uart.o)
-    0x000022a4   0x00000010   Code   RO          906    i.UARTCharPutNonBlocking  driverlib.lib(uart.o)
-    0x000022b4   0x0000000a   Code   RO          907    i.UARTCharsAvail    driverlib.lib(uart.o)
-    0x000022be   0x0000006e   Code   RO          909    i.UARTConfigSetExpClk  driverlib.lib(uart.o)
-    0x0000232c   0x00000004   Code   RO          922    i.UARTIntClear      driverlib.lib(uart.o)
-    0x00002330   0x00000008   Code   RO          924    i.UARTIntEnable     driverlib.lib(uart.o)
-    0x00002338   0x0000000a   Code   RO          926    i.UARTIntStatus     driverlib.lib(uart.o)
-    0x00002342   0x0000000a   Code   RO          938    i.UARTSpaceAvail    driverlib.lib(uart.o)
-    0x0000234c   0x00000028   Code   RO         1220    i.__0sprintf$1      mc_w.l(printf1.o)
-    0x00002374   0x00000150   Code   RO         1225    i._printf_core      mc_w.l(printf1.o)
-    0x000024c4   0x0000000a   Code   RO         1227    i._sputc            mc_w.l(printf1.o)
-    0x000024ce   0x0000023b   Data   RO           13    .constdata          rit128x96x4.o
-    0x00002709   0x00000003   PAD
-    0x0000270c   0x0000009c   Data   RO          665    .constdata          driverlib.lib(sysctl.o)
-    0x000027a8   0x00000000   Data   RO         1469    Region$$Table       anon$$obj.o
+    0x0000077c   0x000005b8   Code   RO           63    .text               os.o
+    0x00000d34   0x00000910   Code   RO          118    .text               lab2.o
+    0x00001644   0x000002ce   Code   RO          147    .text               cr4_fft_64_stm32.o
+    0x00001912   0x00000002   PAD
+    0x00001914   0x00000048   Code   RO          150    .text               pid_stm32.o
+    0x0000195c   0x00000414   Code   RO          153    .text               uart_echo_mod.o
+    0x00001d70   0x00000026   Code   RO         1228    .text               mc_w.l(memseta.o)
+    0x00001d96   0x0000002c   Code   RO         1230    .text               mc_w.l(strstr.o)
+    0x00001dc2   0x00000018   Code   RO         1232    .text               mc_w.l(strncpy.o)
+    0x00001dda   0x00000010   Code   RO         1234    .text               mc_w.l(strlen.o)
+    0x00001dea   0x0000002c   Code   RO         1505    .text               mc_w.l(uidiv.o)
+    0x00001e16   0x00000002   PAD
+    0x00001e18   0x00000024   Code   RO         1520    .text               mc_w.l(init.o)
+    0x00001e3c   0x00000048   Code   RO          144    RESET               os_asm.o
+    0x00001e84   0x00000028   Code   RO          176    i.GPIODirModeSet    driverlib.lib(gpio.o)
+    0x00001eac   0x000000b0   Code   RO          181    i.GPIOPadConfigSet  driverlib.lib(gpio.o)
+    0x00001f5c   0x0000001c   Code   RO          194    i.GPIOPinTypeGPIOOutput  driverlib.lib(gpio.o)
+    0x00001f78   0x0000001c   Code   RO          200    i.GPIOPinTypeSSI    driverlib.lib(gpio.o)
+    0x00001f94   0x0000001c   Code   RO          202    i.GPIOPinTypeUART   driverlib.lib(gpio.o)
+    0x00001fb0   0x00000006   Code   RO          205    i.GPIOPinWrite      driverlib.lib(gpio.o)
+    0x00001fb6   0x0000006c   Code   RO          406    i.IntEnable         driverlib.lib(interrupt.o)
+    0x00002022   0x0000000a   Code   RO          408    i.IntMasterEnable   driverlib.lib(interrupt.o)
+    0x0000202c   0x00000008   Code   RO          508    i.SSIBusy           driverlib.lib(ssi.o)
+    0x00002034   0x0000004a   Code   RO          509    i.SSIConfigSetExpClk  driverlib.lib(ssi.o)
+    0x0000207e   0x00000012   Code   RO          513    i.SSIDataGetNonBlocking  driverlib.lib(ssi.o)
+    0x00002090   0x0000000c   Code   RO          514    i.SSIDataPut        driverlib.lib(ssi.o)
+    0x0000209c   0x0000000a   Code   RO          516    i.SSIDisable        driverlib.lib(ssi.o)
+    0x000020a6   0x0000000a   Code   RO          517    i.SSIEnable         driverlib.lib(ssi.o)
+    0x000020b0   0x000001e8   Code   RO          624    i.SysCtlClockGet    driverlib.lib(sysctl.o)
+    0x00002298   0x0000013c   Code   RO          625    i.SysCtlClockSet    driverlib.lib(sysctl.o)
+    0x000023d4   0x00000020   Code   RO          652    i.SysCtlPeripheralEnable  driverlib.lib(sysctl.o)
+    0x000023f4   0x00000008   Code   RO          909    i.SysTickValueGet   driverlib.lib(systick.o)
+    0x000023fc   0x00000010   Code   RO          967    i.UARTCharGetNonBlocking  driverlib.lib(uart.o)
+    0x0000240c   0x00000010   Code   RO          969    i.UARTCharPutNonBlocking  driverlib.lib(uart.o)
+    0x0000241c   0x0000000a   Code   RO          970    i.UARTCharsAvail    driverlib.lib(uart.o)
+    0x00002426   0x0000006e   Code   RO          972    i.UARTConfigSetExpClk  driverlib.lib(uart.o)
+    0x00002494   0x00000004   Code   RO          985    i.UARTIntClear      driverlib.lib(uart.o)
+    0x00002498   0x00000008   Code   RO          987    i.UARTIntEnable     driverlib.lib(uart.o)
+    0x000024a0   0x0000000a   Code   RO          989    i.UARTIntStatus     driverlib.lib(uart.o)
+    0x000024aa   0x0000000a   Code   RO         1001    i.UARTSpaceAvail    driverlib.lib(uart.o)
+    0x000024b4   0x00000028   Code   RO         1283    i.__0sprintf$1      mc_w.l(printf1.o)
+    0x000024dc   0x00000150   Code   RO         1288    i._printf_core      mc_w.l(printf1.o)
+    0x0000262c   0x0000000a   Code   RO         1290    i._sputc            mc_w.l(printf1.o)
+    0x00002636   0x0000023b   Data   RO           13    .constdata          rit128x96x4.o
+    0x00002871   0x00000003   PAD
+    0x00002874   0x0000009c   Data   RO          665    .constdata          driverlib.lib(sysctl.o)
+    0x00002910   0x00000000   Data   RO         1532    Region$$Table       anon$$obj.o
 
 
-    Execution Region ER_RW (Base: 0x20000000, Size: 0x000000ac, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_RW (Base: 0x20000000, Size: 0x000000b8, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x20000000   0x0000000c   Data   RW           14    .data               rit128x96x4.o
-    0x2000000c   0x00000020   Data   RW           65    .data               os.o
-    0x2000002c   0x0000005c   Data   RW          121    .data               lab2.o
-    0x20000088   0x00000024   Data   RW          155    .data               uart_echo_mod.o
+    0x2000000c   0x0000002c   Data   RW           65    .data               os.o
+    0x20000038   0x0000005c   Data   RW          121    .data               lab2.o
+    0x20000094   0x00000024   Data   RW          155    .data               uart_echo_mod.o
 
 
-    Execution Region ER_ZI (Base: 0x200000ac, Size: 0x00001c6c, Max: 0xffffffff, ABSOLUTE)
+    Execution Region ER_ZI (Base: 0x200000b8, Size: 0x00001c68, Max: 0xffffffff, ABSOLUTE)
 
     Base Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x200000ac   0x000000a8   Zero   RW           12    .bss                rit128x96x4.o
-    0x20000154   0x00001668   Zero   RW           64    .bss                os.o
-    0x200017bc   0x00000318   Zero   RW          119    .bss                lab2.o
-    0x20001ad4   0x00000140   Zero   RW          154    .bss                uart_echo_mod.o
-    0x20001c14   0x00000004   PAD
-    0x20001c18   0x00000100   Zero   RW            1    STACK               startup.o
+    0x200000b8   0x000000a8   Zero   RW           12    .bss                rit128x96x4.o
+    0x20000160   0x00001668   Zero   RW           64    .bss                os.o
+    0x200017c8   0x00000318   Zero   RW          119    .bss                lab2.o
+    0x20001ae0   0x00000140   Zero   RW          154    .bss                uart_echo_mod.o
+    0x20001c20   0x00000100   Zero   RW            1    STACK               startup.o
 

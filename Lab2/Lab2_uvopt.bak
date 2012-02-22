@@ -162,7 +162,7 @@
       <Focus>0</Focus>
       <ColumnNumber>17</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>51</TopLine>
+      <TopLine>63</TopLine>
       <CurrentLine>78</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>C:\Users\Jack\EE345M-S2012\Startup.s</PathWithFileName>
@@ -190,7 +190,7 @@
       <Focus>0</Focus>
       <ColumnNumber>84</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>350</TopLine>
+      <TopLine>353</TopLine>
       <CurrentLine>369</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os.c</PathWithFileName>
@@ -216,10 +216,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>12</ColumnNumber>
+      <ColumnNumber>83</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>234</TopLine>
-      <CurrentLine>253</CurrentLine>
+      <TopLine>171</TopLine>
+      <CurrentLine>171</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Lab2.c</PathWithFileName>
       <FilenameWithoutPath>Lab2.c</FilenameWithoutPath>
@@ -246,7 +246,7 @@
       <Focus>0</Focus>
       <ColumnNumber>57</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
+      <TopLine>6</TopLine>
       <CurrentLine>22</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os_asm.s</PathWithFileName>
@@ -364,36 +364,36 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>1</ActiveTab>
+      <ActiveTab>3</ActiveTab>
       <Documents>
         <Doc>
           <Name>..\FIFO.h</Name>
           <ColumnNumber>38</ColumnNumber>
-          <TopLine>67</TopLine>
+          <TopLine>80</TopLine>
           <CurrentLine>96</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\os.c</Name>
           <ColumnNumber>84</ColumnNumber>
-          <TopLine>350</TopLine>
+          <TopLine>353</TopLine>
           <CurrentLine>369</CurrentLine>
         </Doc>
         <Doc>
           <Name>os.h</Name>
           <ColumnNumber>107</ColumnNumber>
-          <TopLine>1</TopLine>
+          <TopLine>9</TopLine>
           <CurrentLine>25</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\Lab2.c</Name>
-          <ColumnNumber>12</ColumnNumber>
-          <TopLine>234</TopLine>
-          <CurrentLine>253</CurrentLine>
+          <ColumnNumber>83</ColumnNumber>
+          <TopLine>171</TopLine>
+          <CurrentLine>171</CurrentLine>
         </Doc>
         <Doc>
           <Name>C:\Users\Jack\EE345M-S2012\Startup.s</Name>
           <ColumnNumber>17</ColumnNumber>
-          <TopLine>51</TopLine>
+          <TopLine>63</TopLine>
           <CurrentLine>78</CurrentLine>
         </Doc>
         <Doc>
@@ -405,7 +405,7 @@
         <Doc>
           <Name>.\os_asm.s</Name>
           <ColumnNumber>57</ColumnNumber>
-          <TopLine>1</TopLine>
+          <TopLine>6</TopLine>
           <CurrentLine>22</CurrentLine>
         </Doc>
         <Doc>

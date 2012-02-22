@@ -160,10 +160,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>17</ColumnNumber>
+      <ColumnNumber>32</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>63</TopLine>
-      <CurrentLine>78</CurrentLine>
+      <TopLine>165</TopLine>
+      <CurrentLine>165</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>C:\Users\Jack\EE345M-S2012\Startup.s</PathWithFileName>
       <FilenameWithoutPath>Startup.s</FilenameWithoutPath>
@@ -188,10 +188,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>84</ColumnNumber>
+      <ColumnNumber>36</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>353</TopLine>
-      <CurrentLine>369</CurrentLine>
+      <TopLine>169</TopLine>
+      <CurrentLine>169</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os.c</PathWithFileName>
       <FilenameWithoutPath>os.c</FilenameWithoutPath>
@@ -216,10 +216,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>83</ColumnNumber>
+      <ColumnNumber>17</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>171</TopLine>
-      <CurrentLine>171</CurrentLine>
+      <TopLine>10</TopLine>
+      <CurrentLine>29</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Lab2.c</PathWithFileName>
       <FilenameWithoutPath>Lab2.c</FilenameWithoutPath>
@@ -246,8 +246,8 @@
       <Focus>0</Focus>
       <ColumnNumber>57</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>6</TopLine>
-      <CurrentLine>22</CurrentLine>
+      <TopLine>40</TopLine>
+      <CurrentLine>40</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os_asm.s</PathWithFileName>
       <FilenameWithoutPath>os_asm.s</FilenameWithoutPath>
@@ -364,8 +364,14 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>3</ActiveTab>
+      <ActiveTab>2</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>..\lm3s8962.h</Name>
+          <ColumnNumber>112</ColumnNumber>
+          <TopLine>253</TopLine>
+          <CurrentLine>253</CurrentLine>
+        </Doc>
         <Doc>
           <Name>..\FIFO.h</Name>
           <ColumnNumber>38</ColumnNumber>
@@ -374,27 +380,27 @@
         </Doc>
         <Doc>
           <Name>.\os.c</Name>
-          <ColumnNumber>84</ColumnNumber>
-          <TopLine>353</TopLine>
-          <CurrentLine>369</CurrentLine>
+          <ColumnNumber>36</ColumnNumber>
+          <TopLine>169</TopLine>
+          <CurrentLine>169</CurrentLine>
         </Doc>
         <Doc>
           <Name>os.h</Name>
-          <ColumnNumber>107</ColumnNumber>
-          <TopLine>9</TopLine>
-          <CurrentLine>25</CurrentLine>
+          <ColumnNumber>17</ColumnNumber>
+          <TopLine>7</TopLine>
+          <CurrentLine>13</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\Lab2.c</Name>
-          <ColumnNumber>83</ColumnNumber>
-          <TopLine>171</TopLine>
-          <CurrentLine>171</CurrentLine>
+          <ColumnNumber>17</ColumnNumber>
+          <TopLine>10</TopLine>
+          <CurrentLine>29</CurrentLine>
         </Doc>
         <Doc>
           <Name>C:\Users\Jack\EE345M-S2012\Startup.s</Name>
-          <ColumnNumber>17</ColumnNumber>
-          <TopLine>63</TopLine>
-          <CurrentLine>78</CurrentLine>
+          <ColumnNumber>32</ColumnNumber>
+          <TopLine>165</TopLine>
+          <CurrentLine>165</CurrentLine>
         </Doc>
         <Doc>
           <Name>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</Name>
@@ -405,14 +411,14 @@
         <Doc>
           <Name>.\os_asm.s</Name>
           <ColumnNumber>57</ColumnNumber>
-          <TopLine>6</TopLine>
-          <CurrentLine>22</CurrentLine>
+          <TopLine>40</TopLine>
+          <CurrentLine>40</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\Startup.h</Name>
-          <ColumnNumber>0</ColumnNumber>
+          <ColumnNumber>6</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>11</CurrentLine>
+          <CurrentLine>2</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\uart_echo_mod.h</Name>

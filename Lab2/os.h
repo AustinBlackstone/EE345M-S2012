@@ -14,7 +14,7 @@
 
 // fill these depending on your clock        
 #define TIME_1MS  50000          
-#define TIME_2MS  2*TIME_1MS  
+#define TIME_2MS  2*TIME_1MS 
 
 
 // feel free to change the type of semaphore, there are lots of good solutions

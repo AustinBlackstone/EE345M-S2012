@@ -87,6 +87,7 @@ __heap_limit
 		EXTERN  RUNPT
 		EXTERN  OS_SysTick_Handler
 		EXTERN  PendSV_Handler
+		EXTERN	OS_SelectSwitch_Handler
 ;******************************************************************************
 ;
 ; The vector table.
@@ -140,7 +141,7 @@ __Vectors
         DCD     IntDefaultHandler           ; Comp 2
         DCD     IntDefaultHandler           ; System Control
         DCD     IntDefaultHandler           ; Flash Control
-        DCD     IntDefaultHandler           ; GPIO Port F
+        DCD     OS_SelectSwitch_Handler     ; GPIO Port F
         DCD     IntDefaultHandler           ; GPIO Port G
         DCD     IntDefaultHandler           ; GPIO Port H
         DCD     IntDefaultHandler           ; UART2 Rx and Tx

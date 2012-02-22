@@ -21,15 +21,16 @@
 #include "../../rit128x96x4.h"
 #include "FIFO.h"
 
-
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
 tcbType *RUNPT;
 tcbType *NEXTRUNPT;
 
 //globals 
 int IDCOUNT;	//incrimented to generate unique thread id's
-long int OSMAILBOX;
-
+long int OSMAILBOX; // contains mailbox data for OSMailBox
+long (*BUTTONTASK)(void);   // pointer to task that gets called when you press a button 
+long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous value
+long TIMELORD; 
 
 //Semaphores used for program
 Sema4Type oled;
@@ -46,13 +47,18 @@ AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 // input:  none
 // output: none
 void OS_Init(void){
+	int delay;
 	DisableInterrupts();
 
 // Enable processor interrupts.
     //
     //IntMasterEnable();
+	TIMELORD=0; //initialize the system counter for use with thingies (no shit)
 
 	SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
+
+	//Systick Init (Thread Scheduler)
+		 //taken care of in OS_Launch
 
 	//Semaphores, OS Stuff
 	OS_InitSemaphore(&oled,0);
@@ -64,10 +70,29 @@ void OS_Init(void){
 	
 	//ADC
 
-	//Select Switch
 
 	//Timer2
 
+	////Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
+	SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
+	delay = SYSCTL_RCGC2_R;		  //delay, cause i said so
+	delay = SYSCTL_RCGC2_R;
+	GPIO_PORTF_DIR_R &= ~0x02;    // (c) make PF1 in
+	GPIO_PORTF_DEN_R |= 0x02;     //     enable digital I/O on PF1
+	GPIO_PORTF_IS_R &= ~0x02;     // (d) PF1 is edge-sensitive
+	GPIO_PORTF_IBE_R &= ~0x02;    //     PF1 is not both edges
+	GPIO_PORTF_IEV_R &= ~0x02;    //     PF1 falling edge event
+	GPIO_PORTF_ICR_R = 0x02;      // (e) clear flag4
+	GPIO_PORTF_IM_R |= 0x02;      // (f) arm interrupt on PF1
+	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|(0<<21); // (g) priority (shifted into place) (will get set in OS_AddButtonTask)
+	NVIC_EN0_R |= 0x40000000;    // (h) enable interrupt 2 in NVIC
+	//dont enable interrupts 
+	GPIO_PORTF_PUR_R |= 0x02;	 //add pull up resistor, just for shits and giggles
+	
+/*	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);	  	// Enable GPIOF
+  	GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);	// make Pin 1 an Input
+  	GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1);			//
+*/
 
 	
 	
@@ -157,20 +182,23 @@ return;
 int OS_AddThread(void(*task)(void), 
    unsigned long stackSize, unsigned long priority){
 	  int x,found;
+	  long status;
 	  for(x=0,found=0;(x<NUMTHREADS) && (found==0);x++){	 //loop untill you find a non used thread
 			if(tcbs[x].used==0){
 				found=1;
-				//possible critical section?	
+				status=StartCritical();//possible critical section?	
 				OS_ThreadInit(&tcbs[x],0xFF-x);
 				tcbs[x].used=1;
 				tcbs[x].next=RUNPT;			// set prev / next on new thread
 				tcbs[x].prev=RUNPT->prev;		//
 				RUNPT->prev->next=&tcbs[x];		// insert thread into current linked list of running threads
 				RUNPT->prev=&tcbs[x];			//
-				//end of possible critical section?
+				tcbs[x].stack[STACKSIZE-1]=(long)task; //POSSIBLE ERROR, PC=task, i think this works... right??
+				EndCritical(status);	//end of possible critical section?
 				tcbs[x].realPriority=priority;
 				tcbs[x].workingPriority=priority;
 				tcbs[x].id=IDCOUNT++;
+				
 				//TODO: implement adjustable stacksize using input variable 'stackSize'
 				
 			}	  
@@ -224,6 +252,10 @@ return;
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
 int OS_AddButtonTask(void(*task)(void), unsigned long priority){
+	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|(priority<<21); // (g) priority (shifted into place)
+	BUTTONTASK=task;
+	//for the record the header on this is confusing as balls, this doesnt add a thread, it sets up an interrupt so IT will call a function that will add a thread. FML
+
 return;
 }
 
@@ -383,7 +415,7 @@ return temp;
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_TimeDifference have the same resolution and precision 
 unsigned long OS_Time(void){
-return;
+return SysTickValueGet(); //ERROR, this is TOTALLY INCORRECT but it approximates it, so bite me.
 }
 
 // ******** OS_TimeDifference ************
@@ -394,7 +426,7 @@ return;
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_Time have the same resolution and precision 
 unsigned long OS_TimeDifference(unsigned long start, unsigned long stop){
-return (long)(stop-start);
+return (long)(start-stop); //start should be higher, stop should be lower, since the SysTick counter counts down
 }
 
 // ******** OS_ClearMsTime ************
@@ -403,6 +435,10 @@ return (long)(stop-start);
 // Outputs: none
 // You are free to change how this works
 void OS_ClearMsTime(void){
+	int status;
+	status=StartCritical();
+	TIMELORD=0;
+	EndCritical(status);
 return;
 }
 
@@ -412,7 +448,7 @@ return;
 // Outputs: time in ms units
 // You are free to select the time resolution for this function
 unsigned long OS_MsTime(void){
-return;
+return SysTickValueGet();  //returns value in SystickCounter
 }
 
 //******** OS_Launch *************** 
@@ -444,6 +480,7 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 	  //setup initial stack to be loaded on first run, filled with debuggin info.
 	  toSet->sp = &toSet->stack[STACKSIZE-16]; // thread stack pointer
 	  toSet->stack[STACKSIZE-1]= 0x01000000;				// thumb bit
+	  														// R15 / PC
 	  toSet->stack[STACKSIZE-3]= 0x14141414;				// R14
 	  toSet->stack[STACKSIZE-4]= 0x12121212;				// R12
 	  toSet->stack[STACKSIZE-5]= 0x03030303;				// R3
@@ -459,7 +496,7 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 	  toSet->stack[STACKSIZE-15]=0x05050505;				// R5
 	  toSet->stack[STACKSIZE-16]=0x04040404;				// R4
 
-	  toSet->id=0x80008135;									//set initial ID to 'booobies', yes i know it's immature but i'll remember it 
+	  toSet->id=0xB000B1E5;									//set initial ID to 'booobies', yes i know it's immature but i'll remember it 
 	  toSet->used=0;										//mark thread as unused, ie free to be allocated
 	  toSet->sleep=0;										//sleep =0
 	  toSet->blockedOn=0;								//
@@ -488,4 +525,19 @@ void OS_SysTick_Handler(void){
 
 	//Switch Threads (trigger PendSV)
 	NVIC_INT_CTRL_R = 0x10000000;
+}
+
+// ******** OS_SelectSwitch_Handler ************
+// Check if time since last switch press >.3s, for debouncing, call buttontask appropriately
+// input: none,  
+// output: none, 
+void OS_SelectSwitch_Handler(){
+	long currentTime;
+	currentTime=OS_MsTime();
+	GPIO_PORTF_ICR_R = 0x02; //clear flag
+	if(currentTime-SDEBOUNCEPREV > 300){
+		(*BUTTONTASK)();	   //supposed to trigger the function that button task points to
+	}	
+	SDEBOUNCEPREV=currentTime;
+return;	
 }
