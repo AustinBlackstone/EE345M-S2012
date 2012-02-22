@@ -84,9 +84,10 @@ __heap_limit
 ;******************************************************************************
         EXTERN  UARTIntHandler
         EXTERN  Timer2A_Handler
-		EXTERN  RUNPT
-		EXTERN  OS_SysTick_Handler
-		EXTERN  PendSV_Handler
+		    EXTERN  RUNPT
+		    EXTERN  OS_SysTick_Handler
+		    EXTERN  PendSV_Handler
+        EXTERN  ADCIntHandler
 ;******************************************************************************
 ;
 ; The vector table.
@@ -127,7 +128,7 @@ __Vectors
         DCD     IntDefaultHandler           ; ADC Sequence 0
         DCD     IntDefaultHandler           ; ADC Sequence 1
         DCD     IntDefaultHandler           ; ADC Sequence 2
-        DCD     IntDefaultHandler           ; ADC Sequence 3
+        DCD     ADCIntHandler               ; ADC Sequence 3
         DCD     IntDefaultHandler           ; Watchdog
         DCD     IntDefaultHandler           ; Timer 0A
         DCD     IntDefaultHandler           ; Timer 0B

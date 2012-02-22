@@ -1,5 +1,5 @@
 uart_echo_mod.o: ..\uart_echo_mod.c
-uart_echo_mod.o: C:\UT\EE445L\Keil\ARM\RV31\INC\string.h
+uart_echo_mod.o: C:\Keil\ARM\RV31\INC\string.h
 uart_echo_mod.o: ..\inc/hw_ints.h
 uart_echo_mod.o: ..\inc/hw_memmap.h
 uart_echo_mod.o: ..\inc/hw_types.h

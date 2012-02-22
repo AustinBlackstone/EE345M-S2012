@@ -20,7 +20,7 @@
 #include "driverlib/uart.h"
 #include "../../rit128x96x4.h"
 #include "FIFO.h"
-
+#include "adc.h"
 
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
 tcbType *RUNPT;
@@ -63,6 +63,7 @@ void OS_Init(void){
 	RIT128x96x4Init(1000000); //Init OLED
 	
 	//ADC
+  ADC_Init(1000); // Init ADC to run @ 1KHz
 
 	//Select Switch
 
@@ -204,10 +205,8 @@ unsigned long OS_Id(void){
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
 int OS_AddPeriodicThread(void(*task)(void), 
-   unsigned long period, unsigned long priority){
-
-
-return;
+  unsigned long period, unsigned long priority){
+  return;
 }
 
 //******** OS_AddButtonTask *************** 
@@ -313,7 +312,7 @@ return;
 // Since this is called by interrupt handlers 
 //  this function can not disable or enable interrupts
 int OS_Fifo_Put(unsigned long data){
-return OSFifo_Put(data);
+  return OSFifo_Put(data);
 }
 
 // ******** OS_Fifo_Get ************

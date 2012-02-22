@@ -64,7 +64,7 @@ unsigned static long LastTime;  // time at previous ADC sample
 unsigned long thisTime;         // time at current ADC sample
 long jitter;                    // time between measured and expected
   if(NumSamples < RUNLENGTH){   // finite time run
-    input = ADC_In(1);
+    input = ADC_Read(1);
     thisTime = OS_Time();       // current time, 20 ns
     DASoutput = Filter(input);
     FilterWork++;        // calculation finished
@@ -150,10 +150,11 @@ void Display(void);
 // inputs:  none
 // outputs: none
 void Consumer(void){ 
-unsigned long data,DCcomponent; // 10-bit raw ADC sample, 0 to 1023
-unsigned long t;  // time in ms
-unsigned long myId = OS_Id(); 
-  ADC_Collect(0, 1000, &Producer); // start ADC sampling, channel 0, 1000 Hz
+  unsigned long data, DCcomponent; // 10-bit raw ADC sample, 0 to 1023
+  unsigned long t;  // time in ms
+  unsigned long myId = OS_Id();
+  
+  ADC_Collect(0, 1000, &Producer, 64); // start ADC sampling, channel 0, 1 kHz, 64 samples
   NumCreated += OS_AddThread(&Display,128,0); 
   while(NumSamples < RUNLENGTH) { 
     for(t = 0; t < 64; t++){   // collect 64 ADC samples
@@ -172,7 +173,8 @@ unsigned long myId = OS_Id();
 // inputs:  none                            
 // outputs: none
 void Display(void){ 
-unsigned long data,voltage;
+  unsigned long data,voltage;
+  
   oLED_Message(0,0,"Run length is",(RUNLENGTH)/1000);   // top half used for Display
   while(NumSamples < RUNLENGTH) { 
     oLED_Message(0,1,"Time left is",(RUNLENGTH-NumSamples)/1000);   // top half used for Display

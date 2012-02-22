@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no" ?>
 <Project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="project_proj.xsd">
 
-  <SchemaVersion>1.1</SchemaVersion>
+  <SchemaVersion>1.0</SchemaVersion>
 
   <Header>### uVision Project, (C) Keil Software</Header>
 
@@ -29,7 +29,6 @@
           <SLE66CMisc></SLE66CMisc>
           <SLE66AMisc></SLE66AMisc>
           <SLE66LinkerMisc></SLE66LinkerMisc>
-          <SFDFile></SFDFile>
           <UseEnv>0</UseEnv>
           <BinPath></BinPath>
           <IncludePath></IncludePath>
@@ -346,7 +345,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..;..\..;..\driverlib;\..\EE345M;..\driverlib\rvmdk;..\..\EE345M-S2012;..\Lab2</IncludePath>
+              <IncludePath>..\;..\..;..\driverlib;\..\EE345M;..\driverlib\rvmdk;..\..\EE345M-S2012;..\Lab2</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -389,12 +388,12 @@
             <File>
               <FileName>Startup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>C:\Users\Jack\EE345M-S2012\Startup.s</FilePath>
+              <FilePath>C:\Users\Cruz Monrreal II\Desktop\EE345M-S2012 - Copy\Startup.s</FilePath>
             </File>
             <File>
               <FileName>rit128x96x4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</FilePath>
+              <FilePath>C:\Users\Cruz Monrreal II\Desktop\EE345M-S2012 - Copy\rit128x96x4.c</FilePath>
             </File>
             <File>
               <FileName>os.c</FileName>
@@ -404,7 +403,7 @@
             <File>
               <FileName>os.h</FileName>
               <FileType>5</FileType>
-              <FilePath>.\os.h</FilePath>
+              <FilePath>C:\Users\Cruz Monrreal II\Desktop\EE345M-S2012 - Copy\Lab2\os.h</FilePath>
             </File>
             <File>
               <FileName>Lab2.c</FileName>
@@ -459,7 +458,7 @@
             <File>
               <FileName>driverlib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>C:\Users\Jack\EE345M-S2012\driverlib\rvmdk\driverlib.lib</FilePath>
+              <FilePath>C:\Users\Cruz Monrreal II\Desktop\EE345M-S2012 - Copy\driverlib\rvmdk\driverlib.lib</FilePath>
             </File>
           </Files>
         </Group>

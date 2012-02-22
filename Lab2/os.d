@@ -13,3 +13,4 @@ os.o: ..\driverlib/sysctl.h
 os.o: ..\driverlib/uart.h
 os.o: ..\driverlib\rvmdk\../../rit128x96x4.h
 os.o: ..\FIFO.h
+os.o: ..\adc.h
