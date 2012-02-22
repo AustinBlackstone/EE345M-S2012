@@ -39,6 +39,9 @@
 #include "driverlib/ssi.h"
 #include "driverlib/sysctl.h"
 #include "rit128x96x4.h"
+#include "os.h"
+
+extern Sema4Type oled_free;
 
 //Extras added for EE345M
 #define  COLUMWIDTH 6  //OLED Split Screen
@@ -954,6 +957,9 @@ void oLED_Message(int device, int line, char *string, long value){
 	char valueToString[21];
 	//char combined[21];
 	int stringLength;
+  
+  OS_bWait(&oled_free);
+  
 	line=line%4; //limit line to value 0-3
 	sprintf(valueToString,"%d",value); //convert integer to string
 	stringLength = strlen(string);
@@ -970,6 +976,7 @@ void oLED_Message(int device, int line, char *string, long value){
 		
 	}//else printf("ERROR: Top/Bottom not specified");
 
+  OS_bSignal(&oled_free);
 	return; 
 }
 
