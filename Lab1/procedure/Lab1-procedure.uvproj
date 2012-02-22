@@ -346,7 +346,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..;..\..\..;..\..\driverlib;..\..\..\EE345M;..\..\driverlib\rvmdk</IncludePath>
+              <IncludePath>..;..\..\..;..\..\driverlib;..\..\..\EE345M;..\..\driverlib\rvmdk;..\..\..\EE345M-S2012</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>

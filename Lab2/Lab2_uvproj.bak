@@ -361,7 +361,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath></IncludePath>
+              <IncludePath>..;..\..;..\driverlib;\..\EE345M;..\driverlib\rvmdk</IncludePath>
             </VariousControls>
           </Aads>
           <LDads>
@@ -415,6 +415,26 @@
               <FileName>lm3s8962.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\lm3s8962.h</FilePath>
+            </File>
+            <File>
+              <FileName>os_asm.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\os_asm.s</FilePath>
+            </File>
+            <File>
+              <FileName>Startup.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Startup.h</FilePath>
+            </File>
+            <File>
+              <FileName>cr4_fft_64_stm32.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\cr4_fft_64_stm32.s</FilePath>
+            </File>
+            <File>
+              <FileName>PID_stm32.s</FileName>
+              <FileType>2</FileType>
+              <FilePath>.\PID_stm32.s</FilePath>
             </File>
           </Files>
         </Group>

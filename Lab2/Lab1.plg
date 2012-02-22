@@ -4,59 +4,26 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 C:\Users\Jack\EE345M-S2012\Lab2\Lab2.uvproj
-Project File Date:  02/17/2012
+Project File Date:  02/20/2012
 
 <h2>Output:</h2>
 Build target 'OLED'
 assembling Startup.s...
 compiling rit128x96x4.c...
 compiling os.c...
-..\Startup.h(10): warning:  #1-D: last line of file ends without a newline
-os.c(165): warning:  #117-D: non-void function "OS_AddPeriodicThread" should return a value
-os.c(182): warning:  #117-D: non-void function "OS_AddButtonTask" should return a value
-os.c(199): warning:  #117-D: non-void function "OS_AddDownTask" should return a value
-os.c(260): warning:  #117-D: non-void function "OS_Fifo_Put" should return a value
-os.c(269): warning:  #117-D: non-void function "OS_Fifo_Get" should return a value
-os.c(280): warning:  #117-D: non-void function "OS_Fifo_Size" should return a value
-os.c(308): warning:  #117-D: non-void function "OS_MailBox_Recv" should return a value
-os.c(319): warning:  #117-D: non-void function "OS_Time" should return a value
-os.c(330): warning:  #117-D: non-void function "OS_TimeDifference" should return a value
-os.c(348): warning:  #117-D: non-void function "OS_MsTime" should return a value
+os.c(210): warning:  #117-D: non-void function "OS_AddPeriodicThread" should return a value
+os.c(227): warning:  #117-D: non-void function "OS_AddButtonTask" should return a value
+os.c(244): warning:  #117-D: non-void function "OS_AddDownTask" should return a value
+os.c(386): warning:  #117-D: non-void function "OS_Time" should return a value
+os.c(415): warning:  #117-D: non-void function "OS_MsTime" should return a value
 compiling Lab2.c...
-Lab2.c(65): warning:  #223-D: function "ADC_In" declared implicitly
-Lab2.c(154): warning:  #223-D: function "ADC_Collect" declared implicitly
+Lab2.c(67): warning:  #223-D: function "ADC_In" declared implicitly
+Lab2.c(156): warning:  #223-D: function "ADC_Collect" declared implicitly
 assembling os_asm.s...
 assembling cr4_fft_64_stm32.s...
 assembling PID_stm32.s...
+compiling uart_echo_mod.c...
 linking...
-Lab1.axf: Error: L6218E: Undefined symbol UARTIntHandler (referred from startup.o).
-Lab1.axf: Error: L6218E: Undefined symbol ADC_Collect (referred from lab2.o).
-Lab1.axf: Error: L6218E: Undefined symbol ADC_In (referred from lab2.o).
-Lab1.axf: Error: L6218E: Undefined symbol Interpreter (referred from lab2.o).
-Target not created
-Build target 'OLED'
-assembling Startup.s...
-compiling rit128x96x4.c...
-compiling os.c...
-..\Startup.h(10): warning:  #1-D: last line of file ends without a newline
-os.c(167): warning:  #117-D: non-void function "OS_AddPeriodicThread" should return a value
-os.c(184): warning:  #117-D: non-void function "OS_AddButtonTask" should return a value
-os.c(201): warning:  #117-D: non-void function "OS_AddDownTask" should return a value
-os.c(272): warning:  #117-D: non-void function "OS_Fifo_Put" should return a value
-os.c(281): warning:  #117-D: non-void function "OS_Fifo_Get" should return a value
-os.c(292): warning:  #117-D: non-void function "OS_Fifo_Size" should return a value
-os.c(320): warning:  #117-D: non-void function "OS_MailBox_Recv" should return a value
-os.c(331): warning:  #117-D: non-void function "OS_Time" should return a value
-os.c(342): warning:  #117-D: non-void function "OS_TimeDifference" should return a value
-os.c(360): warning:  #117-D: non-void function "OS_MsTime" should return a value
-compiling Lab2.c...
-Lab2.c(65): warning:  #223-D: function "ADC_In" declared implicitly
-Lab2.c(154): warning:  #223-D: function "ADC_Collect" declared implicitly
-assembling os_asm.s...
-assembling cr4_fft_64_stm32.s...
-assembling PID_stm32.s...
-linking...
-Lab1.axf: Error: L6218E: Undefined symbol UARTIntHandler (referred from startup.o).
 Lab1.axf: Error: L6218E: Undefined symbol ADC_Collect (referred from lab2.o).
 Lab1.axf: Error: L6218E: Undefined symbol ADC_In (referred from lab2.o).
 Lab1.axf: Error: L6218E: Undefined symbol Interpreter (referred from lab2.o).

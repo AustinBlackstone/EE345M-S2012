@@ -174,10 +174,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>17</ColumnNumber>
+      <ColumnNumber>56</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>19</TopLine>
-      <CurrentLine>36</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>26</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\OLED_SplitScreen_TestMain.c</PathWithFileName>
       <FilenameWithoutPath>OLED_SplitScreen_TestMain.c</FilenameWithoutPath>
@@ -204,8 +204,8 @@
       <Focus>0</Focus>
       <ColumnNumber>19</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>113</TopLine>
-      <CurrentLine>113</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\adc.c</PathWithFileName>
       <FilenameWithoutPath>adc.c</FilenameWithoutPath>
@@ -246,7 +246,7 @@
       <Focus>0</Focus>
       <ColumnNumber>67</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>33</TopLine>
+      <TopLine>1</TopLine>
       <CurrentLine>44</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Output.c</PathWithFileName>
@@ -294,19 +294,19 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>4</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
         <Doc>
           <Name>.\OLED_SplitScreen_TestMain.c</Name>
-          <ColumnNumber>17</ColumnNumber>
-          <TopLine>19</TopLine>
-          <CurrentLine>36</CurrentLine>
+          <ColumnNumber>56</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>26</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\adc.c</Name>
           <ColumnNumber>19</ColumnNumber>
-          <TopLine>113</TopLine>
-          <CurrentLine>113</CurrentLine>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\main.1.c</Name>
@@ -317,7 +317,7 @@
         <Doc>
           <Name>.\Output.c</Name>
           <ColumnNumber>67</ColumnNumber>
-          <TopLine>33</TopLine>
+          <TopLine>1</TopLine>
           <CurrentLine>44</CurrentLine>
         </Doc>
         <Doc>

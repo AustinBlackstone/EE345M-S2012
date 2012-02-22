@@ -8,18 +8,36 @@
 #include "os.h"
 #include "lm3s8962.h"
 #include "Startup.h"
+#include "uart_echo_mod.h"
 
+#include "inc/hw_ints.h"
+#include "inc/hw_memmap.h"
+#include "inc/hw_types.h"
+#include "driverlib/debug.h"
+#include "driverlib/gpio.h"
+#include "driverlib/interrupt.h"
+#include "driverlib/sysctl.h"
+#include "driverlib/uart.h"
+#include "../../rit128x96x4.h"
+#include "FIFO.h"
 
 
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
 tcbType *RUNPT;
 tcbType *NEXTRUNPT;
 
-//global incrimented to generate unique thread id's
-int IDCOUNT;
+//globals 
+int IDCOUNT;	//incrimented to generate unique thread id's
+long int OSMAILBOX;
+
 
 //Semaphores used for program
 Sema4Type oled;
+Sema4Type OSMailBoxSema4;
+
+//Fifos
+#define	OSFIFOSIZE	64
+AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 
 
 // ******** OS_Init ************
@@ -28,6 +46,31 @@ Sema4Type oled;
 // input:  none
 // output: none
 void OS_Init(void){
+	DisableInterrupts();
+
+// Enable processor interrupts.
+    //
+    //IntMasterEnable();
+
+	SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
+
+	//Semaphores, OS Stuff
+	OS_InitSemaphore(&oled,0);
+	//OS_InitSemaphore(&OSMailBoxSema4,0);
+	OS_MailBox_Init();
+	//UART & OLED 
+	UARTInit();
+	RIT128x96x4Init(1000000); //Init OLED
+	
+	//ADC
+
+	//Select Switch
+
+	//Timer2
+
+
+	
+	
 
 //TODO: i have no fucking clue what to do here...
 
@@ -222,6 +265,7 @@ return;
 // output: none
 void OS_Kill(void){
 	//set used=0, take it out of linked list, Possible ERROR, not 100% sure of efficacy
+	DisableInterrupts();
 	RUNPT->used=0;
 	RUNPT->prev->next=RUNPT->next;
 	RUNPT->next->prev=RUNPT->prev;
@@ -229,7 +273,7 @@ void OS_Kill(void){
 	//trigger SysTick, .'. the thread scheduler to run, next loop around this thread wont be here
 	NVIC_ST_CURRENT_R =0;
 	NVIC_INT_CTRL_R = 0x04000000;
-
+	EnableInterrupts();
 return;
 }
 
@@ -269,7 +313,7 @@ return;
 // Since this is called by interrupt handlers 
 //  this function can not disable or enable interrupts
 int OS_Fifo_Put(unsigned long data){
-return;
+return OSFifo_Put(data);
 }
 
 // ******** OS_Fifo_Get ************
@@ -278,7 +322,8 @@ return;
 // Inputs:  none
 // Outputs: data 
 unsigned long OS_Fifo_Get(void){
-return;
+long temp;
+return OSFifo_Get(&temp);
 }
 
 // ******** OS_Fifo_Size ************
@@ -289,7 +334,7 @@ return;
 //          zero or less than zero if the Fifo is empty 
 //          zero or less than zero  if a call to OS_Fifo_Get will spin or block
 long OS_Fifo_Size(void){
-return;
+return OSFifo_Size();
 }
 
 // ******** OS_MailBox_Init ************
@@ -297,6 +342,7 @@ return;
 // Inputs:  none
 // Outputs: none
 void OS_MailBox_Init(void){
+	OS_InitSemaphore(&OSMailBoxSema4,0);
 return;
 }
 
@@ -307,6 +353,8 @@ return;
 // This function will be called from a foreground thread
 // It will spin/block if the MailBox contains data not yet received 
 void OS_MailBox_Send(unsigned long data){
+	OS_Wait(&OSMailBoxSema4);
+	OSMAILBOX=data;	
 return;
 }
 
@@ -317,7 +365,14 @@ return;
 // This function will be called from a foreground thread
 // It will spin/block if the MailBox is empty 
 unsigned long OS_MailBox_Recv(void){
-return;
+	unsigned long temp;
+	while(OSMailBoxSema4.Value >0 ){  //POSSIBLE ERROR in how i acess value, while loop should be removed or rethought eventually
+	//implements spinning when mailbox is empty
+	;//TODO: implement blocking
+	}
+	temp = OSMAILBOX;
+	OS_Signal(&OSMailBoxSema4);
+return temp;
 }
 
 // ******** OS_Time ************
@@ -339,7 +394,7 @@ return;
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_Time have the same resolution and precision 
 unsigned long OS_TimeDifference(unsigned long start, unsigned long stop){
-return;
+return (long)(stop-start);
 }
 
 // ******** OS_ClearMsTime ************
