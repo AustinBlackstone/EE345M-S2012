@@ -2,3 +2,14 @@ os.o: os.c
 os.o: os.h
 os.o: ..\lm3s8962.h
 os.o: ..\Startup.h
+os.o: ..\uart_echo_mod.h
+os.o: ..\inc/hw_ints.h
+os.o: ..\inc/hw_memmap.h
+os.o: ..\inc/hw_types.h
+os.o: ..\driverlib/debug.h
+os.o: ..\driverlib/gpio.h
+os.o: ..\driverlib/interrupt.h
+os.o: ..\driverlib/sysctl.h
+os.o: ..\driverlib/uart.h
+os.o: ..\driverlib\rvmdk\../../rit128x96x4.h
+os.o: ..\FIFO.h

@@ -9,7 +9,7 @@
 #include <string.h>
 #include "inc/hw_types.h"
 //#include "serial.h"
-//#include "uart_echo_mod.h"
+#include "uart_echo_mod.h"
 #include "rit128x96x4.h"
 #include "adc.h"
 #include "os.h"
@@ -56,7 +56,9 @@ static unsigned int n=3;   // 3, 4, or 5
 // inputs:  none
 // outputs: none
 unsigned short DASoutput;
-void DAS(void){ int index;
+
+void DAS(void){ 
+int index;
 unsigned short input;  
 unsigned static long LastTime;  // time at previous ADC sample
 unsigned long thisTime;         // time at current ADC sample

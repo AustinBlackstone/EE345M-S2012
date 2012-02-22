@@ -1,1 +1,1 @@
-.\Startup.o: D:\Dropbox\EE345M\Startup.s
+.\Startup.o: C:\Users\Jack\EE345M-S2012\Startup.s

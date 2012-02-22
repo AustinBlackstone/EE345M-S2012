@@ -1,0 +1,13 @@
+uart_echo_mod.o: ..\uart_echo_mod.c
+uart_echo_mod.o: C:\UT\EE445L\Keil\ARM\RV31\INC\string.h
+uart_echo_mod.o: ..\inc/hw_ints.h
+uart_echo_mod.o: ..\inc/hw_memmap.h
+uart_echo_mod.o: ..\inc/hw_types.h
+uart_echo_mod.o: ..\driverlib/debug.h
+uart_echo_mod.o: ..\driverlib/gpio.h
+uart_echo_mod.o: ..\driverlib/interrupt.h
+uart_echo_mod.o: ..\driverlib/sysctl.h
+uart_echo_mod.o: ..\driverlib/uart.h
+uart_echo_mod.o: ..\driverlib\rvmdk\../../rit128x96x4.h
+uart_echo_mod.o: ..\FIFO.h
+uart_echo_mod.o: ..\Lab2\os.h
