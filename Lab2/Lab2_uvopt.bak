@@ -118,15 +118,98 @@
         <tIfile></tIfile>
         <pMon>BIN\lmidk-agdi.dll</pMon>
       </DebugOpt>
+      <TargetDriverDllRegistry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGTARM</Key>
+          <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(101=-1,-1,-1,-1,0)(102=-1,-1,-1,-1,0)(103=-1,-1,-1,-1,0)(104=-1,-1,-1,-1,0)(105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(163=-1,-1,-1,-1,0)(164=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)(1013=-1,-1,-1,-1,0)(171=-1,-1,-1,-1,0)(172=-1,-1,-1,-1,0)(173=-1,-1,-1,-1,0)(1014=-1,-1,-1,-1,0)(1016=-1,-1,-1,-1,0)(136=-1,-1,-1,-1,0)</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>ARMDBGFLAGS</Key>
+          <Name></Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>lmidk-agdi</Key>
+          <Name>-U-O4622 -O4622 -S3 -FO29</Name>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
+          <Key>DLGUARM</Key>
+          <Name>ÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÈ@L	!EfÈ\÷0</Name>
+        </SetRegEntry>
+      </TargetDriverDllRegistry>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>270</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>4326</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename></Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Lab1\Lab2.c\270</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>271</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>4352</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename></Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Lab1\Lab2.c\271</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>272</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>4378</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename></Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Lab1\Lab2.c\272</Expression>
+        </Bp>
+      </Breakpoint>
+      <WatchWindow1>
+        <Ww>
+          <count>0</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>tcbs</ItemText>
+        </Ww>
+      </WatchWindow1>
+      <MemoryWindow1>
+        <Mm>
+          <WinNumber>1</WinNumber>
+          <SubType>0</SubType>
+          <ItemText>&amp;tcbs</ItemText>
+        </Mm>
+      </MemoryWindow1>
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>0</aLwin>
+        <aLwin>1</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
         <aPa>0</aPa>
-        <viewmode>0</viewmode>
+        <viewmode>1</viewmode>
         <vrSel>0</vrSel>
         <aSym>0</aSym>
         <aTbox>0</aTbox>
@@ -160,10 +243,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>17</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>63</TopLine>
-      <CurrentLine>78</CurrentLine>
+      <TopLine>248</TopLine>
+      <CurrentLine>252</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>C:\Users\Jack\EE345M-S2012\Startup.s</PathWithFileName>
       <FilenameWithoutPath>Startup.s</FilenameWithoutPath>
@@ -174,10 +257,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>2</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>956</TopLine>
+      <CurrentLine>961</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</PathWithFileName>
       <FilenameWithoutPath>rit128x96x4.c</FilenameWithoutPath>
@@ -188,10 +271,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>84</ColumnNumber>
+      <ColumnNumber>1</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>353</TopLine>
-      <CurrentLine>369</CurrentLine>
+      <TopLine>55</TopLine>
+      <CurrentLine>71</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os.c</PathWithFileName>
       <FilenameWithoutPath>os.c</FilenameWithoutPath>
@@ -216,10 +299,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>83</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>171</TopLine>
-      <CurrentLine>171</CurrentLine>
+      <TopLine>265</TopLine>
+      <CurrentLine>274</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Lab2.c</PathWithFileName>
       <FilenameWithoutPath>Lab2.c</FilenameWithoutPath>
@@ -244,10 +327,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>57</ColumnNumber>
+      <ColumnNumber>13</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>6</TopLine>
-      <CurrentLine>22</CurrentLine>
+      <TopLine>38</TopLine>
+      <CurrentLine>42</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os_asm.s</PathWithFileName>
       <FilenameWithoutPath>os_asm.s</FilenameWithoutPath>
@@ -297,34 +380,6 @@
     <File>
       <GroupNumber>1</GroupNumber>
       <FileNumber>11</FileNumber>
-      <FileType>1</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>3</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>64</TopLine>
-      <CurrentLine>64</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\uart_echo_mod.c</PathWithFileName>
-      <FilenameWithoutPath>uart_echo_mod.c</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>12</FileNumber>
-      <FileType>5</FileType>
-      <tvExp>0</tvExp>
-      <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
-      <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
-      <bDave2>0</bDave2>
-      <PathWithFileName>..\uart_echo_mod.h</PathWithFileName>
-      <FilenameWithoutPath>uart_echo_mod.h</FilenameWithoutPath>
-    </File>
-    <File>
-      <GroupNumber>1</GroupNumber>
-      <FileNumber>13</FileNumber>
       <FileType>5</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -335,6 +390,34 @@
       <bDave2>0</bDave2>
       <PathWithFileName>..\FIFO.h</PathWithFileName>
       <FilenameWithoutPath>FIFO.h</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>12</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\adc.c</PathWithFileName>
+      <FilenameWithoutPath>adc.c</FilenameWithoutPath>
+    </File>
+    <File>
+      <GroupNumber>1</GroupNumber>
+      <FileNumber>13</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <ColumnNumber>0</ColumnNumber>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <TopLine>0</TopLine>
+      <CurrentLine>0</CurrentLine>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\uart.c</PathWithFileName>
+      <FilenameWithoutPath>uart.c</FilenameWithoutPath>
     </File>
   </Group>
 
@@ -359,13 +442,109 @@
     </File>
   </Group>
 
+  <AlienFiles>
+    <PathWithFilename>C:\Users\Jack\EE345M-S2012\adc.h</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>1</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>C:\Users\Jack\EE345M-S2012\uart_echo_mod.c</PathWithFilename>
+    <TopLine>64</TopLine>
+    <CurrentLine>64</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
+  <AlienFiles>
+    <PathWithFilename>C:\Users\Jack\EE345M-S2012\uart_echo_mod.h</PathWithFilename>
+    <TopLine>1</TopLine>
+    <CurrentLine>6</CurrentLine>
+    <Constant>0</Constant>
+    <WindowPosition>
+      <length>0</length>
+      <flags>0</flags>
+      <showCmd>0</showCmd>
+      <MinPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MinPosition>
+      <MaxPosition>
+        <xPos>0</xPos>
+        <yPos>0</yPos>
+      </MaxPosition>
+      <NormalPosition>
+        <Top>0</Top>
+        <Left>0</Left>
+        <Right>0</Right>
+        <Bottom>0</Bottom>
+      </NormalPosition>
+    </WindowPosition>
+  </AlienFiles>
+
   <MDIGroups>
     <Orientation>1</Orientation>
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>3</ActiveTab>
+      <ActiveTab>1</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</Name>
+          <ColumnNumber>2</ColumnNumber>
+          <TopLine>956</TopLine>
+          <CurrentLine>961</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>C:\Users\Jack\EE345M-S2012\Startup.s</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>248</TopLine>
+          <CurrentLine>252</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\lm3s8962.h</Name>
+          <ColumnNumber>73</ColumnNumber>
+          <TopLine>253</TopLine>
+          <CurrentLine>253</CurrentLine>
+        </Doc>
         <Doc>
           <Name>..\FIFO.h</Name>
           <ColumnNumber>38</ColumnNumber>
@@ -374,45 +553,33 @@
         </Doc>
         <Doc>
           <Name>.\os.c</Name>
-          <ColumnNumber>84</ColumnNumber>
-          <TopLine>353</TopLine>
-          <CurrentLine>369</CurrentLine>
+          <ColumnNumber>1</ColumnNumber>
+          <TopLine>55</TopLine>
+          <CurrentLine>71</CurrentLine>
         </Doc>
         <Doc>
-          <Name>os.h</Name>
-          <ColumnNumber>107</ColumnNumber>
-          <TopLine>9</TopLine>
-          <CurrentLine>25</CurrentLine>
+          <Name>..\Lab2\os.h</Name>
+          <ColumnNumber>17</ColumnNumber>
+          <TopLine>37</TopLine>
+          <CurrentLine>37</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\Lab2.c</Name>
-          <ColumnNumber>83</ColumnNumber>
-          <TopLine>171</TopLine>
-          <CurrentLine>171</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>C:\Users\Jack\EE345M-S2012\Startup.s</Name>
-          <ColumnNumber>17</ColumnNumber>
-          <TopLine>63</TopLine>
-          <CurrentLine>78</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
+          <TopLine>265</TopLine>
+          <CurrentLine>274</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\os_asm.s</Name>
-          <ColumnNumber>57</ColumnNumber>
-          <TopLine>6</TopLine>
-          <CurrentLine>22</CurrentLine>
+          <ColumnNumber>13</ColumnNumber>
+          <TopLine>38</TopLine>
+          <CurrentLine>42</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\Startup.h</Name>
-          <ColumnNumber>0</ColumnNumber>
+          <ColumnNumber>6</ColumnNumber>
           <TopLine>1</TopLine>
-          <CurrentLine>11</CurrentLine>
+          <CurrentLine>2</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\uart_echo_mod.h</Name>
@@ -421,10 +588,16 @@
           <CurrentLine>6</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\uart_echo_mod.c</Name>
+          <Name>C:\Users\Jack\EE345M-S2012\uart_echo_mod.c</Name>
           <ColumnNumber>3</ColumnNumber>
           <TopLine>64</TopLine>
           <CurrentLine>64</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\adc.h</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

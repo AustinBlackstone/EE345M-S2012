@@ -191,10 +191,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>35</ColumnNumber>
+      <ColumnNumber>31</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
-      <CurrentLine>1</CurrentLine>
+      <TopLine>193</TopLine>
+      <CurrentLine>193</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\uart_echo_mod.c</PathWithFileName>
       <FilenameWithoutPath>uart_echo_mod.c</FilenameWithoutPath>
@@ -205,10 +205,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>0</ColumnNumber>
+      <ColumnNumber>24</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1021</TopLine>
-      <CurrentLine>1026</CurrentLine>
+      <TopLine>1008</TopLine>
+      <CurrentLine>1032</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</PathWithFileName>
       <FilenameWithoutPath>rit128x96x4.c</FilenameWithoutPath>
@@ -219,10 +219,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>26</ColumnNumber>
+      <ColumnNumber>7</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>43</TopLine>
-      <CurrentLine>43</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os.c</PathWithFileName>
       <FilenameWithoutPath>os.c</FilenameWithoutPath>
@@ -259,15 +259,21 @@
       <Documents>
         <Doc>
           <Name>.\uart_echo_mod.c</Name>
-          <ColumnNumber>35</ColumnNumber>
+          <ColumnNumber>31</ColumnNumber>
+          <TopLine>193</TopLine>
+          <CurrentLine>193</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\os.c</Name>
+          <ColumnNumber>7</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>1</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\os.c</Name>
-          <ColumnNumber>26</ColumnNumber>
-          <TopLine>43</TopLine>
-          <CurrentLine>43</CurrentLine>
+          <Name>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</Name>
+          <ColumnNumber>24</ColumnNumber>
+          <TopLine>1008</TopLine>
+          <CurrentLine>1032</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

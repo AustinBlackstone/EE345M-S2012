@@ -17,9 +17,12 @@
 #include "driverlib/gpio.h"
 #include "driverlib/interrupt.h"
 #include "driverlib/sysctl.h"
+#include "driverlib/systick.h"
 #include "driverlib/uart.h"
 #include "../../rit128x96x4.h"
 #include "FIFO.h"
+#include "adc.h"
+#include "uart.h"
 
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
 tcbType *RUNPT;
@@ -33,7 +36,7 @@ long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous v
 long TIMELORD; 
 
 //Semaphores used for program
-Sema4Type oled;
+Sema4Type oled_free;
 Sema4Type OSMailBoxSema4;
 
 //Fifos
@@ -61,22 +64,23 @@ void OS_Init(void){
 		 //taken care of in OS_Launch
 
 	//Semaphores, OS Stuff
-	OS_InitSemaphore(&oled,0);
+	OS_InitSemaphore(&oled_free,0);
 	//OS_InitSemaphore(&OSMailBoxSema4,0);
 	OS_MailBox_Init();
+	
 	//UART & OLED 
-	UARTInit();
 	RIT128x96x4Init(1000000); //Init OLED
+	UARTInit();
+	RIT128x96x4StringDraw("$", 0, 12, 15);
+	
 	
 	//ADC
+    ADC_Init(1000); // Init ADC to run @ 1KHz
 
-
-	//Timer2
 
 	////Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
 	SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
 	delay = SYSCTL_RCGC2_R;		  //delay, cause i said so
-	delay = SYSCTL_RCGC2_R;
 	GPIO_PORTF_DIR_R &= ~0x02;    // (c) make PF1 in
 	GPIO_PORTF_DEN_R |= 0x02;     //     enable digital I/O on PF1
 	GPIO_PORTF_IS_R &= ~0x02;     // (d) PF1 is edge-sensitive
@@ -232,10 +236,11 @@ unsigned long OS_Id(void){
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
 int OS_AddPeriodicThread(void(*task)(void), 
-   unsigned long period, unsigned long priority){
-
-
-return;
+  unsigned long period, unsigned long priority){
+  
+  
+  
+  return 0; // For now
 }
 
 //******** OS_AddButtonTask *************** 
@@ -253,10 +258,10 @@ return;
 //           determines the relative priority of these four threads
 int OS_AddButtonTask(void(*task)(void), unsigned long priority){
 	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|(priority<<21); // (g) priority (shifted into place)
-	BUTTONTASK=task;
+	BUTTONTASK=task;   //POSSIBLE ERROR
 	//for the record the header on this is confusing as balls, this doesnt add a thread, it sets up an interrupt so IT will call a function that will add a thread. FML
 
-return;
+return 1;
 }
 
 //******** OS_AddDownTask *************** 
@@ -273,7 +278,7 @@ return;
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
 int OS_AddDownTask(void(*task)(void), unsigned long priority){
-return;
+return 0;
 }
 
 // ******** OS_Sleep ************
