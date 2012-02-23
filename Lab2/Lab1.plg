@@ -7,6 +7,11 @@ C:\Users\Jack\EE345M-S2012\Lab2\Lab2.uvproj
 Project File Date:  02/22/2012
 
 <h2>Output:</h2>
+Load "C:\\Users\\Jack\\EE345M-S2012\\Lab2\\Lab1.AXF" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.
 Build target 'OLED'
 assembling Startup.s...
 compiling rit128x96x4.c...
@@ -23,3 +28,8 @@ compiling uart.c...
 linking...
 Program Size: Code=10398 RO-data=762 RW-data=192 ZI-data=7272  
 "Lab1.axf" - 0 Error(s), 3 Warning(s).
+Load "C:\\Users\\Jack\\EE345M-S2012\\Lab2\\Lab1.AXF" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.

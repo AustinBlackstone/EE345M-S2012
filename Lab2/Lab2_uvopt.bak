@@ -158,36 +158,6 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>270</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>4382</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename></Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Lab1\Lab2.c\270</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>271</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>4408</Address>
-          <ByteObject>0</ByteObject>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename></Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Lab1\Lab2.c\271</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
           <LineNumber>272</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>4434</Address>
@@ -199,6 +169,21 @@
           <Filename></Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\Lab1\Lab2.c\272</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>253</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>4314</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename></Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Lab1\Lab2.c\253</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -269,7 +254,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>232</TopLine>
+      <TopLine>226</TopLine>
       <CurrentLine>232</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>C:\Users\Jack\EE345M-S2012\Startup.s</PathWithFileName>
@@ -297,8 +282,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>182</TopLine>
-      <CurrentLine>190</CurrentLine>
+      <TopLine>469</TopLine>
+      <CurrentLine>479</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os.c</PathWithFileName>
       <FilenameWithoutPath>os.c</FilenameWithoutPath>
@@ -325,8 +310,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>255</TopLine>
-      <CurrentLine>272</CurrentLine>
+      <TopLine>247</TopLine>
+      <CurrentLine>253</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Lab2.c</PathWithFileName>
       <FilenameWithoutPath>Lab2.c</FilenameWithoutPath>
@@ -351,10 +336,10 @@
       <FileType>2</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>13</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>38</TopLine>
-      <CurrentLine>42</CurrentLine>
+      <TopLine>26</TopLine>
+      <CurrentLine>43</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os_asm.s</PathWithFileName>
       <FilenameWithoutPath>os_asm.s</FilenameWithoutPath>
@@ -523,12 +508,24 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>8</ActiveTab>
+      <ActiveTab>0</ActiveTab>
       <Documents>
+        <Doc>
+          <Name>.\Lab2.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>247</TopLine>
+          <CurrentLine>253</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\os_asm.s</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>26</TopLine>
+          <CurrentLine>43</CurrentLine>
+        </Doc>
         <Doc>
           <Name>C:\Users\Jack\EE345M-S2012\Startup.s</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>232</TopLine>
+          <TopLine>226</TopLine>
           <CurrentLine>232</CurrentLine>
         </Doc>
         <Doc>
@@ -540,8 +537,8 @@
         <Doc>
           <Name>.\os.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>182</TopLine>
-          <CurrentLine>190</CurrentLine>
+          <TopLine>469</TopLine>
+          <CurrentLine>479</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\adc.h</Name>
@@ -572,18 +569,6 @@
           <ColumnNumber>0</ColumnNumber>
           <TopLine>1</TopLine>
           <CurrentLine>19</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\Lab2.c</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>255</TopLine>
-          <CurrentLine>272</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>.\os_asm.s</Name>
-          <ColumnNumber>13</ColumnNumber>
-          <TopLine>38</TopLine>
-          <CurrentLine>42</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\Startup.h</Name>
