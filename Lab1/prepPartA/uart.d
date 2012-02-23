@@ -1,9 +1,0 @@
-uart.o: uart.c
-uart.o: ..\..\..\EE345M\inc/hw_types.h
-uart.o: ..\..\..\EE345M\inc/hw_ints.h
-uart.o: ..\..\..\EE345M\inc/hw_memmap.h
-uart.o: ..\..\..\EE345M\driverlib/debug.h
-uart.o: ..\..\..\EE345M\driverlib/interrupt.h
-uart.o: ..\..\..\EE345M\driverlib/uart.h
-uart.o: ..\..\..\EE345M\driverlib/sysctl.h
-uart.o: ..\..\..\EE345M\driverlib/gpio.h
