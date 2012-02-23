@@ -1,0 +1,14 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Project:</h2>
+C:\Users\Cruz Monrreal II\Desktop\EE345M-S2012\Lab2\Lab2.uvproj
+Project File Date:  02/22/2012
+
+<h2>Output:</h2>
+Load "C:\\Users\\Cruz Monrreal II\\Desktop\\EE345M-S2012\\Lab2\\Lab1.AXF" 
+Connecting: Mode=JTAG, Speed=1000000Hz
+Erase Done.
+Programming Done.
+Verify OK.

@@ -207,7 +207,7 @@ int OS_AddThread(void(*task)(void),
 					RUNPT->prev=&tcbs[x];			//
 				
 				}
-				tcbs[x].stack[STACKSIZE-1]=(long)task; //POSSIBLE ERROR, PC=task, i think this works... right??
+				tcbs[x].stack[STACKSIZE-2]=(long)task; //POSSIBLE ERROR, PC=task, i think this works... right??
 				//EndCritical(status);				//end of possible critical section?
 				tcbs[x].realPriority=priority;
 				tcbs[x].workingPriority=priority;
