@@ -121,6 +121,10 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>DLGTARM</Key>
           <Name>(1010=-1,-1,-1,-1,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(101=-1,-1,-1,-1,0)(102=-1,-1,-1,-1,0)(103=-1,-1,-1,-1,0)(104=-1,-1,-1,-1,0)(105=-1,-1,-1,-1,0)(106=-1,-1,-1,-1,0)(161=-1,-1,-1,-1,0)(162=-1,-1,-1,-1,0)(163=-1,-1,-1,-1,0)(164=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)(1011=-1,-1,-1,-1,0)(1012=-1,-1,-1,-1,0)(1013=-1,-1,-1,-1,0)(171=-1,-1,-1,-1,0)(172=-1,-1,-1,-1,0)(173=-1,-1,-1,-1,0)(1014=-1,-1,-1,-1,0)(1016=-1,-1,-1,-1,0)(136=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
@@ -134,19 +138,29 @@
           <Key>lmidk-agdi</Key>
           <Name>-U-O4622 -O4622 -S3 -FO29</Name>
         </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
-          <Key>DLGUARM</Key>
-          <Name>ÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÌÈ@L	!EfÈ\÷0</Name>
-        </SetRegEntry>
       </TargetDriverDllRegistry>
       <Breakpoint>
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+          <LineNumber>252</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>288</Address>
+          <ByteObject>0</ByteObject>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename></Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Lab1\Startup.s\252</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
           <LineNumber>270</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>4326</Address>
+          <Address>4382</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -157,11 +171,11 @@
           <Expression>\\Lab1\Lab2.c\270</Expression>
         </Bp>
         <Bp>
-          <Number>1</Number>
+          <Number>2</Number>
           <Type>0</Type>
           <LineNumber>271</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>4352</Address>
+          <Address>4408</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -172,11 +186,11 @@
           <Expression>\\Lab1\Lab2.c\271</Expression>
         </Bp>
         <Bp>
-          <Number>2</Number>
+          <Number>3</Number>
           <Type>0</Type>
           <LineNumber>272</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>4378</Address>
+          <Address>4434</Address>
           <ByteObject>0</ByteObject>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
@@ -191,7 +205,17 @@
         <Ww>
           <count>0</count>
           <WinNumber>1</WinNumber>
-          <ItemText>tcbs</ItemText>
+          <ItemText>tcbs,0x10</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>RUNPT</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>NEXTRUNPT</ItemText>
         </Ww>
       </WatchWindow1>
       <MemoryWindow1>
@@ -204,7 +228,7 @@
       <DebugFlag>
         <trace>0</trace>
         <periodic>0</periodic>
-        <aLwin>1</aLwin>
+        <aLwin>0</aLwin>
         <aCover>0</aCover>
         <aSer1>0</aSer1>
         <aSer2>0</aSer2>
@@ -245,8 +269,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>248</TopLine>
-      <CurrentLine>252</CurrentLine>
+      <TopLine>232</TopLine>
+      <CurrentLine>232</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>C:\Users\Jack\EE345M-S2012\Startup.s</PathWithFileName>
       <FilenameWithoutPath>Startup.s</FilenameWithoutPath>
@@ -257,10 +281,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2</ColumnNumber>
+      <ColumnNumber>45</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>956</TopLine>
-      <CurrentLine>961</CurrentLine>
+      <TopLine>960</TopLine>
+      <CurrentLine>973</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</PathWithFileName>
       <FilenameWithoutPath>rit128x96x4.c</FilenameWithoutPath>
@@ -271,10 +295,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>1</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>55</TopLine>
-      <CurrentLine>71</CurrentLine>
+      <TopLine>182</TopLine>
+      <CurrentLine>190</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\os.c</PathWithFileName>
       <FilenameWithoutPath>os.c</FilenameWithoutPath>
@@ -301,8 +325,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>265</TopLine>
-      <CurrentLine>274</CurrentLine>
+      <TopLine>255</TopLine>
+      <CurrentLine>272</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Lab2.c</PathWithFileName>
       <FilenameWithoutPath>Lab2.c</FilenameWithoutPath>
@@ -413,8 +437,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>114</TopLine>
+      <CurrentLine>119</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>..\uart.c</PathWithFileName>
       <FilenameWithoutPath>uart.c</FilenameWithoutPath>
@@ -443,32 +467,6 @@
   </Group>
 
   <AlienFiles>
-    <PathWithFilename>C:\Users\Jack\EE345M-S2012\adc.h</PathWithFilename>
-    <TopLine>1</TopLine>
-    <CurrentLine>1</CurrentLine>
-    <Constant>0</Constant>
-    <WindowPosition>
-      <length>0</length>
-      <flags>0</flags>
-      <showCmd>0</showCmd>
-      <MinPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MinPosition>
-      <MaxPosition>
-        <xPos>0</xPos>
-        <yPos>0</yPos>
-      </MaxPosition>
-      <NormalPosition>
-        <Top>0</Top>
-        <Left>0</Left>
-        <Right>0</Right>
-        <Bottom>0</Bottom>
-      </NormalPosition>
-    </WindowPosition>
-  </AlienFiles>
-
-  <AlienFiles>
     <PathWithFilename>C:\Users\Jack\EE345M-S2012\uart_echo_mod.c</PathWithFilename>
     <TopLine>64</TopLine>
     <CurrentLine>64</CurrentLine>
@@ -495,9 +493,9 @@
   </AlienFiles>
 
   <AlienFiles>
-    <PathWithFilename>C:\Users\Jack\EE345M-S2012\uart_echo_mod.h</PathWithFilename>
+    <PathWithFilename>C:\Users\Jack\EE345M-S2012\adc.h</PathWithFilename>
     <TopLine>1</TopLine>
-    <CurrentLine>6</CurrentLine>
+    <CurrentLine>1</CurrentLine>
     <Constant>0</Constant>
     <WindowPosition>
       <length>0</length>
@@ -525,19 +523,37 @@
     <ActiveMDIGroup>0</ActiveMDIGroup>
     <MDIGroup>
       <Size>100</Size>
-      <ActiveTab>1</ActiveTab>
+      <ActiveTab>8</ActiveTab>
       <Documents>
-        <Doc>
-          <Name>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</Name>
-          <ColumnNumber>2</ColumnNumber>
-          <TopLine>956</TopLine>
-          <CurrentLine>961</CurrentLine>
-        </Doc>
         <Doc>
           <Name>C:\Users\Jack\EE345M-S2012\Startup.s</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>248</TopLine>
-          <CurrentLine>252</CurrentLine>
+          <TopLine>232</TopLine>
+          <CurrentLine>232</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\uart.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>114</TopLine>
+          <CurrentLine>119</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>.\os.c</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>182</TopLine>
+          <CurrentLine>190</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>..\adc.h</Name>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>1</CurrentLine>
+        </Doc>
+        <Doc>
+          <Name>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</Name>
+          <ColumnNumber>45</ColumnNumber>
+          <TopLine>960</TopLine>
+          <CurrentLine>973</CurrentLine>
         </Doc>
         <Doc>
           <Name>..\lm3s8962.h</Name>
@@ -552,22 +568,16 @@
           <CurrentLine>96</CurrentLine>
         </Doc>
         <Doc>
-          <Name>.\os.c</Name>
-          <ColumnNumber>1</ColumnNumber>
-          <TopLine>55</TopLine>
-          <CurrentLine>71</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>..\Lab2\os.h</Name>
-          <ColumnNumber>17</ColumnNumber>
-          <TopLine>37</TopLine>
-          <CurrentLine>37</CurrentLine>
+          <ColumnNumber>0</ColumnNumber>
+          <TopLine>1</TopLine>
+          <CurrentLine>19</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\Lab2.c</Name>
           <ColumnNumber>0</ColumnNumber>
-          <TopLine>265</TopLine>
-          <CurrentLine>274</CurrentLine>
+          <TopLine>255</TopLine>
+          <CurrentLine>272</CurrentLine>
         </Doc>
         <Doc>
           <Name>.\os_asm.s</Name>
@@ -582,22 +592,10 @@
           <CurrentLine>2</CurrentLine>
         </Doc>
         <Doc>
-          <Name>..\uart_echo_mod.h</Name>
-          <ColumnNumber>38</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>6</CurrentLine>
-        </Doc>
-        <Doc>
           <Name>C:\Users\Jack\EE345M-S2012\uart_echo_mod.c</Name>
           <ColumnNumber>3</ColumnNumber>
           <TopLine>64</TopLine>
           <CurrentLine>64</CurrentLine>
-        </Doc>
-        <Doc>
-          <Name>..\adc.h</Name>
-          <ColumnNumber>0</ColumnNumber>
-          <TopLine>1</TopLine>
-          <CurrentLine>1</CurrentLine>
         </Doc>
       </Documents>
     </MDIGroup>

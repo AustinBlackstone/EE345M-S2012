@@ -345,7 +345,7 @@
               <MiscControls></MiscControls>
               <Define></Define>
               <Undefine></Undefine>
-              <IncludePath>..;..\..;..\driverlib;\..\EE345M;..\driverlib\rvmdk;..\..\EE345M-S2012;..\Lab2</IncludePath>
+              <IncludePath>..;..\..;..\driverlib;\..\EE345M;..\driverlib\rvmdk;..\..\EE345M-S2012;..\Lab2;..\..\EE345M-S2012</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -436,19 +436,19 @@
               <FilePath>.\PID_stm32.s</FilePath>
             </File>
             <File>
-              <FileName>uart_echo_mod.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\uart_echo_mod.c</FilePath>
-            </File>
-            <File>
-              <FileName>uart_echo_mod.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\uart_echo_mod.h</FilePath>
-            </File>
-            <File>
               <FileName>FIFO.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\FIFO.h</FilePath>
+            </File>
+            <File>
+              <FileName>adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\uart.c</FilePath>
             </File>
           </Files>
         </Group>

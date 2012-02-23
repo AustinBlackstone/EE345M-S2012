@@ -23,6 +23,7 @@
 #include "FIFO.h"
 #include "adc.h"
 #include "uart.h"
+#define  NULL 0
 
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
 tcbType *RUNPT;
@@ -34,7 +35,8 @@ long int OSMAILBOX; // contains mailbox data for OSMailBox
 long (*BUTTONTASK)(void);   // pointer to task that gets called when you press a button 
 long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous value
 long TIMELORD; 
-
+extern unsigned long NumCreated; // number of foreground threads created, referenced from lab2.c
+	
 //Semaphores used for program
 Sema4Type oled_free;
 Sema4Type OSMailBoxSema4;
@@ -52,6 +54,7 @@ AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 void OS_Init(void){
 	int delay;
 	DisableInterrupts();
+	RUNPT=0;
 
 // Enable processor interrupts.
     //
@@ -71,7 +74,7 @@ void OS_Init(void){
 	//UART & OLED 
 	RIT128x96x4Init(1000000); //Init OLED
 	UARTInit();
-	RIT128x96x4StringDraw("$", 0, 12, 15);
+//	RIT128x96x4StringDraw("Hello World", 0, 12, 15);
 	
 	
 	//ADC
@@ -190,18 +193,25 @@ int OS_AddThread(void(*task)(void),
 	  for(x=0,found=0;(x<NUMTHREADS) && (found==0);x++){	 //loop untill you find a non used thread
 			if(tcbs[x].used==0){
 				found=1;
-				status=StartCritical();//possible critical section?	
-				OS_ThreadInit(&tcbs[x],0xFF-x);
+				//status=StartCritical();			//possible critical section?	
+				OS_ThreadInit(&tcbs[x],0xFFFA-x);
 				tcbs[x].used=1;
-				tcbs[x].next=RUNPT;			// set prev / next on new thread
-				tcbs[x].prev=RUNPT->prev;		//
-				RUNPT->prev->next=&tcbs[x];		// insert thread into current linked list of running threads
-				RUNPT->prev=&tcbs[x];			//
+				if(NumCreated==0){					//First Thread Ever, needs special case for it's RUNPT, b/c there is no run pointer previously
+					RUNPT=&tcbs[x];					//set run pointer to point to initial thread
+					tcbs[x].next=RUNPT;				//it is only thread, so it points to itself for prev and next
+					tcbs[x].prev=RUNPT;
+				} else{
+					tcbs[x].next=RUNPT;				// set prev / next on new thread
+					tcbs[x].prev=RUNPT->prev;		//
+					RUNPT->prev->next=&tcbs[x];		// insert thread into current linked list of running threads
+					RUNPT->prev=&tcbs[x];			//
+				
+				}
 				tcbs[x].stack[STACKSIZE-1]=(long)task; //POSSIBLE ERROR, PC=task, i think this works... right??
-				EndCritical(status);	//end of possible critical section?
+				//EndCritical(status);				//end of possible critical section?
 				tcbs[x].realPriority=priority;
 				tcbs[x].workingPriority=priority;
-				tcbs[x].id=IDCOUNT++;
+				tcbs[x].id=++IDCOUNT;
 				
 				//TODO: implement adjustable stacksize using input variable 'stackSize'
 				
@@ -483,7 +493,7 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 	  }
 
 	  //setup initial stack to be loaded on first run, filled with debuggin info.
-	  toSet->sp = &toSet->stack[STACKSIZE-16]; // thread stack pointer
+	  toSet->sp = &toSet->stack[STACKSIZE-16];				// thread stack pointer
 	  toSet->stack[STACKSIZE-1]= 0x01000000;				// thumb bit
 	  														// R15 / PC
 	  toSet->stack[STACKSIZE-3]= 0x14141414;				// R14
@@ -493,7 +503,7 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 	  toSet->stack[STACKSIZE-7]= 0x01010101;				// R1
 	  toSet->stack[STACKSIZE-8]= 0x00000000;				// R0
 	  toSet->stack[STACKSIZE-9]= 0x11111111;				// R11
-	  toSet->stack[STACKSIZE-12]=0x10101010;				// R10
+	  toSet->stack[STACKSIZE-10]=0x10101010;				// R10
 	  toSet->stack[STACKSIZE-11]=0x09090909;				// R9
 	  toSet->stack[STACKSIZE-12]=0x08080808;				// R8
 	  toSet->stack[STACKSIZE-13]=0x07070707;				// R7
