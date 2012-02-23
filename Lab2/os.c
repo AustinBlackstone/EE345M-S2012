@@ -19,7 +19,9 @@
 #include "driverlib/sysctl.h"
 #include "driverlib/systick.h"
 #include "driverlib/uart.h"
-#include "../../rit128x96x4.h"
+#include "driverlib/timer.h"
+
+#include "rit128x96x4.h"
 #include "FIFO.h"
 #include "adc.h"
 #include "uart.h"
@@ -32,11 +34,13 @@ tcbType *NEXTRUNPT;
 //globals 
 int IDCOUNT;	//incrimented to generate unique thread id's
 long int OSMAILBOX; // contains mailbox data for OSMailBox
-long (*BUTTONTASK)(void);   // pointer to task that gets called when you press a button 
+void (*BUTTONTASK)(void);   // pointer to task that gets called when you press a button 
 long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous value
 long TIMELORD; 
 extern unsigned long NumCreated; // number of foreground threads created, referenced from lab2.c
 	
+void(*periodicFunc)(void);
+  
 //Semaphores used for program
 Sema4Type oled_free;
 Sema4Type OSMailBoxSema4;
@@ -45,6 +49,15 @@ Sema4Type OSMailBoxSema4;
 #define	OSFIFOSIZE	64
 AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 
+
+// TImer0A Int Handler
+void Timer0A_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+  
+  // Run Periodic function
+  periodicFunc();
+}
 
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
@@ -61,24 +74,33 @@ void OS_Init(void){
     //IntMasterEnable();
 	TIMELORD=0; //initialize the system counter for use with thingies (no shit)
 
-	SysCtlClockSet(SYSCTL_SYSDIV_1 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
+	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
 
 	//Systick Init (Thread Scheduler)
 		 //taken care of in OS_Launch
+     
+  // Init ADC Timer  (Default @ 1KHz)
+  SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
+  TimerConfigure(TIMER0_BASE, TIMER_CFG_32_BIT_PER);
+  TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
+  TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+  //TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet() / 1000);
+  //TimerEnable(TIMER0_BASE, TIMER_A);
+  
 
 	//Semaphores, OS Stuff
-	OS_InitSemaphore(&oled_free,0);
+	//OS_InitSemaphore(&oled_free,0);
 	//OS_InitSemaphore(&OSMailBoxSema4,0);
-	OS_MailBox_Init();
+	//OS_MailBox_Init();
 	
 	//UART & OLED 
-	RIT128x96x4Init(1000000); //Init OLED
-	UARTInit();
+//	RIT128x96x4Init(1000000); //Init OLED
+//	UARTInit();
 //	RIT128x96x4StringDraw("Hello World", 0, 12, 15);
 	
 	
 	//ADC
-    ADC_Init(1000); // Init ADC to run @ 1KHz
+//  ADC_Init(1000); // Init ADC to run @ 1KHz
 
 
 	////Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
@@ -95,14 +117,11 @@ void OS_Init(void){
 	NVIC_EN0_R |= 0x40000000;    // (h) enable interrupt 2 in NVIC
 	//dont enable interrupts 
 	GPIO_PORTF_PUR_R |= 0x02;	 //add pull up resistor, just for shits and giggles
-	
+  
 /*	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);	  	// Enable GPIOF
   	GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);	// make Pin 1 an Input
   	GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1);			//
 */
-
-	
-	
 
 //TODO: i have no fucking clue what to do here...
 
@@ -188,8 +207,22 @@ return;
 // In Lab 3, you can ignore the stackSize fields
 int OS_AddThread(void(*task)(void), 
    unsigned long stackSize, unsigned long priority){
-	  int x,found;
-	  long status;
+	  int x=0, found;
+    /*
+    // Find unused thread
+    while(x<NUMTHREADS)
+      if (tcbs[x++].used == 0)
+        break;
+        
+    // No unused threads found
+    if (x=NUMTHREADS)
+      return 0;
+
+    // Unused thread found. x+1=index of thread
+    x--;
+    
+    if ()*/
+    
 	  for(x=0,found=0;(x<NUMTHREADS) && (found==0);x++){	 //loop untill you find a non used thread
 			if(tcbs[x].used==0){
 				found=1;
@@ -248,9 +281,14 @@ unsigned long OS_Id(void){
 int OS_AddPeriodicThread(void(*task)(void), 
   unsigned long period, unsigned long priority){
   
+  // Set timer period
+  TimerLoadSet(TIMER0_BASE, TIMER_A, period);
+  TimerEnable(TIMER0_BASE, TIMER_A);
   
+  // Set function pointer
+  periodicFunc = task;
   
-  return 0; // For now
+  return 1; // For now
 }
 
 //******** OS_AddButtonTask *************** 
@@ -477,8 +515,6 @@ void OS_Launch(unsigned long theTimeSlice){
 	NVIC_ST_RELOAD_R=theTimeSlice-1; //reload value
 	NVIC_ST_CTRL_R = 0x00000007; //enable, core clock and interrupt arm
 	StartOS();
-
-return;
 }
 
 // ******** OS_Thread_Init ************
@@ -489,7 +525,7 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 	  int i;
 	  //fill up extra part of the stack
 	  for(i=0;i<STACKSIZE-16;i++){
-	  toSet->stack[i]=filler;
+	    toSet->stack[i]=filler;
 	  }
 
 	  //setup initial stack to be loaded on first run, filled with debuggin info.

@@ -249,7 +249,7 @@ void Interpreter(void){ // Pipe to UART Parser (localvars in uart.c, etc...)
 //--------------end of Task 5-----------------------------
 
 //*******************final user main DEMONTRATE THIS TO TA**********
-int main(void){ 
+int mainmain(void){ 
   OS_Init();           // initialize, disable interrupts
 
   DataLost = 0;        // lost data between producer and consumer
@@ -292,7 +292,7 @@ unsigned long Count2;   // number of times thread2 loops
 unsigned long Count3;   // number of times thread3 loops
 unsigned long Count4;   // number of times thread4 loops
 unsigned long Count5;   // number of times thread5 loops
-void Thread1(void){
+/*void Thread1(void){
   Count1 = 0;          
   for(;;){
     Count1++;
@@ -315,7 +315,7 @@ void Thread3(void){
 }
 Sema4Type Free;       // used for mutual exclusion
 
-int testmain1(void){ 
+int main1(void){ 
   OS_Init();           // initialize, disable interrupts
   NumCreated = 0 ;
   NumCreated += OS_AddThread(&Thread1,128,1); 
@@ -352,7 +352,7 @@ void Thread3b(void){
     Count3++;
   }
 }
-int testmain2(void){  // testmain2
+int main2(void){  // testmain2
   OS_Init();           // initialize, disable interrupts
   NumCreated = 0 ;
   NumCreated += OS_AddThread(&Thread1b,128,1); 
@@ -361,7 +361,7 @@ int testmain2(void){  // testmain2
  
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;             // this never executes
-}
+}*/
 
 //*******************Third TEST**********
 // Once the second test runs, test this 
@@ -390,7 +390,7 @@ void Thread2c(void){
   Count2 = 0;    
   Count5 = 0;    // Count2 + Count5 should equal Count1  
   NumCreated += OS_AddThread(&Thread5c,128,3); 
-  OS_AddPeriodicThread(&BackgroundThread1c,TIME_1MS,0); 
+  OS_AddPeriodicThread(&BackgroundThread1c, TIME_1MS, 0); 
   for(;;){
     OS_Wait(&Readyc);
     Count2++;   // Count2 + Count5 should equal Count1
@@ -415,7 +415,7 @@ void BackgroundThread5c(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4c,128,3); 
 }
       
-int Testmain3(void){   // Testmain3
+int main(void){   // Testmain3
   Count4 = 0;          
   OS_Init();           // initialize, disable interrupts
 

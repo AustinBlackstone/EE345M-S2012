@@ -58,13 +58,6 @@ void ADC_Init(unsigned long freq){
     // ADC Pins are dedicated.
     // No need to get GPIO Type
     
-    // Init ADC Timer  (Default @ 1KHz)
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
-    TimerConfigure(TIMER0_BASE, TIMER_CFG_32_BIT_PER);
-    TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
-    TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet() / 1000);
-    TimerEnable(TIMER0_BASE, TIMER_A);
-    
     // Set status
     adc_status = ADC_IDLE;
 }
