@@ -28,6 +28,8 @@ unsigned int adc_samples;
 unsigned char adc_status;
 void (*function)(unsigned short);
 
+extern int TIMELORD;
+
 // ADC Interrupt Handler
 void ADCIntHandler(){
   // Clear Interrupt
@@ -38,6 +40,9 @@ void ADCIntHandler(){
   
   // Call Periodic function
   function(adc_last_value);
+  
+  // Global timer
+  TIMELORD++;
   
   // Check to see if we're done
   if (--adc_samples == 0){

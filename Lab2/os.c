@@ -84,6 +84,7 @@ void OS_Init(void){
   TimerConfigure(TIMER0_BASE, TIMER_CFG_32_BIT_PER);
   TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
   TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+  IntEnable(INT_TIMER0A);
   //TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet() / 1000);
   //TimerEnable(TIMER0_BASE, TIMER_A);
   
@@ -588,7 +589,7 @@ void OS_SelectSwitch_Handler(){
 	currentTime=OS_MsTime();
 	GPIO_PORTF_ICR_R = 0x02; //clear flag
 	if(currentTime-SDEBOUNCEPREV > 300){
-		(*BUTTONTASK)();	   //supposed to trigger the function that button task points to
+		BUTTONTASK();	   //supposed to trigger the function that button task points to
 	}	
 	SDEBOUNCEPREV=currentTime;
 return;	
