@@ -411,12 +411,6 @@ void Thread4c(void){ int i;
   //for(i=0;i<64;i++){
     Count4++;
     
-    // Toggle Debug LED
-    if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
-      GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 1);
-    else
-      GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
-    
     //OS_Sleep(10);
   //}
   OS_Kill();
@@ -477,7 +471,15 @@ void Thread3d(void){
     Count3++;
   }
 }
-void Thread4d(void){ int i;
+void Thread4d(void){
+  int i;
+    
+  // Toggle Debug LED
+  if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
+    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 1);
+  else
+    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
+      
   for(i=0;i<640;i++){
     Count4++;
     OS_Sleep(1);
@@ -487,7 +489,7 @@ void Thread4d(void){ int i;
 void BackgroundThread5d(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4d,128,3); 
 }
-int main4(void){   // Testmain4
+int main(void){   // Testmain4
   Count4 = 0;          
   OS_Init();           // initialize, disable interrupts
   NumCreated = 0 ;

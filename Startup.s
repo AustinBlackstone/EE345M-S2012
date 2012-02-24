@@ -83,7 +83,6 @@ __heap_limit
 ;
 ;******************************************************************************
         EXTERN  UARTIntHandler
-        EXTERN  Timer2A_Handler
     		EXTERN  RUNPT
     		EXTERN  OS_SysTick_Handler
     		EXTERN  PendSV_Handler

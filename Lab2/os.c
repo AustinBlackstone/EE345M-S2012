@@ -65,7 +65,6 @@ void Timer0A_Handler(){
 // input:  none
 // output: none
 void OS_Init(void){
-	int delay;
 	DisableInterrupts();
 	RUNPT=0;
 
@@ -118,7 +117,7 @@ void OS_Init(void){
   
   /* This works for now, but Stellarisware Function owuld be nice */
   SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
-	delay = SYSCTL_RCGC2_R;		    //delay, cause i said so
+//	delay = SYSCTL_RCGC2_R;		    //delay, cause i said so
 	GPIO_PORTF_DIR_R &= ~0x02;    // (c) make PF1 in
 	GPIO_PORTF_DEN_R |= 0x02;     //     enable digital I/O on PF1
 	GPIO_PORTF_IS_R &= ~0x02;     // (d) PF1 is edge-sensitive
