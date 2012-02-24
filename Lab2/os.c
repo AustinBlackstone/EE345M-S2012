@@ -8,7 +8,6 @@
 #include "os.h"
 #include "lm3s8962.h"
 #include "Startup.h"
-#include "uart_echo_mod.h"
 
 #include "inc/hw_ints.h"
 #include "inc/hw_memmap.h"
@@ -25,6 +24,7 @@
 #include "FIFO.h"
 #include "adc.h"
 #include "uart.h"
+
 #define  NULL 0
 
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
@@ -91,14 +91,14 @@ void OS_Init(void){
   GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
 
 	//Semaphores, OS Stuff
-	//OS_InitSemaphore(&oled_free,0);
-	//OS_InitSemaphore(&OSMailBoxSema4,0);
-	//OS_MailBox_Init();
+	OS_InitSemaphore(&oled_free,0);
+	OS_InitSemaphore(&OSMailBoxSema4,0);
+	OS_MailBox_Init();
 	
 	//UART & OLED 
-//	RIT128x96x4Init(1000000); //Init OLED
-//	UARTInit();
-//	RIT128x96x4StringDraw("Hello World", 0, 12, 15);
+	UARTInit();
+	RIT128x96x4Init(1000000); //Init OLED
+	RIT128x96x4StringDraw("Hello World", 0, 12, 15);
 	
 	
 	//ADC
@@ -353,7 +353,7 @@ void OS_Sleep(unsigned long sleepTime){
 	RUNPT->sleep = sleepTime;
 	//cause SYSTICK Interrupt / switch threads
 	NVIC_ST_CURRENT_R =0;
-	NVIC_INT_CTRL_R = 0x04000000;
+	NVIC_INT_CTRL_R = 0x04000000; // TODO: Why not set the Systick counter to 0?
 
 return;
 }
@@ -386,7 +386,7 @@ return;
 void OS_Suspend(void){
 	//trigger SysTick (aka the thread scheduler)
 	NVIC_ST_CURRENT_R =0;
-	NVIC_INT_CTRL_R = 0x04000000;
+	NVIC_INT_CTRL_R = 0x04000000; // TODO: Why not set the Systick counter to 0?
 return;
 }
  
@@ -576,9 +576,10 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 // output: none, should switch threads when finished
 void OS_SysTick_Handler(void){
 	tcbType *i;
-  int status;
+  
+  DisableInterrupts();
+    
 	//Thread Scheduler
-	status=StartCritical();
 	for(i=RUNPT->next; i->sleep!=0 || i->blockedOn!=0; i=i->next){
 		if(i->sleep>0){//decriment sleep counter
 			i->sleep=i->sleep-1;
@@ -587,7 +588,7 @@ void OS_SysTick_Handler(void){
   
 	NEXTRUNPT=i;
   
-	EndCritical(status);
+  EnableInterrupts();
   
 	//Switch Threads (trigger PendSV)
 	NVIC_INT_CTRL_R = 0x10000000;

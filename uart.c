@@ -6,51 +6,39 @@
 #include "driverlib/interrupt.h"
 #include "driverlib/gpio.h"
 
-
 #include "FIFO.h"
 #include "uart.h"
 #include "rit128x96x4.h"
 
-AddIndexFifo(In,128,char,1,0)
-AddIndexFifo(Out,128,char,1,0)
-AddIndexFifo(Cmd,64,char,1,0)
+AddIndexFifo(In, 128,char,1,0);
+AddIndexFifo(Out,128,char,1,0);
+AddIndexFifo(Cmd, 64,char,1,0);
 char uart_outChar;
 
 void UARTIntHandler(void)
 {
 	
-    unsigned long ulStatus;
-	
-	
-    //
-    // Get the interrrupt status.
-    //
-    ulStatus = UARTIntStatus(UART0_BASE, true);
+  unsigned long ulStatus;
 
-    //
-    // Clear the asserted interrupts.
-    //
-    UARTIntClear(UART0_BASE, ulStatus);
+  // Get the interrrupt status.
+  ulStatus = UARTIntStatus(UART0_BASE, true);
 
-    //
-    // Loop while there are characters in the receive FIFO.
-    //
-	while(UARTCharsAvail(UART0_BASE))
+  // Clear the asserted interrupts.
+  UARTIntClear(UART0_BASE, ulStatus);
+
+  // Loop while there are characters in the receive FIFO.
+  while(UARTCharsAvail(UART0_BASE))
     {
-        //
-        // Read the next character from the UART and write it back to the UART.
-        //
-
-    		//take input from hardware in fifo and put into harware out fifo	
-    		InFifo_Put(UARTCharGetNonBlocking(UART0_BASE));        
-        
-        //UARTCharPutNonBlocking(UART0_BASE, UARTCharGetNonBlocking(UART0_BASE));
-  	    //oLED_Message(bottom,0,*pucBuffer,0);
+      // Read the next character from the UART and write it back to the UART.
+  
+  		//take input from hardware in fifo and put into harware out fifo	
+  		InFifo_Put(UARTCharGetNonBlocking(UART0_BASE));        
+      
+      //UARTCharPutNonBlocking(UART0_BASE, UARTCharGetNonBlocking(UART0_BASE));
+      //oLED_Message(bottom,0,*pucBuffer,0);
     }
 
-	//
  	// while space available and there is something to output, output to hardware fifo
-	//
 	while(UARTSpaceAvail(UART0_BASE) && OutFifo_Get(&uart_outChar) ){ //possible ERROR on &outChar, not sure if i used it correctly
 		UARTCharPutNonBlocking(UART0_BASE, uart_outChar);
 //		oLED_Message(bottom,0,&outChar,-0);
@@ -115,6 +103,7 @@ void UARTParse(){
       
     UARTIntHandler();
 }
+
 
 void UARTInit(){
   SysCtlPeripheralEnable(SYSCTL_PERIPH_UART0);

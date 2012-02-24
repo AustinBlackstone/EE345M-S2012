@@ -253,7 +253,7 @@ void Interpreter(void){ // Pipe to UART Parser (localvars in uart.c, etc...)
 //--------------end of Task 5-----------------------------
 
 //*******************final user main DEMONTRATE THIS TO TA**********
-int mainmain(void){ 
+int main(void){ 
   OS_Init();           // initialize, disable interrupts
 
   DataLost = 0;        // lost data between producer and consumer
@@ -262,23 +262,23 @@ int mainmain(void){
   MinJitter = 10000000;
 
 //********initialize communication channels
-  OS_MailBox_Init();
-  OS_Fifo_Init(4);    // ***note*** 4 is not big enough*****
+  //OS_MailBox_Init();
+  OS_Fifo_Init(8);    // ***note*** 4 is not big enough*****
 
 //*******attach background tasks***********
   OS_AddButtonTask(&ButtonPush,2);
-  OS_AddPeriodicThread(&DAS,PERIOD,1); // 2 kHz real time sampling
+  //OS_AddPeriodicThread(&DAS,PERIOD,1); // 2 kHz real time sampling
 
   NumCreated = 0 ;
 // create initial foreground threads
   NumCreated += OS_AddThread(&Interpreter,128,2); 
-  NumCreated += OS_AddThread(&Consumer,128,1); 
-  NumCreated += OS_AddThread(&PID,128,3); 
+  //NumCreated += OS_AddThread(&Consumer,128,1); 
+  //NumCreated += OS_AddThread(&PID,128,3); 
  
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;             // this never executes
 }
-
+/*
 //+++++++++++++++++++++++++DEBUGGING CODE++++++++++++++++++++++++
 // ONCE YOUR RTOS WORKS YOU CAN COMMENT OUT THE REMAINING CODE
 // 
@@ -296,7 +296,7 @@ unsigned long Count2;   // number of times thread2 loops
 unsigned long Count3;   // number of times thread3 loops
 unsigned long Count4;   // number of times thread4 loops
 unsigned long Count5;   // number of times thread5 loops
-/*void Thread1(void){
+void Thread1(void){
   Count1 = 0;          
   for(;;){
     Count1++;
@@ -431,7 +431,7 @@ int main3(void){   // Testmain3
   //NumCreated += OS_AddThread(&Thread4c,128,3); 
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;  // this never executes
-}*/
+}
 
 //*******************Fourth TEST**********
 // Once the third test runs, run this example
@@ -476,7 +476,7 @@ void Thread4d(void){
     
   // Toggle Debug LED
   if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
-    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 1);
+    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
   else
     GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
       
@@ -501,5 +501,5 @@ int main(void){   // Testmain4
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;  // this never executes
 }
-
+*/
 
