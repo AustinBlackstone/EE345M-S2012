@@ -85,9 +85,11 @@ void OS_Init(void){
   TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
   TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
   IntEnable(INT_TIMER0A);
-  //TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet() / 1000);
-  //TimerEnable(TIMER0_BASE, TIMER_A);
   
+  // Init Debugging LED
+  SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+  GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_0);
+  GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
 
 	//Semaphores, OS Stuff
 	//OS_InitSemaphore(&oled_free,0);
@@ -104,9 +106,19 @@ void OS_Init(void){
 //  ADC_Init(1000); // Init ADC to run @ 1KHz
 
 
-	////Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
-	SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
-	delay = SYSCTL_RCGC2_R;		  //delay, cause i said so
+	//Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
+	//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+  /*GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);
+  IntEnable(INT_GPIOF);  
+  //IntPrioritySet(INT_GPIOF, 0x00);
+  GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_BOTH_EDGES);
+  GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);*/
+  //NVIC_EN0_R |= 0x40000000;     // (h) enable interrupt 2 in NVIC (Not sure what Stellarisware function replaces this)
+  
+  
+  /* This works for now, but Stellarisware Function owuld be nice */
+  SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
+	delay = SYSCTL_RCGC2_R;		    //delay, cause i said so
 	GPIO_PORTF_DIR_R &= ~0x02;    // (c) make PF1 in
 	GPIO_PORTF_DEN_R |= 0x02;     //     enable digital I/O on PF1
 	GPIO_PORTF_IS_R &= ~0x02;     // (d) PF1 is edge-sensitive
@@ -115,9 +127,9 @@ void OS_Init(void){
 	GPIO_PORTF_ICR_R = 0x02;      // (e) clear flag4
 	GPIO_PORTF_IM_R |= 0x02;      // (f) arm interrupt on PF1
 	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|(0<<21); // (g) priority (shifted into place) (will get set in OS_AddButtonTask)
-	NVIC_EN0_R |= 0x40000000;    // (h) enable interrupt 2 in NVIC
+	NVIC_EN0_R |= 0x40000000;     // (h) enable interrupt 2 in NVIC
 	//dont enable interrupts 
-	GPIO_PORTF_PUR_R |= 0x02;	 //add pull up resistor, just for shits and giggles
+	GPIO_PORTF_PUR_R |= 0x02;	    //add pull up resistor, just for shits and giggles
   
 /*	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);	  	// Enable GPIOF
   	GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);	// make Pin 1 an Input
@@ -148,7 +160,7 @@ void OS_Wait(Sema4Type *s){
 		EnableInterrupts();
 		DisableInterrupts();
 	}
-	s->Value =s->Value-1;
+	s->Value--;
 	EnableInterrupts();
 }
 
@@ -159,7 +171,7 @@ void OS_Wait(Sema4Type *s){
 void OS_Signal(Sema4Type *s){
 	long status;
 	status=StartCritical();
-	s->Value= s->Value+1;
+  s->Value++;
 	EndCritical(status);
 	//TODO: wakeup blocked thread
 }
@@ -208,7 +220,7 @@ return;
 // In Lab 3, you can ignore the stackSize fields
 int OS_AddThread(void(*task)(void), 
    unsigned long stackSize, unsigned long priority){
-	  int x=0, found;
+	  int x=0, found, status;
     /*
     // Find unused thread
     while(x<NUMTHREADS)
@@ -227,7 +239,7 @@ int OS_AddThread(void(*task)(void),
 	  for(x=0,found=0;(x<NUMTHREADS) && (found==0);x++){	 //loop untill you find a non used thread
 			if(tcbs[x].used==0){
 				found=1;
-				//status=StartCritical();			//possible critical section?	
+				status=StartCritical();			//possible critical section?	
 				OS_ThreadInit(&tcbs[x],0xFFFA-x);
 				tcbs[x].used=1;
 				if(NumCreated==0){					//First Thread Ever, needs special case for it's RUNPT, b/c there is no run pointer previously
@@ -242,7 +254,7 @@ int OS_AddThread(void(*task)(void),
 				
 				}
 				tcbs[x].stack[STACKSIZE-2]=(long)task; //POSSIBLE ERROR, PC=task, i think this works... right??
-				//EndCritical(status);				//end of possible critical section?
+				EndCritical(status);				//end of possible critical section?
 				tcbs[x].realPriority=priority;
 				tcbs[x].workingPriority=priority;
 				tcbs[x].id=++IDCOUNT;
@@ -556,10 +568,6 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 	  toSet->blockedOn=0;								//
 	  toSet->realPriority=0;
 	  toSet->workingPriority=0;
-
-
-
-return;
 }
 
 // ******** OS_SysTick_Handler ************
@@ -569,14 +577,19 @@ return;
 // output: none, should switch threads when finished
 void OS_SysTick_Handler(void){
 	tcbType *i;
+  int status;
 	//Thread Scheduler
+	status=StartCritical();
 	for(i=RUNPT->next; i->sleep!=0 || i->blockedOn!=0; i=i->next){
 		if(i->sleep>0){//decriment sleep counter
 			i->sleep=i->sleep-1;
 			}
 	}
+  
 	NEXTRUNPT=i;
-
+  
+	EndCritical(status);
+  
 	//Switch Threads (trigger PendSV)
 	NVIC_INT_CTRL_R = 0x10000000;
 }
@@ -586,12 +599,17 @@ void OS_SysTick_Handler(void){
 // input: none,  
 // output: none, 
 void OS_SelectSwitch_Handler(){
-	long currentTime;
-	currentTime=OS_MsTime();
-	GPIO_PORTF_ICR_R = 0x02; //clear flag
-	if(currentTime-SDEBOUNCEPREV > 300){
+  // TODO: Button still bounces...
+
+  GPIOPinIntDisable(GPIO_PORTF_BASE, GPIO_PIN_1);
+	GPIOPinIntClear(GPIO_PORTF_BASE, GPIO_PIN_1);
+  
+	//currentTime=OS_MsTime();
+  while(OS_MsTime() - SDEBOUNCEPREV < 10);  // Wait for 10 ms
+	if(GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1) == 0){
 		BUTTONTASK();	   //supposed to trigger the function that button task points to
 	}	
-	SDEBOUNCEPREV=currentTime;
-return;	
+	SDEBOUNCEPREV=OS_MsTime();
+  
+  GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);
 }

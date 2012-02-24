@@ -8,13 +8,17 @@
 #include <stdio.h>
 #include <string.h>
 #include "inc/hw_types.h"
+#include "inc/hw_ints.h"
+#include "inc/hw_memmap.h"
 //#include "serial.h"
-#include "uart_echo_mod.h"
+//#include "uart_echo_mod.h"
 #include "rit128x96x4.h"
 #include "adc.h"
 #include "os.h"
+#include "gpio.h"
 #include "uart.h"
 #include "inc/lm3s8962.h"
+#include "driverlib/sysctl.h"
 
 unsigned long NumCreated;   // number of foreground threads created
 unsigned long PIDWork;      // current number of PID calculations finished
@@ -292,7 +296,7 @@ unsigned long Count2;   // number of times thread2 loops
 unsigned long Count3;   // number of times thread3 loops
 unsigned long Count4;   // number of times thread4 loops
 unsigned long Count5;   // number of times thread5 loops
-void Thread1(void){
+/*void Thread1(void){
   Count1 = 0;          
   for(;;){
     Count1++;
@@ -390,7 +394,7 @@ void Thread2c(void){
   Count2 = 0;    
   Count5 = 0;    // Count2 + Count5 should equal Count1  
   NumCreated += OS_AddThread(&Thread5c,128,3); 
-  OS_AddPeriodicThread(&BackgroundThread1c, TIME_1MS, 0); 
+  OS_AddPeriodicThread(&BackgroundThread1c, SysCtlClockGet()/1000, 0); 
   for(;;){
     OS_Wait(&Readyc);
     Count2++;   // Count2 + Count5 should equal Count1
@@ -404,18 +408,25 @@ void Thread3c(void){
   }
 }
 void Thread4c(void){ int i;
-  for(i=0;i<64;i++){
+  //for(i=0;i<64;i++){
     Count4++;
-    OS_Sleep(10);
-  }
+    
+    // Toggle Debug LED
+    if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
+      GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 1);
+    else
+      GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
+    
+    //OS_Sleep(10);
+  //}
   OS_Kill();
-  Count4 = 0;
+  //Count4 = 0;
 }
 void BackgroundThread5c(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4c,128,3); 
 }
       
-int main(void){   // Testmain3
+int main3(void){   // Testmain3
   Count4 = 0;          
   OS_Init();           // initialize, disable interrupts
 
@@ -423,10 +434,10 @@ int main(void){   // Testmain3
   OS_AddButtonTask(&BackgroundThread5c,2);
   NumCreated += OS_AddThread(&Thread2c,128,2); 
   NumCreated += OS_AddThread(&Thread3c,128,3); 
-  NumCreated += OS_AddThread(&Thread4c,128,3); 
+  //NumCreated += OS_AddThread(&Thread4c,128,3); 
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;  // this never executes
-}
+}*/
 
 //*******************Fourth TEST**********
 // Once the third test runs, run this example
