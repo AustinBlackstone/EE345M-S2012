@@ -305,7 +305,8 @@ int OS_AddPeriodicThread(void(*task)(void),
 // In lab 3, there will be up to four background threads, and this priority field 
 //           determines the relative priority of these four threads
 int OS_AddButtonTask(void(*task)(void), unsigned long priority){
-	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|(priority<<21); // (g) priority (shifted into place)
+	//TODO: add this back in to implement priority
+//	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|(priority<<21); // (g) priority (shifted into place)
 	BUTTONTASK=task;   //POSSIBLE ERROR
 	//for the record the header on this is confusing as balls, this doesnt add a thread, it sets up an interrupt so IT will call a function that will add a thread. FML
 

@@ -292,7 +292,7 @@ unsigned long Count2;   // number of times thread2 loops
 unsigned long Count3;   // number of times thread3 loops
 unsigned long Count4;   // number of times thread4 loops
 unsigned long Count5;   // number of times thread5 loops
-/*void Thread1(void){
+void Thread1(void){
   Count1 = 0;          
   for(;;){
     Count1++;
@@ -326,7 +326,7 @@ int main1(void){
   return 0;             // this never executes
 }
 
-//*******************Second TEST**********
+// *******************Second TEST**********
 // Once the initalize test runs, test this 
 // no UART interrupts
 // SYSTICK interrupts, with or without period established by OS_Launch
@@ -361,7 +361,7 @@ int main2(void){  // testmain2
  
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;             // this never executes
-}*/
+}
 
 //*******************Third TEST**********
 // Once the second test runs, test this 
@@ -476,7 +476,7 @@ void Thread4d(void){ int i;
 void BackgroundThread5d(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4d,128,3); 
 }
-int Testmain4(void){   // Testmain4
+int main4(void){   // Testmain4
   Count4 = 0;          
   OS_Init();           // initialize, disable interrupts
   NumCreated = 0 ;
