@@ -285,6 +285,7 @@ int OS_AddPeriodicThread(void(*task)(void),
   // Set timer period
   TimerLoadSet(TIMER0_BASE, TIMER_A, period);
   TimerEnable(TIMER0_BASE, TIMER_A);
+  IntEnable(INT_TIMER0A);
   
   // Set function pointer
   periodicFunc = task;
