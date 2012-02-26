@@ -38,8 +38,8 @@ void (*BUTTONTASK)(void);   // pointer to task that gets called when you press a
 long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous value
 long TIMELORD; 
 extern unsigned long NumCreated; // number of foreground threads created, referenced from lab2.c
-	
-void(*periodicFunc)(void);
+
+void(*periodic[4])(void);  // Four periodic functions
   
 //Semaphores used for program
 Sema4Type oled_free;
@@ -49,39 +49,53 @@ Sema4Type OSMailBoxSema4;
 #define	OSFIFOSIZE	64
 AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 
-
 // Timer0A Int Handler
 void Timer0A_Handler(){
   // Clear Interrupt
   TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
   
-  // Run Periodic function
-  periodicFunc();
+  // Update global timer
+  TIMELORD++;  
 }
 // Timer0A Int Handler
 void Timer0B_Handler(){
   // Clear Interrupt
   TimerIntClear(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
+  
+  // Does nothing right now
 }
 // Timer0A Int Handler
+// Periodic Thread 1
 void Timer1A_Handler(){
   // Clear Interrupt
   TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
+  
+  // Run First Periodic Function
+  (periodic[0])();
 }
 // Timer0A Int Handler
 void Timer1B_Handler(){
   // Clear Interrupt
   TimerIntClear(TIMER1_BASE, TIMER_TIMB_TIMEOUT);
+   
+  // Run First Periodic Function
+  (periodic[1])();
 }
 // Timer0A Int Handler
 void Timer2A_Handler(){
   // Clear Interrupt
   TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
+   
+  // Run First Periodic Function
+  (periodic[2])();
 }
 // Timer0A Int Handler
 void Timer2B_Handler(){
   // Clear Interrupt
   TimerIntClear(TIMER2_BASE, TIMER_TIMB_TIMEOUT);
+   
+  // Run First Periodic Function
+  (periodic[3])();
   
 }
 
@@ -112,27 +126,22 @@ void OS_Init(void){
   TimerControlTrigger(TIMER0_BASE, TIMER_B, true);
   TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
   TimerIntEnable(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
-  IntEnable(INT_TIMER0A);
-  IntEnable(INT_TIMER0B);
-  
+  IntEnable(INT_TIMER0A);     // TIMELORD updater
+  //IntEnable(INT_TIMER0B);   // Not in use right now
   
   SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
   TimerConfigure(TIMER1_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
-  TimerControlTrigger(TIMER1_BASE, TIMER_A, true);
-  TimerControlTrigger(TIMER1_BASE, TIMER_B, true);
+  TimerControlTrigger(TIMER1_BASE, TIMER_A, true);  // Periodic Timer 1
+  TimerControlTrigger(TIMER1_BASE, TIMER_B, true);  // Periodic Timer 2
   TimerIntEnable(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
   TimerIntEnable(TIMER1_BASE, TIMER_TIMB_TIMEOUT);
-  IntEnable(INT_TIMER1A);
-  IntEnable(INT_TIMER1B);
   
   SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);
   TimerConfigure(TIMER2_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
-  TimerControlTrigger(TIMER2_BASE, TIMER_A, true);
-  TimerControlTrigger(TIMER2_BASE, TIMER_B, true);
+  TimerControlTrigger(TIMER2_BASE, TIMER_A, true);  // Periodic Timer 3
+  TimerControlTrigger(TIMER2_BASE, TIMER_B, true);  // Periodic Timer 4
   TimerIntEnable(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
   TimerIntEnable(TIMER2_BASE, TIMER_TIMB_TIMEOUT);
-  IntEnable(INT_TIMER2A);
-  IntEnable(INT_TIMER2B);
   
   // Init Debugging LED
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
@@ -342,13 +351,46 @@ unsigned long OS_Id(void){
 int OS_AddPeriodicThread(void(*task)(void), 
   unsigned long period, unsigned long priority){
   
-  // Set timer period
-  TimerLoadSet(TIMER0_BASE, TIMER_A, period);
-  TimerEnable(TIMER0_BASE, TIMER_A);
-  IntEnable(INT_TIMER0A);
-  
-  // Set function pointer
-  periodicFunc = task;
+  if (periodic[0] == NULL){
+    // Set function pointer
+    periodic[0] = task;
+    
+    // Startup timer
+    IntDisable(INT_TIMER1A);
+    TimerLoadSet(TIMER1_BASE, TIMER_A, period);
+    TimerEnable(TIMER1_BASE, TIMER_A);
+    IntEnable(INT_TIMER1A);
+  }else if (periodic[1] == NULL){
+    // Set function pointer
+    periodic[1] = task;
+    
+    // Startup timer
+    IntDisable(INT_TIMER1B);
+    TimerLoadSet(TIMER1_BASE, TIMER_B, period);
+    TimerEnable(TIMER1_BASE, TIMER_B);
+    IntEnable(INT_TIMER1B);
+  }else if (periodic[2] == NULL){
+    // Set function pointer
+    periodic[2] = task;
+    
+    // Startup timer
+    IntDisable(INT_TIMER2A);
+    TimerLoadSet(TIMER2_BASE, TIMER_A, period);
+    TimerEnable(TIMER2_BASE, TIMER_A);
+    IntEnable(INT_TIMER2A);
+  }else if (periodic[3] == NULL){
+    // Set function pointer
+    periodic[3] = task;
+    
+    // Startup timer
+    IntDisable(INT_TIMER2B);
+    TimerLoadSet(TIMER2_BASE, TIMER_B, period);
+    TimerEnable(TIMER2_BASE, TIMER_B);
+    IntEnable(INT_TIMER2B);
+  }else{
+    // Apparenty all periodic threads are in use
+    return 0;
+  }
   
   return 1; // For now
 }
