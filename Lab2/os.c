@@ -86,10 +86,6 @@ void Timer2B_Handler(){
 }
 
 
-
-
-
-
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
 // initialize OS controlled I/O: serial, ADC, systick, select switch and timer2 
@@ -421,10 +417,10 @@ void OS_Kill(void){
 	RUNPT->used=0;
 	RUNPT->prev->next=RUNPT->next;
 	RUNPT->next->prev=RUNPT->prev;
-	RUNPT->id=0x0DEADDEAD; //get it, the threads dead, hehehe, clever little bastard aint i?
+	RUNPT->id=0xDEADDEAD; //get it, the threads dead, hehehe, clever little bastard aint i?
 	//trigger SysTick, .'. the thread scheduler to run, next loop around this thread wont be here
-	NVIC_ST_CURRENT_R =0;
-	NVIC_INT_CTRL_R = 0x04000000;
+	NVIC_ST_CURRENT_R=0;
+	//NVIC_INT_CTRL_R = 0x04000000;
 	EnableInterrupts();
 return;
 }
