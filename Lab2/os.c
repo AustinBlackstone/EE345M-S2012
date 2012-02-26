@@ -402,7 +402,8 @@ void OS_Sleep(unsigned long sleepTime){
 	RUNPT->sleep = sleepTime;
 	//cause SYSTICK Interrupt / switch threads
 	NVIC_ST_CURRENT_R =0;
-	NVIC_INT_CTRL_R = 0x04000000; // TODO: Why not set the Systick counter to 0?
+	OS_SysTick_Handler();
+	//NVIC_INT_CTRL_R = 0x04000000; // TODO: Why not set the Systick counter to 0?
 
 return;
 }
@@ -435,7 +436,7 @@ return;
 void OS_Suspend(void){
 	//trigger SysTick (aka the thread scheduler)
 	NVIC_ST_CURRENT_R =0;
-	NVIC_INT_CTRL_R = 0x04000000; // TODO: Why not set the Systick counter to 0?
+	OS_SysTick_Handler();
 return;
 }
  
