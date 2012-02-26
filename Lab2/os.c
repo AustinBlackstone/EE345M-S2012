@@ -50,7 +50,7 @@ Sema4Type OSMailBoxSema4;
 AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 
 
-// TImer0A Int Handler
+// Timer0A Int Handler
 void Timer0A_Handler(){
   // Clear Interrupt
   TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
@@ -58,6 +58,37 @@ void Timer0A_Handler(){
   // Run Periodic function
   periodicFunc();
 }
+// Timer0A Int Handler
+void Timer0B_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
+}
+// Timer0A Int Handler
+void Timer1A_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
+}
+// Timer0A Int Handler
+void Timer1B_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER1_BASE, TIMER_TIMB_TIMEOUT);
+}
+// Timer0A Int Handler
+void Timer2A_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
+}
+// Timer0A Int Handler
+void Timer2B_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER2_BASE, TIMER_TIMB_TIMEOUT);
+  
+}
+
+
+
+
+
 
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
@@ -78,12 +109,34 @@ void OS_Init(void){
 	//Systick Init (Thread Scheduler)
 		 //taken care of in OS_Launch
      
-  // Init ADC Timer  (Default @ 1KHz)
+  // Imter Initis caglore!
   SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
-  TimerConfigure(TIMER0_BASE, TIMER_CFG_32_BIT_PER);
+  TimerConfigure(TIMER0_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
   TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
+  TimerControlTrigger(TIMER0_BASE, TIMER_B, true);
   TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+  TimerIntEnable(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
   IntEnable(INT_TIMER0A);
+  IntEnable(INT_TIMER0B);
+  
+  
+  SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
+  TimerConfigure(TIMER1_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
+  TimerControlTrigger(TIMER1_BASE, TIMER_A, true);
+  TimerControlTrigger(TIMER1_BASE, TIMER_B, true);
+  TimerIntEnable(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
+  TimerIntEnable(TIMER1_BASE, TIMER_TIMB_TIMEOUT);
+  IntEnable(INT_TIMER1A);
+  IntEnable(INT_TIMER1B);
+  
+  SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);
+  TimerConfigure(TIMER2_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
+  TimerControlTrigger(TIMER2_BASE, TIMER_A, true);
+  TimerControlTrigger(TIMER2_BASE, TIMER_B, true);
+  TimerIntEnable(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
+  TimerIntEnable(TIMER2_BASE, TIMER_TIMB_TIMEOUT);
+  IntEnable(INT_TIMER2A);
+  IntEnable(INT_TIMER2B);
   
   // Init Debugging LED
   SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
@@ -580,7 +633,7 @@ void OS_SysTick_Handler(void){
   DisableInterrupts();
     
 	//Thread Scheduler
-	for(i=RUNPT->next; i->sleep!=0 || i->blockedOn!=0; i=i->next){
+	for(i=RUNPT->next; i->sleep>0 || i->blockedOn!=0; i=i->next){
 		if(i->sleep>0){//decriment sleep counter
 			i->sleep=i->sleep-1;
 			}

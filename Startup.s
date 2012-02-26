@@ -88,6 +88,11 @@ __heap_limit
     		EXTERN  PendSV_Handler
     		EXTERN	OS_SelectSwitch_Handler
         EXTERN  Timer0A_Handler
+        EXTERN  Timer0B_Handler
+        EXTERN  Timer1A_Handler
+        EXTERN  Timer1B_Handler
+        EXTERN  Timer2A_Handler
+        EXTERN  Timer2B_Handler
 ;******************************************************************************
 ;
 ; The vector table.
@@ -131,11 +136,11 @@ __Vectors
         DCD     IntDefaultHandler           ; ADC Sequence 3
         DCD     IntDefaultHandler           ; Watchdog
         DCD     Timer0A_Handler             ; Timer 0A
-        DCD     IntDefaultHandler           ; Timer 0B
-        DCD     IntDefaultHandler           ; Timer 1A
-        DCD     IntDefaultHandler           ; Timer 1B
-        DCD     IntDefaultHandler           ; Timer 2A
-        DCD     IntDefaultHandler           ; Timer 2B
+        DCD     Timer0B_Handler             ; Timer 0B
+        DCD     Timer1A_Handler             ; Timer 1A
+        DCD     Timer1B_Handler             ; Timer 1B
+        DCD     Timer2A_Handler             ; Timer 2A
+        DCD     Timer2B_Handler             ; Timer 2B
         DCD     IntDefaultHandler           ; Comp 0
         DCD     IntDefaultHandler           ; Comp 1
         DCD     IntDefaultHandler           ; Comp 2

@@ -253,7 +253,7 @@ void Interpreter(void){ // Pipe to UART Parser (localvars in uart.c, etc...)
 //--------------end of Task 5-----------------------------
 
 //*******************final user main DEMONTRATE THIS TO TA**********
-int main(void){ 
+int mainmain(void){ 
   OS_Init();           // initialize, disable interrupts
 
   DataLost = 0;        // lost data between producer and consumer
@@ -278,7 +278,7 @@ int main(void){
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;             // this never executes
 }
-/*
+
 //+++++++++++++++++++++++++DEBUGGING CODE++++++++++++++++++++++++
 // ONCE YOUR RTOS WORKS YOU CAN COMMENT OUT THE REMAINING CODE
 // 
@@ -296,7 +296,7 @@ unsigned long Count2;   // number of times thread2 loops
 unsigned long Count3;   // number of times thread3 loops
 unsigned long Count4;   // number of times thread4 loops
 unsigned long Count5;   // number of times thread5 loops
-void Thread1(void){
+/*void Thread1(void){
   Count1 = 0;          
   for(;;){
     Count1++;
@@ -432,6 +432,7 @@ int main3(void){   // Testmain3
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;  // this never executes
 }
+*/
 
 //*******************Fourth TEST**********
 // Once the third test runs, run this example
@@ -501,5 +502,4 @@ int main(void){   // Testmain4
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;  // this never executes
 }
-*/
 
