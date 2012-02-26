@@ -147,7 +147,7 @@ void OS_Init(void){
 	//UART & OLED 
 	UARTInit();
 	RIT128x96x4Init(1000000); //Init OLED
-	RIT128x96x4StringDraw("Hello World", 0, 12, 15);
+	//RIT128x96x4StringDraw("Hello World", 0, 12, 15);
 	
 	
 	//ADC
@@ -423,6 +423,7 @@ void OS_Kill(void){
 	NVIC_ST_CURRENT_R=0;
 	//NVIC_INT_CTRL_R = 0x04000000;
 	EnableInterrupts();
+	OS_SysTick_Handler();
 return;
 }
 
