@@ -40,10 +40,7 @@ void ADCIntHandler(){
   
   // Call Periodic function
   function(adc_last_value);
-  
-  // Global timer
-  TIMELORD++;
-  
+    
   // Check to see if we're done
   if (--adc_samples == 0){
     // Disable ADC Interrupts
@@ -79,7 +76,8 @@ void ADC_Enable(unsigned int samples){
     adc_status = ADC_BUSY;
     
     // Enable ADC Interrupts
-    ADCIntEnable(ADC0_BASE, 0);
+    //ADCIntEnable(ADC0_BASE, 0);
+    ADCProcessorTrigger(ADC0_BASE, 3);
 }
 
 // Perform ADC on Channel
@@ -95,7 +93,7 @@ unsigned short ADC_Read(unsigned int channelNum){
     ADC_Enable(1);
     
     // Wait for ADC to finish
-      while (adc_status != ADC_IDLE);
+    while (adc_status != ADC_IDLE);
     
     // Return value
     return (short) adc_last_value;
