@@ -958,7 +958,7 @@ void oLED_Message(int device, int line, char *string, long value){
 	//char combined[21];
 	int stringLength;
   
-  OS_bWait(&oled_free);
+    OS_bWait(&oled_free);
   
 	line=line%4; //limit line to value 0-3
 	sprintf(valueToString,"%d",value); //convert integer to string
@@ -975,8 +975,8 @@ void oLED_Message(int device, int line, char *string, long value){
 			RIT128x96x4StringDraw(valueToString , stringLength*COLUMWIDTH, line, 15);}
 		
 	}//else printf("ERROR: Top/Bottom not specified");
-
-  OS_bSignal(&oled_free);
+    
+    OS_bSignal(&oled_free);
 	return; 
 }
 

@@ -584,7 +584,7 @@ return temp;
 // It is ok to change the resolution and precision of this function as long as 
 //   this function and OS_TimeDifference have the same resolution and precision 
 unsigned long OS_Time(void){
-return SysTickValueGet(); //ERROR, this is TOTALLY INCORRECT but it approximates it, so bite me.
+return TimerValueGet(TIMER0_BASE, TIMER_A); //ERROR, this is TOTALLY INCORRECT but it approximates it, so bite me.
 }
 
 // ******** OS_TimeDifference ************
@@ -701,17 +701,23 @@ void OS_SysTick_Handler(void){
 // input: none,  
 // output: none, 
 void OS_SelectSwitch_Handler(){
-  // TODO: Button still bounces...
+    // TODO: Button still bounces a bit...
 
-  GPIOPinIntDisable(GPIO_PORTF_BASE, GPIO_PIN_1);
+    GPIOPinIntDisable(GPIO_PORTF_BASE, GPIO_PIN_1);
 	GPIOPinIntClear(GPIO_PORTF_BASE, GPIO_PIN_1);
   
+    // Toggle Debug LED
+    if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
+        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
+    else
+        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
+  
 	//currentTime=OS_MsTime();
-  while(OS_MsTime() - SDEBOUNCEPREV < 10);  // Wait for 10 ms
-	if(GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1) == 0){
-		BUTTONTASK();	   //supposed to trigger the function that button task points to
+    while(OS_MsTime() - SDEBOUNCEPREV < 10);  // Wait for 10 ms
+	    if(GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1) == 0){
+		    BUTTONTASK();	   //supposed to trigger the function that button task points to
 	}	
 	SDEBOUNCEPREV=OS_MsTime();
   
-  GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);
+    GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);
 }

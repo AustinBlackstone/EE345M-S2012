@@ -86,7 +86,7 @@ void ADC_Collect(unsigned int channelNum, unsigned int freq, void (*func)(unsign
     ASSERT(freq >= 100);
     ASSERT(freq <= 10000);
     
-    // Set channel to sample from
+    // Setup ADC Sequence
     ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_TIMER, 0);
     ADCSequenceStepConfigure(ADC0_BASE, 0, 0, channelNum | ADC_CTL_IE | ADC_CTL_END);
     ADCSequenceEnable(ADC0_BASE, 0);
