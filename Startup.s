@@ -93,6 +93,7 @@ __heap_limit
         EXTERN  Timer1B_Handler
         EXTERN  Timer2A_Handler
         EXTERN  Timer2B_Handler
+		EXTERN  ADCIntHandler
 ;******************************************************************************
 ;
 ; The vector table.
@@ -130,7 +131,7 @@ __Vectors
         DCD     IntDefaultHandler           ; PWM Generator 1
         DCD     IntDefaultHandler           ; PWM Generator 2
         DCD     IntDefaultHandler           ; Quadrature Encoder
-        DCD     IntDefaultHandler           ; ADC Sequence 0
+        DCD     ADCIntHandler               ; ADC Sequence 0
         DCD     IntDefaultHandler           ; ADC Sequence 1
         DCD     IntDefaultHandler           ; ADC Sequence 2
         DCD     IntDefaultHandler           ; ADC Sequence 3

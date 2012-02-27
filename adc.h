@@ -19,13 +19,10 @@ Description:    Helper functions for Timer-based ADC operation
 void ADC0IntHandler(void);
 
 // Initialize ADC w/ Timer0
-void ADC_Init(unsigned long freq);
+void ADC_Init(void);
 
 // Get status of ADC
 unsigned short ADC_Status(void);
-
-// Internally start ADC
-void ADC_Enable(unsigned int samples);
 
 // Perform ADC on Channel
 unsigned short ADC_Read(unsigned int channelNum);

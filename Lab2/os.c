@@ -119,38 +119,40 @@ void OS_Init(void){
 	//Systick Init (Thread Scheduler)
 	//taken care of in OS_Launch
      
-  // Imter Initis caglore!
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
-  TimerConfigure(TIMER0_BASE, (TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC));
-  TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
-  TimerControlTrigger(TIMER0_BASE, TIMER_B, true);
-  TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet()/1000);
-  TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
-  TimerIntEnable(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
-  IntEnable(INT_TIMER0A);     // TIMELORD updater
-  //IntEnable(INT_TIMER0B);   // Not in use right now
-  
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
-  TimerConfigure(TIMER1_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
-  TimerControlTrigger(TIMER1_BASE, TIMER_A, true);  // Periodic Timer 1
-  TimerControlTrigger(TIMER1_BASE, TIMER_B, true);  // Periodic Timer 2
-  TimerIntEnable(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
-  TimerIntEnable(TIMER1_BASE, TIMER_TIMB_TIMEOUT);
-  
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);
-  TimerConfigure(TIMER2_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
-  TimerControlTrigger(TIMER2_BASE, TIMER_A, true);  // Periodic Timer 3
-  TimerControlTrigger(TIMER2_BASE, TIMER_B, true);  // Periodic Timer 4
-  TimerIntEnable(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
-  TimerIntEnable(TIMER2_BASE, TIMER_TIMB_TIMEOUT);
-  
-  // Init Debugging LED
-  SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-  GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_0);
-  GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
+	// Timers galore!
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
+	TimerConfigure(TIMER0_BASE, (TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC));
+	TimerControlTrigger(TIMER0_BASE, TIMER_A, true);  // TIMELORD Updater
+	TimerControlTrigger(TIMER0_BASE, TIMER_B, true);  // ADC_Collect Timer
+	TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet()/1000);
+	TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+	TimerIntEnable(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
+	IntEnable(INT_TIMER0A);
+	  
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
+	TimerConfigure(TIMER1_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
+	TimerControlTrigger(TIMER1_BASE, TIMER_A, true);  // Periodic Timer 1
+	TimerControlTrigger(TIMER1_BASE, TIMER_B, true);  // Periodic Timer 2
+	TimerIntEnable(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
+	TimerIntEnable(TIMER1_BASE, TIMER_TIMB_TIMEOUT);
+	  
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER2);
+	TimerConfigure(TIMER2_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
+	TimerControlTrigger(TIMER2_BASE, TIMER_A, true);  // Periodic Timer 3
+	TimerControlTrigger(TIMER2_BASE, TIMER_B, true);  // Periodic Timer 4
+	TimerIntEnable(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
+	TimerIntEnable(TIMER2_BASE, TIMER_TIMB_TIMEOUT);
+	
+	// Init ADC Stuff
+    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
+	  
+	// Init Debugging LED
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+	GPIOPinTypeGPIOOutput(GPIO_PORTF_BASE, GPIO_PIN_0);
+	GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
 
 	//Semaphores, OS Stuff
-	OS_InitSemaphore(&oled_free,0);
+    OS_InitSemaphore(&oled_free,1);
 	OS_InitSemaphore(&OSMailBoxSema4,0);
 	OS_MailBox_Init();
 	
@@ -161,7 +163,7 @@ void OS_Init(void){
 	
 	
 	//ADC
-//  ADC_Init(1000); // Init ADC to run @ 1KHz
+    ADC_Init(); // Init ADC to run @ 1KHz
 
 
 	//Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
