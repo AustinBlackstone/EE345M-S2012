@@ -266,14 +266,14 @@ int main(void){
   OS_Fifo_Init(8);    // ***note*** 4 is not big enough*****
 
 //*******attach background tasks***********
-  OS_AddButtonTask(&ButtonPush,2);
+  //OS_AddButtonTask(&ButtonPush,2);
   OS_AddPeriodicThread(&DAS,PERIOD,1); // 2 kHz real time sampling
 
   NumCreated = 0 ;
 // create initial foreground threads
-  NumCreated += OS_AddThread(&Interpreter,128,2); 
-  NumCreated += OS_AddThread(&Consumer,128,1); 
-  NumCreated += OS_AddThread(&PID,128,3); 
+  //NumCreated += OS_AddThread(&Interpreter,128,2); 
+  //NumCreated += OS_AddThread(&Consumer,128,1); 
+  //NumCreated += OS_AddThread(&PID,128,3); 
  
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;             // this never executes
