@@ -554,8 +554,9 @@ void OS_MailBox_Init(void){
 // This function will be called from a foreground thread
 // It will spin/block if the MailBox contains data not yet received 
 void OS_MailBox_Send(unsigned long data){
-	OS_Wait(&OSMailBoxSema4);
-	OSMAILBOX=data;	
+	while(OSMailBoxSema4.Value != 0){;}//wait untill flag is put down
+	OSMAILBOX=data;
+	OSMailBoxSema4.Value=1;
 	return;
 }
 
@@ -566,13 +567,10 @@ void OS_MailBox_Send(unsigned long data){
 // This function will be called from a foreground thread
 // It will spin/block if the MailBox is empty 
 unsigned long OS_MailBox_Recv(void){
-	unsigned long temp;
-	while(OSMailBoxSema4.Value >0 ){  //POSSIBLE ERROR in how i acess value, while loop should be removed or rethought eventually
-	//implements spinning when mailbox is empty
-	;//TODO: implement blocking
-	}
+	int temp;
+	while(OSMailBoxSema4.Value !=1 ){;}//wait untill data in mailbox
 	temp = OSMAILBOX;
-	OS_Signal(&OSMailBoxSema4);
+	OSMailBoxSema4.Value=0;
 return temp;
 }
 

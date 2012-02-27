@@ -389,12 +389,12 @@
             <File>
               <FileName>Startup.s</FileName>
               <FileType>2</FileType>
-              <FilePath>C:\Users\Cruz Monrreal II\Desktop\EE345M-S2012\Startup.s</FilePath>
+              <FilePath>C:\Users\Jack\EE345M-S2012\Startup.s</FilePath>
             </File>
             <File>
               <FileName>rit128x96x4.c</FileName>
               <FileType>1</FileType>
-              <FilePath>C:\Users\Cruz Monrreal II\Desktop\EE345M-S2012\rit128x96x4.c</FilePath>
+              <FilePath>C:\Users\Jack\EE345M-S2012\rit128x96x4.c</FilePath>
             </File>
             <File>
               <FileName>os.c</FileName>
@@ -439,7 +439,7 @@
             <File>
               <FileName>driverlib.lib</FileName>
               <FileType>4</FileType>
-              <FilePath>C:\Users\Cruz Monrreal II\Desktop\EE345M-S2012\driverlib\rvmdk\driverlib.lib</FilePath>
+              <FilePath>C:\Users\Jack\EE345M-S2012\driverlib\rvmdk\driverlib.lib</FilePath>
             </File>
           </Files>
         </Group>
