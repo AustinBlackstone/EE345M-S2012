@@ -38,12 +38,15 @@ void (*BUTTONTASK)(void);   // pointer to task that gets called when you press a
 long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous value
 long TIMELORD; 
 extern unsigned long NumCreated; // number of foreground threads created, referenced from lab2.c
+long OSFIFOFREE;
 	
 void(*periodicFunc)(void);
   
 //Semaphores used for program
 Sema4Type oled_free;
 Sema4Type OSMailBoxSema4;
+Sema4Type OSFifoSema4;
+
 
 //Fifos
 #define	OSFIFOSIZE	64
@@ -143,6 +146,7 @@ void OS_Init(void){
 	OS_InitSemaphore(&oled_free,0);
 	OS_InitSemaphore(&OSMailBoxSema4,0);
 	OS_MailBox_Init();
+	OS_InitSemaphore(&OSFifoSema4,0);
 	
 	//UART & OLED 
 	UARTInit();
@@ -219,7 +223,7 @@ void OS_Wait(Sema4Type *s){
 void OS_Signal(Sema4Type *s){
 	long status;
 	status=StartCritical();
-  s->Value++;
+  	s->Value++;
 	EndCritical(status);
 	//TODO: wakeup blocked thread
 }
@@ -451,6 +455,8 @@ return;
 //    e.g., 4 to 64 elements
 //    e.g., must be a power of 2,4,8,16,32,64,128
 void OS_Fifo_Init(unsigned long size){
+	//TODO: something to implement sizing... fuckit, do it later...
+	OSFifo_Init();
 return;
 }
 
@@ -463,7 +469,7 @@ return;
 // Since this is called by interrupt handlers 
 //  this function can not disable or enable interrupts
 int OS_Fifo_Put(unsigned long data){
-return OSFifo_Put(data);
+return OSFifo_Put(data);  //its the same as the built in OSFIFO_PUT function from fifo.h, so i just called that instead...
 }
 
 // ******** OS_Fifo_Get ************
@@ -472,8 +478,12 @@ return OSFifo_Put(data);
 // Inputs:  none
 // Outputs: data 
 unsigned long OS_Fifo_Get(void){
-long temp;
-return OSFifo_Get(&temp);
+	long temp;
+	while(OS_Fifo_Size()<=0){//spin/block
+	;//TODO: implement blocking here
+	}
+	OSFifo_Get(&temp);		
+	return temp;
 }
 
 // ******** OS_Fifo_Size ************
@@ -492,7 +502,7 @@ return OSFifo_Size();
 // Inputs:  none
 // Outputs: none
 void OS_MailBox_Init(void){
-	OS_InitSemaphore(&OSMailBoxSema4,0);
+	OS_InitSemaphore(&OSMailBoxSema4,1);  //POSSIBLE ERROR: changed this from 0 to 1, unsure as to what effect this will have
 return;
 }
 
