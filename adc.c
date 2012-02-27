@@ -24,41 +24,26 @@ Description:    Helper functions for Timer-based ADC operation
 #include "os.h"
 
 unsigned long adc_last_value;
-unsigned int adc_samples;
 unsigned char adc_status;
 void (*function)(unsigned short);
 
-extern int TIMELORD;
-
 // ADC Interrupt Handler
 void ADCIntHandler(){
-  // Clear Interrupt
-  ADCIntClear(ADC0_BASE, 0);
   
   // Update value
-  ADCSequenceDataGet(ADC_BASE, 3, &adc_last_value);
+  ADCSequenceDataGet(ADC_BASE, 0, &adc_last_value);
   
   // Call Periodic function
-  function(adc_last_value);
-    
-  // Check to see if we're done
-  if (--adc_samples == 0){
-    // Disable ADC Interrupts
-    ADCIntDisable(ADC0_BASE, 0);
-    
-    // Update status
-    adc_status = ADC_IDLE;
-  }
+  if (function != 0)
+    function(adc_last_value);
+  
+  // Clear Interrupt
+  ADCIntClear(ADC0_BASE, 0);
 }
 
 // Initialize ADC w/ Timer0
-void ADC_Init(unsigned long freq){
-    // Enable Peripheral 
-    SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC);
-    IntEnable(INT_ADC0);
-    
-    // ADC Pins are dedicated.
-    // No need to get GPIO Type
+void ADC_Init(){
+	// See OS_Init
     
     // Set status
     adc_status = ADC_IDLE;
@@ -67,33 +52,26 @@ void ADC_Init(unsigned long freq){
 // Get status of ADC
 unsigned short ADC_Status(){  return adc_status; }
 
-// Internally start ADC
-void ADC_Enable(unsigned int samples){
-    // Set number of samples before finished
-    adc_samples = samples;
-    
-    // Change status
-    adc_status = ADC_BUSY;
-    
-    // Enable ADC Interrupts
-    //ADCIntEnable(ADC0_BASE, 0);
-    ADCProcessorTrigger(ADC0_BASE, 3);
-}
-
 // Perform ADC on Channel
 unsigned short ADC_Read(unsigned int channelNum){
     // Make sure channelNum is value 0 to 3
     ASSERT(channelNum < 4);
     
+    // Disable calling function
+    function = 0;
+    
     // Setup ADC Sequence
-    ADCSequenceConfigure(ADC0_BASE, 3, ADC_TRIGGER_PROCESSOR, 0);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, channelNum, channelNum | ADC_CTL_IE | ADC_CTL_END);
+	ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_PROCESSOR, 0);
+    ADCSequenceStepConfigure(ADC0_BASE, 0, 0, channelNum | ADC_CTL_IE | ADC_CTL_END);
+    ADCSequenceEnable(ADC0_BASE, 0);
+    ADCIntEnable(ADC0_BASE, 0);
+	IntEnable(INT_ADC0);
     
     // Start Conversion
-    ADC_Enable(1);
+    ADCProcessorTrigger(ADC0_BASE, 0);
     
     // Wait for ADC to finish
-    while (adc_status != ADC_IDLE);
+    while (!ADCIntStatus(ADC_BASE, 0, false));
     
     // Return value
     return (short) adc_last_value;
@@ -101,44 +79,44 @@ unsigned short ADC_Read(unsigned int channelNum){
 
 // Collect multiple samples from single ADC Channel
 void ADC_Collect(unsigned int channelNum, unsigned int freq, void (*func)(unsigned short), unsigned int samples){
-  unsigned int i;
-  
-  // Check parameters
-  ASSERT(channelNum < 4);
-  ASSERT(freq >= 100);
-  ASSERT(freq <= 10000);
-  
-  // Set channel to sample from
-  ADCSequenceConfigure(ADC0_BASE, 3, ADC_TRIGGER_PROCESSOR, 0);
-  ADCSequenceStepConfigure(ADC0_BASE, 0, channelNum, channelNum | ADC_CTL_IE | ADC_CTL_END);
-  
-  // Set Sample Frequency
-  TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet() / freq);
-  
-  // Set function pointer
-  function = func;
-  
-  // Start conversions
-  ADC_Enable(samples);
-  
-  // Collect samples as they become availble
-  adc_last_value = ADC_SAMPLE_NOT_READY;
-  for(i=0; i<samples; i++){
-    // Idle until sample is ready
-    while(adc_last_value == ADC_SAMPLE_NOT_READY);
+    unsigned int i;
     
-    // Read new sample
-    //buffer[i] = (unsigned short) adc_last_value;
+    // Check parameters
+    ASSERT(channelNum < 4);
+    ASSERT(freq >= 100);
+    ASSERT(freq <= 10000);
     
-    // Reset adc_last_sample
+    // Set channel to sample from
+    ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_TIMER, 0);
+    ADCSequenceStepConfigure(ADC0_BASE, 0, 0, channelNum | ADC_CTL_IE | ADC_CTL_END);
+    ADCSequenceEnable(ADC0_BASE, 0);
+    ADCIntEnable(ADC0_BASE, 0);
+    
+    // Start Conversion
+    ADCProcessorTrigger(ADC0_BASE, 0);
+    
+    // Setup hardware timer  
+    TimerLoadSet(TIMER0_BASE, TIMER_B, SysCtlClockGet() / freq);
+    TimerEnable(TIMER0_BASE, TIMER_B);
+    IntEnable(INT_TIMER1A);
+    
+    // Set function pointer
+    function = func;
+    
+    // Start conversions
     adc_last_value = ADC_SAMPLE_NOT_READY;
+	IntEnable(INT_ADC0);
     
-    /* Should not need this
-    if (adc_status == ADC_IDLE)
-      break;
-    */
-  }
-  
-  // Set status to finished
-  adc_status = ADC_IDLE;
+    // Collect Data
+    for(i=0; i<samples; i++){
+        // Wait for ADC to finish
+        while (adc_last_value == ADC_SAMPLE_NOT_READY);
+        
+        // Reset control variable
+        adc_last_value = ADC_SAMPLE_NOT_READY;
+    }
+    
+    // Turn off interrupts
+    IntEnable(INT_TIMER1A);
+	IntEnable(INT_ADC0);
 }
