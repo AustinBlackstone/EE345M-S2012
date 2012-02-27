@@ -34,7 +34,7 @@ unsigned long JitterHistogram[JITTERSIZE]={0,};
 #define TIMESLICE 2*TIME_1MS  // thread switch time in system time units
 #define PERIOD TIME_1MS/2     // 2kHz sampling period in system time units
 // 10-sec finite time experiment duration 
-#define RUNLENGTH 10000   // display results and quit when NumSamples==RUNLENGTH
+#define RUNLENGTH 100   // display results and quit when NumSamples==RUNLENGTH
 long x[64],y[64];         // input and output arrays for FFT
 void cr4_fft_64_stm32(void *pssOUT, void *pssIN, unsigned short Nbin);
 
@@ -100,15 +100,15 @@ long jitter;                    // time between measured and expected
 void ButtonWork(void){
 unsigned long i;
 unsigned long myId = OS_Id(); 
-  oLED_Message(1,0,"NumCreated =",NumCreated); 
+  oLED_Message(1,0,"NumCreated = ",NumCreated); 
   if(NumSamples < RUNLENGTH){   // finite time run
-    for(i=0;i<20;i++){  // runs for 2 seconds
-      OS_Sleep(50);     // set this to sleep for 0.1 sec
+    for(i=0;i<5;i++){  // runs for 2 seconds
+      OS_Sleep(1);     // set this to sleep for 0.1 sec
     }
   }
-  oLED_Message(1,1,"PIDWork    =",PIDWork);
-  oLED_Message(1,2,"DataLost   =",DataLost);
-  oLED_Message(1,3,"Jitter(us) =",MaxJitter-MinJitter);
+  oLED_Message(1,1,"PIDWork    = ", PIDWork);
+  oLED_Message(1,2,"DataLost   = ", DataLost);
+  oLED_Message(1,3,"Jitter(us) = ", MaxJitter-MinJitter);
   OS_Kill();  // done
 } 
 
@@ -157,12 +157,12 @@ void Producer(unsigned short data){
 void Display(void){ 
   unsigned long data, voltage;
   
-  oLED_Message(0,0,"Run length is",(RUNLENGTH)/1000);   // top half used for Display
+  oLED_Message(0,0,"Run length is ",(RUNLENGTH)/1000);   // top half used for Display
   while(NumSamples < RUNLENGTH) { 
-    oLED_Message(0,1,"Time left is",(RUNLENGTH-NumSamples)/1000);   // top half used for Display
+    oLED_Message(0,1,"Time left is ",(RUNLENGTH-NumSamples)/1000);   // top half used for Display
     data = OS_MailBox_Recv();
     voltage = 3000*data/1024;               // calibrate your device so voltage is in mV
-    oLED_Message(0,2,"v(mV) =",voltage);  
+    oLED_Message(0,2,"v(mV) = ",voltage);  
   } 
   OS_Kill();  // done
 } 
@@ -176,9 +176,9 @@ void Consumer(void){
   unsigned long t;  // time in ms
   unsigned long myId = OS_Id();
   
-  ADC_Collect(0, 1000, &Producer, 64); // start ADC sampling, channel 0, 1 kHz, 64 samples
   NumCreated += OS_AddThread(&Display,128,0); 
   while(NumSamples < RUNLENGTH) { 
+    ADC_Collect(0, 1000, &Producer, 64); // start ADC sampling, channel 0, 1 kHz, 64 samples
     for(t = 0; t < 64; t++){   // collect 64 ADC samples
       data = OS_Fifo_Get();    // get from producer
       x[t] = data;             // real part is 0 to 1023, imaginary part is 0
@@ -272,7 +272,7 @@ int main(void){
   NumCreated = 0 ;
 // create initial foreground threads
   NumCreated += OS_AddThread(&Interpreter,128,2); 
-  NumCreated += OS_AddThread(&Consumer,128,1); 
+  NumCreated += OS_AddThread(&Consumer,128,1);
   NumCreated += OS_AddThread(&PID,128,3); 
  
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
@@ -432,7 +432,7 @@ int main3(void){   // Testmain3
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;  // this never executes
 }
-*/
+
 
 //*******************Fourth TEST**********
 // Once the third test runs, run this example
@@ -475,12 +475,6 @@ void Thread3d(void){
 void Thread4d(void){
   int i;
     
-  // Toggle Debug LED
-  if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
-    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
-  else
-    GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
-      
   for(i=0;i<640;i++){
     Count4++;
     OS_Sleep(1);
@@ -502,4 +496,4 @@ int main4(void){   // Testmain4
   OS_Launch(TIMESLICE); // doesn't return, interrupts enabled in here
   return 0;  // this never executes
 }
-
+*/
