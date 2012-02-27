@@ -493,6 +493,8 @@ return;
 //    e.g., 4 to 64 elements
 //    e.g., must be a power of 2,4,8,16,32,64,128
 void OS_Fifo_Init(unsigned long size){
+	//TODO: Implement Size Restraint
+	OSFifo_Init();
 return;
 }
 
@@ -505,7 +507,7 @@ return;
 // Since this is called by interrupt handlers 
 //  this function can not disable or enable interrupts
 int OS_Fifo_Put(unsigned long data){
-return OSFifo_Put(data);
+	return OSFifo_Put(data);
 }
 
 // ******** OS_Fifo_Get ************
@@ -514,8 +516,12 @@ return OSFifo_Put(data);
 // Inputs:  none
 // Outputs: data 
 unsigned long OS_Fifo_Get(void){
-long temp;
-return OSFifo_Get(&temp);
+	long temp;
+	while(OS_Fifo_Size<=0){
+	; //Splin Lock //TODO: Implement Blocking here
+	}
+
+	return OSFifo_Get(&temp);
 }
 
 // ******** OS_Fifo_Size ************
@@ -526,7 +532,7 @@ return OSFifo_Get(&temp);
 //          zero or less than zero if the Fifo is empty 
 //          zero or less than zero  if a call to OS_Fifo_Get will spin or block
 long OS_Fifo_Size(void){
-return OSFifo_Size();
+	return OSFifo_Size();
 }
 
 // ******** OS_MailBox_Init ************
@@ -535,7 +541,7 @@ return OSFifo_Size();
 // Outputs: none
 void OS_MailBox_Init(void){
 	OS_InitSemaphore(&OSMailBoxSema4,0);
-return;
+	return;
 }
 
 // ******** OS_MailBox_Send ************
@@ -547,7 +553,7 @@ return;
 void OS_MailBox_Send(unsigned long data){
 	OS_Wait(&OSMailBoxSema4);
 	OSMAILBOX=data;	
-return;
+	return;
 }
 
 // ******** OS_MailBox_Recv ************
