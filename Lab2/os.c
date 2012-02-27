@@ -117,13 +117,14 @@ void OS_Init(void){
 	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
 
 	//Systick Init (Thread Scheduler)
-		 //taken care of in OS_Launch
+	//taken care of in OS_Launch
      
   // Imter Initis caglore!
   SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
-  TimerConfigure(TIMER0_BASE, TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC);
+  TimerConfigure(TIMER0_BASE, (TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC));
   TimerControlTrigger(TIMER0_BASE, TIMER_A, true);
   TimerControlTrigger(TIMER0_BASE, TIMER_B, true);
+  TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet()/1000);
   TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
   TimerIntEnable(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
   IntEnable(INT_TIMER0A);     // TIMELORD updater
