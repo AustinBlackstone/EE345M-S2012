@@ -62,7 +62,7 @@ void Timer0B_Handler(){
   // Clear Interrupt
   TimerIntClear(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
   
-  // Does nothing right now
+  // ADC Timer Trigger
 }
 // Timer0A Int Handler
 // Periodic Thread 1
