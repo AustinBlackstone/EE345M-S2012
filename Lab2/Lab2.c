@@ -102,9 +102,9 @@ unsigned long i;
 unsigned long myId = OS_Id(); 
   oLED_Message(1,0,"NumCreated = ",NumCreated); 
   if(NumSamples < RUNLENGTH){   // finite time run
-    for(i=0;i<5;i++){  // runs for 2 seconds
-      OS_Sleep(1);     // set this to sleep for 0.1 sec
-    }
+    ;//for(i=0;i<10;i++){  // runs for 2 seconds
+    //  OS_Sleep(1);     // set this to sleep for 0.1 sec
+    //}
   }
   oLED_Message(1,1,"PIDWork    =", PIDWork);
   oLED_Message(1,2,"DataLost   =", DataLost);
@@ -271,7 +271,7 @@ int main(void){
 
   NumCreated = 0 ;
 // create initial foreground threads
-  //NumCreated += OS_AddThread(&Interpreter,128,2); 
+  NumCreated += OS_AddThread(&Interpreter,128,2); 
   NumCreated += OS_AddThread(&Consumer,128,1);
   NumCreated += OS_AddThread(&PID,128,3); 
  
@@ -497,3 +497,10 @@ int main4(void){   // Testmain4
   return 0;  // this never executes
 }
 */
+
+void main5(void){
+OS_Init();
+OS_AddThread(&Interpreter,128,2);
+OS_Launch(TIMESLICE);
+return;
+}

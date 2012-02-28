@@ -243,9 +243,10 @@ void OS_Signal(Sema4Type *s){
 // output: none
 void OS_bWait(Sema4Type *semaPt){
 	DisableInterrupts();
-	while( semaPt->Value == 0){
+	while( semaPt->Value  != 1){
 		//TODO: implement Blocking
 		EnableInterrupts();
+		OS_Suspend();
 		DisableInterrupts();
 	}
 	semaPt->Value =0;
@@ -521,10 +522,11 @@ int OS_Fifo_Put(unsigned long data){
 unsigned long OS_Fifo_Get(void){
 	long temp;
 	while(OS_Fifo_Size<=0){
-	; //Splin Lock //TODO: Implement Blocking here
+	
+	 //Splin Lock //TODO: Implement Blocking here
 	}
-
-	return OSFifo_Get(&temp);
+	OSFifo_Get(&temp);
+	return temp;
 }
 
 // ******** OS_Fifo_Size ************
