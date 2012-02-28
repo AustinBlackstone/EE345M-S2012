@@ -21,9 +21,6 @@ void ADC0IntHandler(void);
 // Initialize ADC w/ Timer0
 void ADC_Init(void);
 
-// Get status of ADC
-unsigned short ADC_Status(void);
-
 // Perform ADC on Channel
 unsigned short ADC_Read(unsigned int channelNum);
 

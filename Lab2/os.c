@@ -145,6 +145,7 @@ void OS_Init(void){
 	
 	// Init ADC Stuff
     SysCtlPeripheralEnable(SYSCTL_PERIPH_ADC0);
+    SysCtlADCSpeedSet(SYSCTL_ADCSPEED_1MSPS);  
 	  
 	// Init Debugging LED
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
@@ -161,10 +162,8 @@ void OS_Init(void){
 	RIT128x96x4Init(1000000); //Init OLED
 	//RIT128x96x4StringDraw("Hello World", 0, 12, 15);
 	
-	
 	//ADC
     ADC_Init(); // Init ADC to run @ 1KHz
-
 
 	//Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
 	//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
