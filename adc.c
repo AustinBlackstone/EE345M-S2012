@@ -25,19 +25,18 @@ Description:    Helper functions for Timer-based ADC operation
 
 static void (*function)(unsigned short);
 unsigned long adc_last_value;
-unsigned char adc_status;
 
 // ADC Interrupt Handler
 void ADCIntHandler(){
     // Update value
-    ADCSequenceDataGet(ADC_BASE, 0, &adc_last_value);
-  
+    ADCSequenceDataGet(ADC0_BASE, 3, &adc_last_value);
+    
+    // Clear Interrupt
+    ADCIntClear(ADC0_BASE, 3);
+    
     // Call Periodic function
     if (function != 0)
         function(adc_last_value);
-  
-    // Clear Interrupt
-    ADCIntClear(ADC0_BASE, 0);
 }
 
 // Initialize ADC w/ Timer0
@@ -49,9 +48,6 @@ void ADC_Init(){
     function = 0;
 }
 
-// Get status of ADC
-unsigned short ADC_Status(){  return adc_status; }
-
 // Perform ADC on Channel
 unsigned short ADC_Read(unsigned int channelNum){
     // Make sure channelNum is value 0 to 3
@@ -62,20 +58,20 @@ unsigned short ADC_Read(unsigned int channelNum){
     
     // Turn off interrupts
     IntDisable(INT_TIMER0B);
-	IntDisable(INT_ADC0);
+	IntDisable(INT_ADC3);
     
     // Setup ADC Sequence
-	ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_PROCESSOR, 0);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 0, channelNum | ADC_CTL_IE | ADC_CTL_END);
-    ADCSequenceEnable(ADC0_BASE, 0);
-    ADCIntEnable(ADC0_BASE, 0);
-	IntEnable(INT_ADC0);
+	ADCSequenceConfigure(ADC0_BASE, 3, ADC_TRIGGER_PROCESSOR, 0);
+    ADCSequenceStepConfigure(ADC0_BASE, 3, 0, channelNum | ADC_CTL_IE | ADC_CTL_END);
+    ADCSequenceEnable(ADC0_BASE, 3);
+    ADCIntEnable(ADC0_BASE, 3);
+	IntEnable(INT_ADC3);
     
     // Start Conversion
-    ADCProcessorTrigger(ADC0_BASE, 0);
+    ADCProcessorTrigger(ADC0_BASE, 3);
     
     // Wait for ADC to finish
-    while (!ADCIntStatus(ADC_BASE, 0, false));
+    while (!ADCIntStatus(ADC0_BASE, 3, false));
     
     // Return value
     return (short) adc_last_value;
@@ -90,23 +86,17 @@ void ADC_Collect(unsigned int channelNum, unsigned int freq, void (*func)(unsign
     
     // Turn off interrupts
     IntDisable(INT_TIMER0B);
-	IntDisable(INT_ADC0);
-    
-    // Setup ADC Sequence
-    ADCSequenceConfigure(ADC0_BASE, 0, ADC_TRIGGER_TIMER, 0);
-    ADCSequenceStepConfigure(ADC0_BASE, 0, 0, channelNum | ADC_CTL_IE | ADC_CTL_END);
-    ADCSequenceEnable(ADC0_BASE, 0);
-    ADCIntEnable(ADC0_BASE, 0);
-    
-    // Start Conversion
-    //ADCProcessorTrigger(ADC0_BASE, 0);
+	IntDisable(INT_ADC3);
     
     // Set function pointer
     function = func;
     
-    // Start conversions
-    //adc_last_value = ADC_SAMPLE_NOT_READY;
-	IntEnable(INT_ADC0);
+    // Setup ADC Sequence
+    ADCSequenceConfigure(ADC0_BASE, 3, ADC_TRIGGER_TIMER, 0);
+    ADCSequenceStepConfigure(ADC0_BASE, 3, 0, channelNum | ADC_CTL_IE | ADC_CTL_END);
+    ADCSequenceEnable(ADC0_BASE, 3);
+    ADCIntEnable(ADC0_BASE, 3);
+	IntEnable(INT_ADC3);
     
     // Setup hardware timer  
     TimerLoadSet(TIMER0_BASE, TIMER_B, SysCtlClockGet() / freq);
