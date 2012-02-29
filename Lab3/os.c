@@ -696,19 +696,31 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 // output: none, should switch threads when finished
 void OS_SysTick_Handler(void){
 	tcbType *i;
+	int pri;
   
-  DisableInterrupts();
+  	DisableInterrupts();
     
 	//Thread Scheduler
-	for(i=RUNPT->next; i->sleep>0 || i->blockedOn!=0; i=i->next){
-		if(i->sleep>0){//decriment sleep counter
-			i->sleep=i->sleep-1;
+	if(RRSHEDULER){
+	//ROUND ROBBIN SCHEDULER
+		for(i=RUNPT->next; i->sleep>0 || i->blockedOn!=0; i=i->next){
+			if(i->sleep>0){//decriment sleep counter
+				i->sleep=i->sleep-1;
 			}
+		}
+		NEXTRUNPT=i;
+	}else if(PRIORITYSCHEDULER){
+	//PRIORITY SCHEDULER
+		for(i=RUNPT->next,pri=RUNPT->workingPriority; (i->sleep>0 || i->blockedOn!=0) || (i->workingPriority > RUNPT->workingPriority); i=i->next){ //ERROR HERE, needs rethought //search for next thread untill you find one that is not sleeping, not blocked, and has a priority equal or less than the current RUNPT
+			if(i->sleep>0){//decriment sleep counter
+				i->sleep=i->sleep-1;
+			}
+		}
+		NEXTRUNPT=i;		
+	
 	}
-  
-	NEXTRUNPT=i;
-  
-  EnableInterrupts();
+	  
+  	EnableInterrupts();
   
 	//Switch Threads (trigger PendSV)
 	NVIC_INT_CTRL_R = 0x10000000;
