@@ -25,7 +25,7 @@
 #include "adc.h"
 #include "uart.h"
 
-#define  NULL 0
+
 
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
 tcbType *RUNPT;
@@ -38,6 +38,8 @@ void (*BUTTONTASK)(void);   // pointer to task that gets called when you press a
 long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous value
 long TIMELORD; 
 extern unsigned long NumCreated; // number of foreground threads created, referenced from lab2.c
+int NUMBLOCKEDTHREADS;	//keeps track of how many threads are blocked (OS_Wait Adds, OS_Signal subtracts)
+int TOTALNUMTHREADS;	//keep track of how many active threads there are (OSKILL subtracts, OS_ADDTHREAD adds)
 
 void(*periodic[4])(void);  // Four periodic functions
   
@@ -63,6 +65,8 @@ void OS_Init(void){
     //
     //IntMasterEnable();
 	TIMELORD=0; //initialize the system counter for use with thingies (no shit)
+	NUMBLOCKEDTHREADS=0;
+	TOTALNUMTHREADS=0;
 
 	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
 
@@ -158,8 +162,8 @@ void OS_InitSemaphore(Sema4Type *semaPt, long initialValue){
 	int i;
 	semaPt->Value=initialValue; 
 	for(i=0;i<NUMTHREADS;i++){
-		semaPt->blockedThreads[i]=NULL;
-		semaPt->brunpt=NULL;
+		semaPt->blockedThreads[i]=EMPTY;
+		semaPt->bIndex=0;
 	}
 } 
 
@@ -168,7 +172,27 @@ void OS_InitSemaphore(Sema4Type *semaPt, long initialValue){
 // input:  pointer to a counting semaphore
 // output: none
 void OS_Wait(Sema4Type *s){
-	DisableInterrupts();
+//new way  (Lab3)
+	long status; //the i bit, used to save and reload it
+	status=StartCritical();	  	//Save Ibit
+	s->Value = s->Value-1;		//Decriment semaphore counter
+	if(s->Value < 0){			//If counter < 0 block
+	//BLOCK!!!
+		NUMBLOCKEDTHREADS++;
+		RUNPT->blockedOn=s;			//set in TCB what sema4 its blocked on (for debug info)
+		if(s->blockedThreads[(s->bIndex+1)%NUMTHREADS]==EMPTY){
+			s->bIndex=s->bIndex+1;
+			s->blockedThreads[(s->bIndex)%NUMTHREADS]=RUNPT;	//add thread to array of blocked threads
+			NVIC_ST_CURRENT_R = 0;
+			OS_SysTick_Handler();		//trigger thread switch
+		}
+	
+	}
+	
+	EndCritical(status);		//Reenable I bit
+
+//old way  (Lab2)
+/*	DisableInterrupts()
 	while( s->Value <= 0){
 		//TODO: implement Blocking
 		EnableInterrupts();
@@ -176,6 +200,7 @@ void OS_Wait(Sema4Type *s){
 	}
 	s->Value--;
 	EnableInterrupts();
+*/
 }
 
 // ******** OS_Signal ************
@@ -184,10 +209,49 @@ void OS_Wait(Sema4Type *s){
 // output: none
 void OS_Signal(Sema4Type *s){
 	long status;
-	status=StartCritical();
-  s->Value++;
+	
+//new way(Lab3)
+	int i,j,k;
+	status=StartCritical();	 	//save Ibit
+	s->Value = s->Value +1;		//Incriment Counter
+	if(s->Value<=0){
+	//WAKE UP BLOCKED
+		
+		if(RRSCHEDULER){	 
+		//ROUND ROBIN
+			for(i=(s->bIndex+1)%NUMTHREADS ; s->blockedThreads[i]==0 ; i=++i%NUMTHREADS){;}	//itterate through blocked list untill you find a pointer to a blocked thread
+		  	s->blockedThreads[i]->blockedOn=NULL;  	//remove blocked pointer from TCB
+			s->blockedThreads[i]=EMPTY;				//remove from blocked list
+		
+		}else if(PRIORITYSCHEDULER){
+		//PRIORITY 
+			for(i=0,j=7;i<NUMTHREADS;i++){
+				if(s->blockedThreads[i]->workingPriority<=j){	//j holds highest priority thus far encountered
+					j=s->blockedThreads[i]->workingPriority;
+					k=i;	//k holds the index of the highest priority thread
+				}
+			}
+			if(s->blockedThreads[k]->workingPriority < RUNPT->workingPriority){	  //if unblocked thread has higher priority than currently running thread
+			//	NEXTRUNPT=s->blockedThreads[k]	   			//possible ERROR, dont think i need this, but i might
+				s->blockedThreads[k]->blockedOn=NULL;	   	//remove block from TCB
+				s->blockedThreads[k]=EMPTY;					//remove from sema4 blocked threads list
+				NVIC_ST_CURRENT_R =0;
+				OS_SysTick_Handler();						//
+									
+			}else{	//just add it back into the currently running list
+				s->blockedThreads[k]->blockedOn=NULL;	   	//remove block from TCB
+				s->blockedThreads[k]=EMPTY;					//remove from sema4 blocked threads list
+			}
+		
+		}
+	}
 	EndCritical(status);
-	//TODO: wakeup blocked thread
+
+//old way (Lab2)	
+/*	status=StartCritical();
+  	s->Value++;
+	EndCritical(status);
+*/
 }
 
 // ******** OS_bWait ************

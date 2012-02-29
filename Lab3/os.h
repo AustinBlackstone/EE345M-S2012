@@ -11,6 +11,10 @@
 #define __OS_H  1
 #define NUMTHREADS 10  // max number of threads
 #define STACKSIZE 128  // size of stack for each TCB
+#define  NULL 0
+#define  EMPTY 0
+#define  RRSCHEDULER 1
+#define  PRIORITYSCHEDULER 0
 
 // fill these depending on your clock        
 #define TIME_1MS  50000          
@@ -36,7 +40,7 @@ typedef struct tcb tcbType;
 struct  Sema4{
   int Value;   // >0 means free, otherwise means busy
   tcbType *blockedThreads[NUMTHREADS]; 
-  tcbType *brunpt;       
+  int bIndex;       
 // add other components here, if necessary to implement blocking
 };
 typedef struct Sema4 Sema4Type;
