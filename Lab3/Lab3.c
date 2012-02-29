@@ -602,7 +602,7 @@ void Signal1(void){      // called every 799us in background
     SignalCount1++;
   }
 }
-// edit this so it changes the periodic rate
+// TODO: edit this so it changes the periodic rate
 void Signal2(void){       // called every 1111us in background
   if(SignalCount2<MAXCOUNT){
     OS_Signal(&s);

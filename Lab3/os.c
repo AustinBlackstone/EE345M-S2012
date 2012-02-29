@@ -155,7 +155,12 @@ return;
 // input:  pointer to a semaphore
 // output: none
 void OS_InitSemaphore(Sema4Type *semaPt, long initialValue){
-	semaPt->Value=initialValue;   //assuming all semaphores are initialized to 1
+	int i;
+	semaPt->Value=initialValue; 
+	for(i=0;i<NUMTHREADS;i++){
+		semaPt->blockedThreads[i]=NULL;
+		semaPt->brunpt=NULL;
+	}
 } 
 
 // ******** OS_Wait ************

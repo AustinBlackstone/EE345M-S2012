@@ -16,14 +16,6 @@
 #define TIME_1MS  50000          
 #define TIME_2MS  2*TIME_1MS 
 
-
-// feel free to change the type of semaphore, there are lots of good solutions
-struct  Sema4{
-  int Value;   // >0 means free, otherwise means busy        
-// add other components here, if necessary to implement blocking
-};
-typedef struct Sema4 Sema4Type;
-
 // struct for Thread Control Blocks
 struct  tcb{
   long *sp;						// Stack Pointer saved for this thread
@@ -39,6 +31,15 @@ struct  tcb{
 
 };
 typedef struct tcb tcbType;
+
+// feel free to change the type of semaphore, there are lots of good solutions
+struct  Sema4{
+  int Value;   // >0 means free, otherwise means busy
+  tcbType *blockedThreads[NUMTHREADS]; 
+  tcbType *brunpt;       
+// add other components here, if necessary to implement blocking
+};
+typedef struct Sema4 Sema4Type;
 
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
