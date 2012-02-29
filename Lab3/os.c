@@ -701,20 +701,23 @@ void OS_SysTick_Handler(void){
   	DisableInterrupts();
     
 	//Thread Scheduler
-	if(RRSHEDULER){
+	if(RRSCHEDULER){
 	//ROUND ROBBIN SCHEDULER
 		for(i=RUNPT->next; i->sleep>0 || i->blockedOn!=0; i=i->next){
-			if(i->sleep>0){//decriment sleep counter
-				i->sleep=i->sleep-1;
-			}
+			//OLD SLEEP DECRIMENTER
+			//if(i->sleep>0){//decriment sleep counter
+			//	i->sleep=i->sleep-1;
+			//}
 		}
 		NEXTRUNPT=i;
 	}else if(PRIORITYSCHEDULER){
 	//PRIORITY SCHEDULER
-		for(i=RUNPT->next,pri=RUNPT->workingPriority; (i->sleep>0 || i->blockedOn!=0) || (i->workingPriority > RUNPT->workingPriority); i=i->next){ //ERROR HERE, needs rethought //search for next thread untill you find one that is not sleeping, not blocked, and has a priority equal or less than the current RUNPT
-			if(i->sleep>0){//decriment sleep counter
-				i->sleep=i->sleep-1;
-			}
+		for(i=RUNPT->next,pri=RUNPT->workingPriority; i->sleep>0 || i->blockedOn!=NULL || (i->workingPriority > RUNPT->workingPriority); i=i->next){ //Possible ERROR HERE, needs rethought //search for next thread untill you find one that is not sleeping, not blocked, and has a priority equal or less than the current RUNPT
+			//OLD SLEEP DECRIMENTER
+			//if(i->sleep>0){//decriment sleep counter
+			//	i->sleep=i->sleep-1;
+			//}
+
 		}
 		NEXTRUNPT=i;		
 	
@@ -757,12 +760,22 @@ void OS_SelectSwitch_Handler(){
 // input: none,  
 // output: none, 
 // Timer0A Int Handler
-void Timer0A_Handler(){
+void Timer0A_Handler(){	//happens every 1ms
+  int i;
+  tcbType *j;
+
   // Clear Interrupt
   TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
   
-  // Update global timer
-  TIMELORD++;  
+  // Update global 1ms timer
+  TIMELORD++; 
+  // Decriment Sleep Timers on Everything
+   for(i=0,j=RUNPT;i<NUMTHREADS;i++,j=j->next){	  //cycle through all threads
+   		if(j->sleep>0){
+			j->sleep = j->sleep-1; //deriment sleep counter
+		}
+   }
+   
 }
 // Timer0A Int Handler
 void Timer0B_Handler(){
