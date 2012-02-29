@@ -25,6 +25,6 @@ void ADC_Init(void);
 unsigned short ADC_Read(unsigned int channelNum);
 
 // Collect multiple samples from single ADC Channel
-void ADC_Collect(unsigned int channelNum, unsigned int freq, void (*func)(unsigned short), unsigned int samples);
+void ADC_Collect(unsigned int channelNum, unsigned int freq, void (*func)(unsigned short));
 
 #endif

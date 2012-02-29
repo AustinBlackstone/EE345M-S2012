@@ -11,11 +11,12 @@
 #include <stdio.h>
 #include <string.h>
 #include "inc/hw_types.h"
-#include "serial.h"
+#include "uart.h"
 #include "rit128x96x4.h"
 #include "adc.h"
 #include "os.h"
 #include "lm3s8962.h"
+#include "debug.h"
 
 unsigned long NumCreated;   // number of foreground threads created
 unsigned long PIDWork;      // current number of PID calculations finished
@@ -60,7 +61,7 @@ unsigned short DASoutput;
 void DAS(void){ 
 unsigned short input;  
   if(NumSamples < RUNLENGTH){   // finite time run
-    input = ADC_In(1);
+    input = ADC_Read(1);
     DASoutput = Filter(input);
     FilterWork++;        // calculation finished
   }
@@ -220,7 +221,7 @@ unsigned long myId = OS_Id();
 // foreground thread, accepts input from serial port, outputs to serial port
 // inputs:  none
 // outputs: none
-extern void Interpreter(void);    // just a prototype, link to your interpreter
+extern void Interpreter(void); // Pipe to UART Parser (localvars in uart.c, etc...)
 // add the following commands, leave other commands, if they make sense
 // 1) print performance measures 
 //    time-jitter, number of data points lost, number of calculations performed
@@ -506,7 +507,8 @@ void Thread6(void){  // foreground thread
     GPIO_PB0 ^= 0x01;        // debugging toggle bit 0  
   }
 }
-extern void Jitter(void);   // prints jitter information (write this)
+extern void Jitter(void);   // TODO: prints jitter information (write this)
+
 void Thread7(void){  // foreground thread
   printf("\n\rEE345M/EE380L, Lab 3 Preparation 2\n\r");
   OS_Sleep(5000);   // 10 seconds        
