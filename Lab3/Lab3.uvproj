@@ -409,12 +409,12 @@
             <File>
               <FileName>cr4_fft_64_stm32.s</FileName>
               <FileType>2</FileType>
-              <FilePath>C:\Users\Jack\EE345M-S2012\cr4_fft_64_stm32.s</FilePath>
+              <FilePath>..\cr4_fft_64_stm32.s</FilePath>
             </File>
             <File>
               <FileName>PID_stm32.s</FileName>
               <FileType>2</FileType>
-              <FilePath>C:\Users\Jack\EE345M-S2012\PID_stm32.s</FilePath>
+              <FilePath>..\PID_stm32.s</FilePath>
             </File>
             <File>
               <FileName>adc.c</FileName>

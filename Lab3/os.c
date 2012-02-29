@@ -36,6 +36,7 @@ int IDCOUNT;	//incrimented to generate unique thread id's
 long int OSMAILBOX; // contains mailbox data for OSMailBox
 void (*BUTTONTASK)(void);   // pointer to task that gets called when you press a button 
 long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous value
+long btndown_time;
 long TIMELORD; 
 extern unsigned long NumCreated; // number of foreground threads created, referenced from lab2.c
 int NUMBLOCKEDTHREADS;	//keeps track of how many threads are blocked (OS_Wait Adds, OS_Signal subtracts)
@@ -67,6 +68,9 @@ void OS_Init(void){
 	TIMELORD=0; //initialize the system counter for use with thingies (no shit)
 	NUMBLOCKEDTHREADS=0;
 	TOTALNUMTHREADS=0;
+    SDEBOUNCEPREV = 0;
+    btndown_time = 0;
+    
 
 	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
 
@@ -729,30 +733,52 @@ void OS_SysTick_Handler(void){
 	NVIC_INT_CTRL_R = 0x10000000;
 }
 
+
+// ******** OS_DownSwitch_Handler ************
+// Check if time since last down press >.3s, for debouncing, call buttontask appropriately
+// input: none,  
+// output: none, 
+void EvalDirBtnsHandler(){
+    IntDisable(INT_GPIOE);
+    GPIOPinIntClear(GPIO_PORTE_BASE, GPIO_PIN_1);
+  
+    while(OS_MsTime() - btndown_time < 250);  // Wait for 10 ms
+	    if(GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_1) == 0){
+		    //BUTTONTASK();	   //supposed to trigger the function that button task points to
+             
+            // Toggle Debug LED
+            if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
+                GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
+            else
+                GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
+	    }	
+	btndown_time=OS_MsTime();
+  
+    IntEnable(INT_GPIOE);
+}
+
 // ******** OS_SelectSwitch_Handler ************
 // Check if time since last switch press >.3s, for debouncing, call buttontask appropriately
 // input: none,  
 // output: none, 
-void OS_SelectSwitch_Handler(){
-    // TODO: Button still bounces a bit...
-
-    GPIOPinIntDisable(GPIO_PORTF_BASE, GPIO_PIN_1);
+void SelectBtnHandler(){
+    IntDisable(INT_GPIOF);
 	GPIOPinIntClear(GPIO_PORTF_BASE, GPIO_PIN_1);
   
-    // Toggle Debug LED
-    if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
-        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
-    else
-        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
-  
 	//currentTime=OS_MsTime();
-    while(OS_MsTime() - SDEBOUNCEPREV < 10);  // Wait for 10 ms
+    while(OS_MsTime() - SDEBOUNCEPREV < 250);  // Wait for 10 ms
 	    if(GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1) == 0){
+            // Toggle Debug LED
+            if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
+                GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
+            else
+                GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
+                
 		    BUTTONTASK();	   //supposed to trigger the function that button task points to
-	}	
+	    }	
 	SDEBOUNCEPREV=OS_MsTime();
   
-    GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);
+    IntEnable(INT_GPIOF);
 }
 
 // ******** Timer Handlers ************
