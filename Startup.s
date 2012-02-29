@@ -86,7 +86,8 @@ __heap_limit
     		EXTERN  RUNPT
     		EXTERN  OS_SysTick_Handler
     		EXTERN  PendSV_Handler
-    		EXTERN	OS_SelectSwitch_Handler
+    		EXTERN	SelectBtnHandler
+			EXTERN  EvalDirBtnsHandler
         EXTERN  Timer0A_Handler
         EXTERN  Timer0B_Handler
         EXTERN  Timer1A_Handler
@@ -121,7 +122,7 @@ __Vectors
         DCD     IntDefaultHandler           ; GPIO Port B
         DCD     IntDefaultHandler           ; GPIO Port C
         DCD     IntDefaultHandler           ; GPIO Port D
-        DCD     IntDefaultHandler           ; GPIO Port E
+        DCD     EvalDirBtnsHandler          ; GPIO Port E
         DCD     UARTIntHandler	            ; UART0
         DCD     IntDefaultHandler           ; UART1
         DCD     IntDefaultHandler           ; SSI
@@ -131,10 +132,10 @@ __Vectors
         DCD     IntDefaultHandler           ; PWM Generator 1
         DCD     IntDefaultHandler           ; PWM Generator 2
         DCD     IntDefaultHandler           ; Quadrature Encoder
-        DCD     IntDefaultHandler               ; ADC Sequence 0
+        DCD     IntDefaultHandler           ; ADC Sequence 0
         DCD     IntDefaultHandler           ; ADC Sequence 1
         DCD     IntDefaultHandler           ; ADC Sequence 2
-        DCD     ADCIntHandler           ; ADC Sequence 3
+        DCD     ADCIntHandler               ; ADC Sequence 3
         DCD     IntDefaultHandler           ; Watchdog
         DCD     Timer0A_Handler             ; Timer 0A
         DCD     Timer0B_Handler             ; Timer 0B
@@ -147,7 +148,7 @@ __Vectors
         DCD     IntDefaultHandler           ; Comp 2
         DCD     IntDefaultHandler           ; System Control
         DCD     IntDefaultHandler           ; Flash Control
-        DCD     OS_SelectSwitch_Handler     ; GPIO Port F
+        DCD     SelectBtnHandler            ; GPIO Port F
         DCD     IntDefaultHandler           ; GPIO Port G
         DCD     IntDefaultHandler           ; GPIO Port H
         DCD     IntDefaultHandler           ; UART2 Rx and Tx

@@ -178,7 +178,8 @@ void Consumer(void){
   
   NumCreated += OS_AddThread(&Display,128,0); 
   while(NumSamples < RUNLENGTH) { 
-    ADC_Collect(0, 1000, &Producer, 64); // start ADC sampling, channel 0, 1 kHz, 64 samples
+    /* ADC_Collect modified for Lab3.c */
+    //ADC_Collect(0, 1000, &Producer, 64); // start ADC sampling, channel 0, 1 kHz, 64 samples
     for(t = 0; t < 64; t++){   // collect 64 ADC samples
       data = OS_Fifo_Get();    // get from producer
       x[t] = data;             // real part is 0 to 1023, imaginary part is 0

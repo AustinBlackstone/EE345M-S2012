@@ -36,6 +36,7 @@ int IDCOUNT;	//incrimented to generate unique thread id's
 long int OSMAILBOX; // contains mailbox data for OSMailBox
 void (*BUTTONTASK)(void);   // pointer to task that gets called when you press a button 
 long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous value
+long btndown_time;
 long TIMELORD; 
 extern unsigned long NumCreated; // number of foreground threads created, referenced from lab2.c
 
@@ -63,6 +64,7 @@ void Timer0B_Handler(){
   TimerIntClear(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
   
   // ADC Timer Trigger
+  // Not sure this is needed for trigger
 }
 // Timer0A Int Handler
 // Periodic Thread 1
@@ -113,7 +115,9 @@ void OS_Init(void){
     //
     //IntMasterEnable();
 	TIMELORD=0; //initialize the system counter for use with thingies (no shit)
-
+    SDEBOUNCEPREV = 0;
+    btndown_time = 0;
+    
 	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
 
 	//Systick Init (Thread Scheduler)
@@ -164,19 +168,26 @@ void OS_Init(void){
 	
 	//ADC
     ADC_Init(); // Init ADC to run @ 1KHz
-
-	//Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
-	//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-  /*GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);
-  IntEnable(INT_GPIOF);  
-  //IntPrioritySet(INT_GPIOF, 0x00);
-  GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_BOTH_EDGES);
-  GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);*/
-  //NVIC_EN0_R |= 0x40000000;     // (h) enable interrupt 2 in NVIC (Not sure what Stellarisware function replaces this)
+        
+	//Eval Buttons
+	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
+    GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_1);
+    GPIOPadConfigSet(GPIO_PORTE_BASE, GPIO_PIN_1, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
+    GPIOIntTypeSet(GPIO_PORTE_BASE, GPIO_PIN_1, GPIO_FALLING_EDGE);
+    GPIOPinIntClear(GPIO_PORTE_BASE, GPIO_PIN_1);
+    GPIOPinIntEnable(GPIO_PORTE_BASE, GPIO_PIN_1);
+    IntEnable(INT_GPIOE);  
+    
+  	//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+    GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);
+    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
+    GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_FALLING_EDGE);
+    GPIOPinIntClear(GPIO_PORTF_BASE, GPIO_PIN_1);
+    GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);
+    IntEnable(INT_GPIOF);  
   
-  
-  /* This works for now, but Stellarisware Function owuld be nice */
-  SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
+    /* This works for now, but Stellarisware Function owuld be nice */
+    /*SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
 //	delay = SYSCTL_RCGC2_R;		    //delay, cause i said so
 	GPIO_PORTF_DIR_R &= ~0x02;    // (c) make PF1 in
 	GPIO_PORTF_DEN_R |= 0x02;     //     enable digital I/O on PF1
@@ -189,15 +200,7 @@ void OS_Init(void){
 	NVIC_EN0_R |= 0x40000000;     // (h) enable interrupt 2 in NVIC
 	//dont enable interrupts 
 	GPIO_PORTF_PUR_R |= 0x02;	    //add pull up resistor, just for shits and giggles
-  
-/*	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);	  	// Enable GPIOF
-  	GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);	// make Pin 1 an Input
-  	GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1);			//
-*/
-
-//TODO: i have no fucking clue what to do here...
-
-return;
+    */
 }
 
 // ******** OS_InitSemaphore ************
@@ -695,28 +698,50 @@ void OS_SysTick_Handler(void){
 	NVIC_INT_CTRL_R = 0x10000000;
 }
 
+// ******** OS_DownSwitch_Handler ************
+// Check if time since last down press >.3s, for debouncing, call buttontask appropriately
+// input: none,  
+// output: none, 
+void EvalDirBtnsHandler(){
+   IntDisable(INT_GPIOE);
+   GPIOPinIntClear(GPIO_PORTE_BASE, GPIO_PIN_1);
+  
+  
+    while(OS_MsTime() - btndown_time < 250);  // Wait for 10 ms
+	    if(GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_1) == 0){
+		    //BUTTONTASK();	   //supposed to trigger the function that button task points to
+             
+            // Toggle Debug LED
+            if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
+                GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
+            else
+                GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
+	    }	
+	btndown_time=OS_MsTime();
+  
+    IntEnable(INT_GPIOE);
+}
+
 // ******** OS_SelectSwitch_Handler ************
 // Check if time since last switch press >.3s, for debouncing, call buttontask appropriately
 // input: none,  
 // output: none, 
-void OS_SelectSwitch_Handler(){
-    // TODO: Button still bounces a bit...
-
-    GPIOPinIntDisable(GPIO_PORTF_BASE, GPIO_PIN_1);
+void SelectBtnHandler(){
+    IntDisable(INT_GPIOF);
 	GPIOPinIntClear(GPIO_PORTF_BASE, GPIO_PIN_1);
   
-    // Toggle Debug LED
-    if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
-        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
-    else
-        GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
-  
 	//currentTime=OS_MsTime();
-    while(OS_MsTime() - SDEBOUNCEPREV < 10);  // Wait for 10 ms
+    while(OS_MsTime() - SDEBOUNCEPREV < 250);  // Wait for 10 ms
 	    if(GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1) == 0){
+            // Toggle Debug LED
+            if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
+                GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, GPIO_PIN_0);
+            else
+                GPIOPinWrite(GPIO_PORTF_BASE, GPIO_PIN_0, 0);
+                
 		    BUTTONTASK();	   //supposed to trigger the function that button task points to
-	}	
+	    }	
 	SDEBOUNCEPREV=OS_MsTime();
   
-    GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);
+    IntEnable(INT_GPIOF);
 }
