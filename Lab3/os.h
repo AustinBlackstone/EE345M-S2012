@@ -13,8 +13,8 @@
 #define STACKSIZE 128  // size of stack for each TCB
 #define  NULL 0
 #define  EMPTY 0
-#define  RRSCHEDULER 1
-#define  PRIORITYSCHEDULER 0
+#define  RRSCHEDULER 0
+#define  PRIORITYSCHEDULER 1
 
 // fill these depending on your clock        
 #define TIME_1MS  50000          

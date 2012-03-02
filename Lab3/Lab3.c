@@ -232,7 +232,7 @@ extern void Interpreter(void); // Pipe to UART Parser (localvars in uart.c, etc.
 //--------------end of Task 5-----------------------------
 
 //*******************final user main DEMONTRATE THIS TO TA**********
-int realmain(void){        // lab 3 real main
+int mainmain(void){        // lab 3 real main
   OS_Init();           // initialize, disable interrupts
 
   DataLost = 0;        // lost data between producer and consumer
@@ -297,7 +297,7 @@ void Thread3(void){
 }
 Sema4Type Free;       // used for mutual exclusion
 
-int testmain1(void){       // testmain1
+int main(void){       // testmain1
   OS_Init();          // initialize, disable interrupts
   NumCreated = 0 ;
   NumCreated += OS_AddThread(&Thread1,128,1); 
@@ -627,7 +627,7 @@ static long result;
   result = m+n;
   return result;
 }
-int main(void){      // Testmain6
+int main6(void){      // Testmain6
   volatile unsigned long delay;
   OS_Init();           // initialize, disable interrupts
   delay = add(3,4);
