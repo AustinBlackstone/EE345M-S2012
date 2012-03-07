@@ -237,6 +237,8 @@ int mainmain(void){        // lab 3 real main
 
   DataLost = 0;        // lost data between producer and consumer
   NumSamples = 0;
+  MaxJitter = 0;       // OS_Time in 20ns units
+  MinJitter = 10000000;
 
 //********initialize communication channels
   OS_MailBox_Init();
@@ -297,7 +299,7 @@ void Thread3(void){
 }
 Sema4Type Free;       // used for mutual exclusion
 
-int main(void){       // testmain1
+int main1(void){       // testmain1
   OS_Init();          // initialize, disable interrupts
   NumCreated = 0 ;
   NumCreated += OS_AddThread(&Thread1,128,1); 
@@ -510,7 +512,8 @@ void Thread6(void){  // foreground thread
 extern void Jitter(void);   // TODO: prints jitter information (write this)
 
 void Thread7(void){  // foreground thread
-  printf("\n\rEE345M/EE380L, Lab 3 Preparation 2\n\r");
+  //print("\n\rEE345M/EE380L, Lab 3 Preparation 2\n\r");
+  oLED_Message(1,0,"\n\rEE345M/EE380L, Lab 3 Preparation 2\n\r",-0);
   OS_Sleep(5000);   // 10 seconds        
   Jitter();         // print jitter information
   printf("\n\r\n\r");

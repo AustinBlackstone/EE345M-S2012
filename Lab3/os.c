@@ -19,6 +19,7 @@
 #include "driverlib/systick.h"
 #include "driverlib/uart.h"
 #include "driverlib/timer.h"
+#include "debug.h"
 
 #include "rit128x96x4.h"
 #include "FIFO.h"
@@ -61,6 +62,7 @@ AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 void OS_Init(void){
 	DisableInterrupts();
 	RUNPT=0;
+	JitterInit();
 
 // Enable processor interrupts.
     //
