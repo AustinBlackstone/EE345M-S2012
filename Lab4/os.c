@@ -19,13 +19,14 @@
 #include "driverlib/systick.h"
 #include "driverlib/uart.h"
 #include "driverlib/timer.h"
+#include "debug.h"
 
 #include "rit128x96x4.h"
 #include "FIFO.h"
 #include "adc.h"
 #include "uart.h"
 
-#define  NULL 0
+
 
 tcbType tcbs[NUMTHREADS]; // allocated space for all TCB's to be used in this program
 tcbType *RUNPT;
@@ -39,6 +40,8 @@ long SDEBOUNCEPREV;  // used for debouncing 'select' switch, contains previous v
 long btndown_time;
 long TIMELORD; 
 extern unsigned long NumCreated; // number of foreground threads created, referenced from lab2.c
+int NUMBLOCKEDTHREADS;	//keeps track of how many threads are blocked (OS_Wait Adds, OS_Signal subtracts)
+int TOTALNUMTHREADS;	//keep track of how many active threads there are (OSKILL subtracts, OS_ADDTHREAD adds)
 
 void(*periodic[4])(void);  // Four periodic functions
   
@@ -50,57 +53,6 @@ Sema4Type OSMailBoxSema4;
 #define	OSFIFOSIZE	64
 AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 
-// Timer0A Int Handler
-void Timer0A_Handler(){
-  // Clear Interrupt
-  TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
-  
-  // Update global timer
-  TIMELORD++;  
-}
-// Timer0A Int Handler
-void Timer0B_Handler(){
-  // Clear Interrupt
-  TimerIntClear(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
-  
-  // ADC Timer Trigger
-  // Not sure this is needed for trigger
-}
-// Timer0A Int Handler
-// Periodic Thread 1
-void Timer1A_Handler(){
-  // Clear Interrupt
-  TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
-  
-  // Run First Periodic Function
-  (periodic[0])();
-}
-// Timer0A Int Handler
-void Timer1B_Handler(){
-  // Clear Interrupt
-  TimerIntClear(TIMER1_BASE, TIMER_TIMB_TIMEOUT);
-   
-  // Run First Periodic Function
-  (periodic[1])();
-}
-// Timer0A Int Handler
-void Timer2A_Handler(){
-  // Clear Interrupt
-  TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
-   
-  // Run First Periodic Function
-  (periodic[2])();
-}
-// Timer0A Int Handler
-void Timer2B_Handler(){
-  // Clear Interrupt
-  TimerIntClear(TIMER2_BASE, TIMER_TIMB_TIMEOUT);
-   
-  // Run First Periodic Function
-  (periodic[3])();
-  
-}
-
 
 // ******** OS_Init ************
 // initialize operating system, disable interrupts until OS_Launch
@@ -110,14 +62,18 @@ void Timer2B_Handler(){
 void OS_Init(void){
 	DisableInterrupts();
 	RUNPT=0;
+	JitterInit();
 
 // Enable processor interrupts.
     //
     //IntMasterEnable();
 	TIMELORD=0; //initialize the system counter for use with thingies (no shit)
+	NUMBLOCKEDTHREADS=0;
+	TOTALNUMTHREADS=0;
     SDEBOUNCEPREV = 0;
     btndown_time = 0;
     
+
 	SysCtlClockSet(SYSCTL_SYSDIV_4 | SYSCTL_USE_OSC | SYSCTL_OSC_MAIN | SYSCTL_XTAL_8MHZ);	//Init System Clock
 
 	//Systick Init (Thread Scheduler)
@@ -168,26 +124,19 @@ void OS_Init(void){
 	
 	//ADC
     ADC_Init(); // Init ADC to run @ 1KHz
-        
-	//Eval Buttons
-	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOE);
-    GPIOPinTypeGPIOInput(GPIO_PORTE_BASE, GPIO_PIN_1);
-    GPIOPadConfigSet(GPIO_PORTE_BASE, GPIO_PIN_1, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
-    GPIOIntTypeSet(GPIO_PORTE_BASE, GPIO_PIN_1, GPIO_FALLING_EDGE);
-    GPIOPinIntClear(GPIO_PORTE_BASE, GPIO_PIN_1);
-    GPIOPinIntEnable(GPIO_PORTE_BASE, GPIO_PIN_1);
-    IntEnable(INT_GPIOE);  
-    
-  	//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
-    GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);
-    GPIOPadConfigSet(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_STRENGTH_2MA, GPIO_PIN_TYPE_STD_WPU);
-    GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_FALLING_EDGE);
-    GPIOPinIntClear(GPIO_PORTF_BASE, GPIO_PIN_1);
-    GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);
-    IntEnable(INT_GPIOF);  
+
+	//Select Switch (button press) Init	(select switch is PF1) (pulled from page 67 of the book and modified for PF1...i think)
+	//SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);
+  /*GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);
+  IntEnable(INT_GPIOF);  
+  //IntPrioritySet(INT_GPIOF, 0x00);
+  GPIOIntTypeSet(GPIO_PORTF_BASE, GPIO_PIN_1, GPIO_BOTH_EDGES);
+  GPIOPinIntEnable(GPIO_PORTF_BASE, GPIO_PIN_1);*/
+  //NVIC_EN0_R |= 0x40000000;     // (h) enable interrupt 2 in NVIC (Not sure what Stellarisware function replaces this)
   
-    /* This works for now, but Stellarisware Function owuld be nice */
-    /*SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
+  
+  /* This works for now, but Stellarisware Function owuld be nice */
+  SYSCTL_RCGC2_R |= 0x00000020; // (a) activate port F
 //	delay = SYSCTL_RCGC2_R;		    //delay, cause i said so
 	GPIO_PORTF_DIR_R &= ~0x02;    // (c) make PF1 in
 	GPIO_PORTF_DEN_R |= 0x02;     //     enable digital I/O on PF1
@@ -200,7 +149,15 @@ void OS_Init(void){
 	NVIC_EN0_R |= 0x40000000;     // (h) enable interrupt 2 in NVIC
 	//dont enable interrupts 
 	GPIO_PORTF_PUR_R |= 0x02;	    //add pull up resistor, just for shits and giggles
-    */
+  
+/*	SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOF);	  	// Enable GPIOF
+  	GPIOPinTypeGPIOInput(GPIO_PORTF_BASE, GPIO_PIN_1);	// make Pin 1 an Input
+  	GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1);			//
+*/
+
+//TODO: i have no fucking clue what to do here...
+
+return;
 }
 
 // ******** OS_InitSemaphore ************
@@ -208,7 +165,12 @@ void OS_Init(void){
 // input:  pointer to a semaphore
 // output: none
 void OS_InitSemaphore(Sema4Type *semaPt, long initialValue){
-	semaPt->Value=initialValue;   //assuming all semaphores are initialized to 1
+	int i;
+	semaPt->Value=initialValue; 
+	for(i=0;i<NUMTHREADS;i++){
+		semaPt->blockedThreads[i]=EMPTY;
+		semaPt->bIndex=0;
+	}
 } 
 
 // ******** OS_Wait ************
@@ -216,7 +178,27 @@ void OS_InitSemaphore(Sema4Type *semaPt, long initialValue){
 // input:  pointer to a counting semaphore
 // output: none
 void OS_Wait(Sema4Type *s){
-	DisableInterrupts();
+//new way  (Lab3)
+	long status; //the i bit, used to save and reload it
+	status=StartCritical();	  	//Save Ibit
+	s->Value = s->Value-1;		//Decriment semaphore counter
+	if(s->Value < 0){			//If counter < 0 block
+	//BLOCK!!!
+		NUMBLOCKEDTHREADS++;
+		RUNPT->blockedOn=s;			//set in TCB what sema4 its blocked on (for debug info)
+		if(s->blockedThreads[(s->bIndex+1)%NUMTHREADS]==EMPTY){
+			s->bIndex=s->bIndex+1;
+			s->blockedThreads[(s->bIndex)%NUMTHREADS]=RUNPT;	//add thread to array of blocked threads
+			NVIC_ST_CURRENT_R = 0;
+			OS_SysTick_Handler();		//trigger thread switch
+		}
+	
+	}
+	
+	EndCritical(status);		//Reenable I bit
+
+//old way  (Lab2)
+/*	DisableInterrupts()
 	while( s->Value <= 0){
 		//TODO: implement Blocking
 		EnableInterrupts();
@@ -224,6 +206,7 @@ void OS_Wait(Sema4Type *s){
 	}
 	s->Value--;
 	EnableInterrupts();
+*/
 }
 
 // ******** OS_Signal ************
@@ -232,10 +215,49 @@ void OS_Wait(Sema4Type *s){
 // output: none
 void OS_Signal(Sema4Type *s){
 	long status;
-	status=StartCritical();
-  s->Value++;
+	
+//new way(Lab3)
+	int i,j,k;
+	status=StartCritical();	 	//save Ibit
+	s->Value = s->Value +1;		//Incriment Counter
+	if(s->Value<=0){
+	//WAKE UP BLOCKED
+		
+		if(RRSCHEDULER){	 
+		//ROUND ROBIN
+			for(i=(s->bIndex+1)%NUMTHREADS ; s->blockedThreads[i]==0 ; i=++i%NUMTHREADS){;}	//itterate through blocked list untill you find a pointer to a blocked thread
+		  	s->blockedThreads[i]->blockedOn=NULL;  	//remove blocked pointer from TCB
+			s->blockedThreads[i]=EMPTY;				//remove from blocked list
+		
+		}else if(PRIORITYSCHEDULER){
+		//PRIORITY 
+			for(i=0,j=7;i<NUMTHREADS;i++){
+				if(s->blockedThreads[i]->workingPriority<=j){	//j holds highest priority thus far encountered
+					j=s->blockedThreads[i]->workingPriority;
+					k=i;	//k holds the index of the highest priority thread
+				}
+			}
+			if(s->blockedThreads[k]->workingPriority < RUNPT->workingPriority){	  //if unblocked thread has higher priority than currently running thread
+			//	NEXTRUNPT=s->blockedThreads[k]	   			//possible ERROR, dont think i need this, but i might
+				s->blockedThreads[k]->blockedOn=NULL;	   	//remove block from TCB
+				s->blockedThreads[k]=EMPTY;					//remove from sema4 blocked threads list
+				NVIC_ST_CURRENT_R =0;
+				OS_SysTick_Handler();						//
+									
+			}else{	//just add it back into the currently running list
+				s->blockedThreads[k]->blockedOn=NULL;	   	//remove block from TCB
+				s->blockedThreads[k]=EMPTY;					//remove from sema4 blocked threads list
+			}
+		
+		}
+	}
 	EndCritical(status);
-	//TODO: wakeup blocked thread
+
+//old way (Lab2)	
+/*	status=StartCritical();
+  	s->Value++;
+	EndCritical(status);
+*/
 }
 
 // ******** OS_bWait ************
@@ -680,34 +702,49 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 // output: none, should switch threads when finished
 void OS_SysTick_Handler(void){
 	tcbType *i;
+	int pri;
   
-  DisableInterrupts();
+  	DisableInterrupts();
     
 	//Thread Scheduler
-	for(i=RUNPT->next; i->sleep>0 || i->blockedOn!=0; i=i->next){
-		if(i->sleep>0){//decriment sleep counter
-			i->sleep=i->sleep-1;
-			}
+	if(RRSCHEDULER){
+	//ROUND ROBBIN SCHEDULER
+		for(i=RUNPT->next; i->sleep>0 || i->blockedOn!=0; i=i->next){
+			//OLD SLEEP DECRIMENTER
+			//if(i->sleep>0){//decriment sleep counter
+			//	i->sleep=i->sleep-1;
+			//}
+		}
+		NEXTRUNPT=i;
+	}else if(PRIORITYSCHEDULER){
+	//PRIORITY SCHEDULER
+		for(i=RUNPT->next,pri=RUNPT->workingPriority; i->sleep>0 || i->blockedOn!=NULL || (i->workingPriority > RUNPT->workingPriority); i=i->next){ //Possible ERROR HERE, needs rethought //search for next thread untill you find one that is not sleeping, not blocked, and has a priority equal or less than the current RUNPT
+			//OLD SLEEP DECRIMENTER
+			//if(i->sleep>0){//decriment sleep counter
+			//	i->sleep=i->sleep-1;
+			//}
+
+		}
+		NEXTRUNPT=i;		
+	
 	}
-  
-	NEXTRUNPT=i;
-  
-  EnableInterrupts();
+	  
+  	EnableInterrupts();
   
 	//Switch Threads (trigger PendSV)
 	NVIC_INT_CTRL_R = 0x10000000;
 }
+
 
 // ******** OS_DownSwitch_Handler ************
 // Check if time since last down press >.3s, for debouncing, call buttontask appropriately
 // input: none,  
 // output: none, 
 void EvalDirBtnsHandler(){
-   IntDisable(INT_GPIOE);
-   GPIOPinIntClear(GPIO_PORTE_BASE, GPIO_PIN_1);
+    IntDisable(INT_GPIOE);
+    GPIOPinIntClear(GPIO_PORTE_BASE, GPIO_PIN_1);
   
-  
-    while(OS_MsTime() - btndown_time < 500);  // Wait for 10 ms
+    while(OS_MsTime() - btndown_time < 250);  // Wait for 10 ms
 	    if(GPIOPinRead(GPIO_PORTE_BASE, GPIO_PIN_1) == 0){
 		    //BUTTONTASK();	   //supposed to trigger the function that button task points to
              
@@ -731,7 +768,7 @@ void SelectBtnHandler(){
 	GPIOPinIntClear(GPIO_PORTF_BASE, GPIO_PIN_1);
   
 	//currentTime=OS_MsTime();
-    while(OS_MsTime() - SDEBOUNCEPREV < 500);  // Wait for 10 ms
+    while(OS_MsTime() - SDEBOUNCEPREV < 250);  // Wait for 10 ms
 	    if(GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_1) == 0){
             // Toggle Debug LED
             if (GPIOPinRead(GPIO_PORTF_BASE, GPIO_PIN_0) == 0)
@@ -745,3 +782,68 @@ void SelectBtnHandler(){
   
     IntEnable(INT_GPIOF);
 }
+
+// ******** Timer Handlers ************
+// various timer handlers, used for periodic tasks and incrimenting system time
+// input: none,  
+// output: none, 
+// Timer0A Int Handler
+void Timer0A_Handler(){	//happens every 1ms
+  int i;
+  tcbType *j;
+
+  // Clear Interrupt
+  TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
+  
+  // Update global 1ms timer
+  TIMELORD++; 
+  // Decriment Sleep Timers on Everything
+   for(i=0,j=RUNPT;i<NUMTHREADS;i++,j=j->next){	  //cycle through all threads
+   		if(j->sleep>0){
+			j->sleep = j->sleep-1; //deriment sleep counter
+		}
+   }
+   
+}
+// Timer0A Int Handler
+void Timer0B_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
+  
+  // ADC Timer Trigger
+}
+// Timer0A Int Handler
+// Periodic Thread 1
+void Timer1A_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER1_BASE, TIMER_TIMA_TIMEOUT);
+  
+  // Run First Periodic Function
+  (periodic[0])();
+}
+// Timer0A Int Handler
+void Timer1B_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER1_BASE, TIMER_TIMB_TIMEOUT);
+   
+  // Run First Periodic Function
+  (periodic[1])();
+}
+// Timer0A Int Handler
+void Timer2A_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER2_BASE, TIMER_TIMA_TIMEOUT);
+   
+  // Run First Periodic Function
+  (periodic[2])();
+}
+// Timer0A Int Handler
+void Timer2B_Handler(){
+  // Clear Interrupt
+  TimerIntClear(TIMER2_BASE, TIMER_TIMB_TIMEOUT);
+   
+  // Run First Periodic Function
+  (periodic[3])();
+  
+}
+
