@@ -219,7 +219,7 @@ void OS_Signal(Sema4Type *s){
 //new way(Lab3)
 	int i,j,k;
 	status=StartCritical();	 	//save Ibit
-	s->Value = s->Value +1;		//Incriment Counter
+
 	if(s->Value<=0){
 	//WAKE UP BLOCKED
 		
@@ -228,11 +228,12 @@ void OS_Signal(Sema4Type *s){
 			for(i=(s->bIndex+1)%NUMTHREADS ; s->blockedThreads[i]==0 ; i=++i%NUMTHREADS){;}	//itterate through blocked list untill you find a pointer to a blocked thread
 		  	s->blockedThreads[i]->blockedOn=NULL;  	//remove blocked pointer from TCB
 			s->blockedThreads[i]=EMPTY;				//remove from blocked list
+			NUMBLOCKEDTHREADS--;
 		
 		}else if(PRIORITYSCHEDULER){
 		//PRIORITY 
 			for(i=0,j=7;i<NUMTHREADS;i++){
-				if(s->blockedThreads[i]->workingPriority<=j){	//j holds highest priority thus far encountered
+				if(s->blockedThreads[i]!=NULL && s->blockedThreads[i]->workingPriority<=j){	//j holds highest priority thus far encountered
 					j=s->blockedThreads[i]->workingPriority;
 					k=i;	//k holds the index of the highest priority thread
 				}
@@ -242,14 +243,21 @@ void OS_Signal(Sema4Type *s){
 				s->blockedThreads[k]->blockedOn=NULL;	   	//remove block from TCB
 				s->blockedThreads[k]=EMPTY;					//remove from sema4 blocked threads list
 				NVIC_ST_CURRENT_R =0;
+				NUMBLOCKEDTHREADS--;
 				OS_SysTick_Handler();						//
 									
 			}else{	//just add it back into the currently running list
 				s->blockedThreads[k]->blockedOn=NULL;	   	//remove block from TCB
 				s->blockedThreads[k]=EMPTY;					//remove from sema4 blocked threads list
+				NUMBLOCKEDTHREADS--;
 			}
 		
 		}
+	}
+	if(s->Value<1){
+		s->Value = s->Value +1;		//Incriment Counter
+	}else{
+		s->Value=1;
 	}
 	EndCritical(status);
 
@@ -323,6 +331,7 @@ int OS_AddThread(void(*task)(void),
     
 	  for(x=0,found=0;(x<NUMTHREADS) && (found==0);x++){	 //loop untill you find a non used thread
 			if(tcbs[x].used==0){
+				TOTALNUMTHREADS++;
 				found=1;
 				status=StartCritical();			//possible critical section?	
 				OS_ThreadInit(&tcbs[x],0xFFFA-x);
@@ -343,6 +352,7 @@ int OS_AddThread(void(*task)(void),
 				tcbs[x].realPriority=priority;
 				tcbs[x].workingPriority=priority;
 				tcbs[x].id=++IDCOUNT;
+				tcbs[x].lastRun = OS_Time();
 				
 				//TODO: implement adjustable stacksize using input variable 'stackSize'
 				
@@ -438,7 +448,7 @@ int OS_AddPeriodicThread(void(*task)(void),
 //           determines the relative priority of these four threads
 int OS_AddButtonTask(void(*task)(void), unsigned long priority){
 	//TODO: add this back in to implement priority
-//	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|(priority<<21); // (g) priority (shifted into place)
+	NVIC_PRI7_R = (NVIC_PRI7_R&0xFF00FFFF)|(priority<<21); // (g) priority (shifted into place)
 	BUTTONTASK=task;   //POSSIBLE ERROR
 	//for the record the header on this is confusing as balls, this doesnt add a thread, it sets up an interrupt so IT will call a function that will add a thread. FML
 
@@ -485,6 +495,7 @@ return;
 void OS_Kill(void){
 	//set used=0, take it out of linked list, Possible ERROR, not 100% sure of efficacy
 	DisableInterrupts();
+	TOTALNUMTHREADS--;
 	RUNPT->used=0;
 	RUNPT->prev->next=RUNPT->next;
 	RUNPT->next->prev=RUNPT->prev;
@@ -701,8 +712,9 @@ void OS_ThreadInit(tcbType *toSet, long  filler){
 // input: none, uses globals RUNPT and NEXTRUNPT 
 // output: none, should switch threads when finished
 void OS_SysTick_Handler(void){
-	tcbType *i;
+	tcbType *i, *j;
 	int pri;
+	int x;
   
   	DisableInterrupts();
     
@@ -718,14 +730,34 @@ void OS_SysTick_Handler(void){
 		NEXTRUNPT=i;
 	}else if(PRIORITYSCHEDULER){
 	//PRIORITY SCHEDULER
-		for(i=RUNPT->next,pri=RUNPT->workingPriority; i->sleep>0 || i->blockedOn!=NULL || (i->workingPriority > RUNPT->workingPriority); i=i->next){ //Possible ERROR HERE, needs rethought //search for next thread untill you find one that is not sleeping, not blocked, and has a priority equal or less than the current RUNPT
+		pri=7;
+		j=RUNPT->next;
+		do{
+			//find thread with highest priority that isnt sleeping or blocked
+			if(j->blockedOn==NULL && j->sleep==0 && j->workingPriority<pri){
+				pri=j->workingPriority;
+				i=j;	
+			}
+		
+			j=j->next;
+		}while(j!=RUNPT->next);
+
+
+	/* 	//Priority Scheduler, failed for case where lowest thread got blocked.
+		for(i=RUNPT->next,pri=RUNPT->workingPriority,x=0; i->sleep>0 || i->blockedOn!=NULL || (i->workingPriority > pri); i=i->next, x++){ //Possible ERROR HERE, needs rethought //search for next thread untill you find one that is not sleeping, not blocked, and has a priority equal or less than the current RUNPT
+			if(x>=NUMTHREADS && pri<7){
+				x=0;
+				pri++;
+			}
+		}
+	*/
 			//OLD SLEEP DECRIMENTER
 			//if(i->sleep>0){//decriment sleep counter
 			//	i->sleep=i->sleep-1;
 			//}
 
-		}
-		NEXTRUNPT=i;		
+		NEXTRUNPT=i;
+		RUNPT->lastRun=OS_Time();		
 	
 	}
 	  
@@ -733,6 +765,7 @@ void OS_SysTick_Handler(void){
   
 	//Switch Threads (trigger PendSV)
 	NVIC_INT_CTRL_R = 0x10000000;
+	//PendSV_Handler();
 }
 
 
@@ -797,10 +830,16 @@ void Timer0A_Handler(){	//happens every 1ms
   
   // Update global 1ms timer
   TIMELORD++; 
-  // Decriment Sleep Timers on Everything
    for(i=0,j=RUNPT;i<NUMTHREADS;i++,j=j->next){	  //cycle through all threads
+  		// Decriment Sleep Timers on Everything
    		if(j->sleep>0){
 			j->sleep = j->sleep-1; //deriment sleep counter
+		}
+		// Aging every 10ms
+		if(j->lastRun -  OS_Time() > AGING){
+			if(j->workingPriority-1 > 0){
+				j->workingPriority--;
+			}
 		}
    }
    

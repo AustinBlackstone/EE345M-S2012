@@ -337,7 +337,7 @@ void Thread3b(void){
     Count3++;
   }
 }
-int testmain2(void){  // testmain2
+int main2(void){  // testmain2
   OS_Init();           // initialize, disable interrupts
   NumCreated = 0 ;
   NumCreated += OS_AddThread(&Thread1b,128,1); 
@@ -390,7 +390,7 @@ void Thread3c(void){
     Count3++;
   }
 }
-void Thread4c(void){ int i;
+void Thread4c(void){ int i;													   
   for(i=0;i<64;i++){
     Count4++;
     OS_Sleep(10);
@@ -402,10 +402,11 @@ void BackgroundThread5c(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4c,128,3); 
 }
       
-int Testmain3(void){   // Testmain3
+int main3(void){   // Testmain3
   Count4 = 0;          
   OS_Init();           // initialize, disable interrupts
 // Count2 + Count5 should equal Count1 (Count5 may be zero)
+ // OS_InitSemaphore(&Readyc, 1);
   NumCreated = 0 ;
   OS_AddButtonTask(&BackgroundThread5c,2);
   NumCreated += OS_AddThread(&Thread2c,128,2); 
@@ -463,7 +464,7 @@ void Thread4d(void){ int i;
 void BackgroundThread5d(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4d,128,3); 
 }
-int Testmain4(void){   // Testmain4
+int main(void){   // Testmain4
   Count4 = 0;          
   OS_Init();           // initialize, disable interrupts
   NumCreated = 0 ;

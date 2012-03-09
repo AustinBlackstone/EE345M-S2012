@@ -15,6 +15,7 @@
 #define  EMPTY 0
 #define  RRSCHEDULER 0
 #define  PRIORITYSCHEDULER 1
+#define  AGING 10 //how long till thread is aged, measured in ms
 
 // fill these depending on your clock        
 #define TIME_1MS  50000          
@@ -31,6 +32,7 @@ struct  tcb{
   unsigned long sleep;					// 0=not sleeping, >0 = how long to sleep
   unsigned long realPriority;			// priority of thread
   unsigned long workingPriority;			// working priority of thread (used to implement aging)
+  long	lastRun;
   long stack[STACKSIZE]; 					// stack for thread, 
 
 };
