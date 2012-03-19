@@ -15,7 +15,7 @@
 #define  EMPTY 0
 #define  RRSCHEDULER 0
 #define  PRIORITYSCHEDULER 1
-#define  AGING 10 //how long till thread is aged, measured in ms
+#define  AGING 100 //how long till thread is aged, measured in ms
 
 // fill these depending on your clock        
 #define TIME_1MS  50000          

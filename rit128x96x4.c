@@ -960,9 +960,12 @@ void oLED_Message(int device, int line, char *string, long value){
   
 	line=line%4; //limit line to value 0-3
     //if (value == IGNOREVALUE)
-    sprintf(str,"%s %d", string, value); //convert integer to string
-    RIT128x96x4StringDraw(str, 0, line*12 + (device==bottom?48:0), 15);
-    
+   	if(value==-0){
+		RIT128x96x4StringDraw(string, 0, line*12 + (device==bottom?48:0), 15);
+	}else{
+    	sprintf(str,"%s %d", string, value); //convert integer to string
+    	RIT128x96x4StringDraw(str, 0, line*12 + (device==bottom?48:0), 15);
+    }
     OS_bSignal(&oled_free);
 }
 

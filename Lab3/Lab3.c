@@ -232,7 +232,7 @@ extern void Interpreter(void); // Pipe to UART Parser (localvars in uart.c, etc.
 //--------------end of Task 5-----------------------------
 
 //*******************final user main DEMONTRATE THIS TO TA**********
-int mainmain(void){        // lab 3 real main
+int main(void){        // lab 3 real main
   OS_Init();           // initialize, disable interrupts
 
   DataLost = 0;        // lost data between producer and consumer
@@ -406,7 +406,7 @@ int main3(void){   // Testmain3
   Count4 = 0;          
   OS_Init();           // initialize, disable interrupts
 // Count2 + Count5 should equal Count1 (Count5 may be zero)
- // OS_InitSemaphore(&Readyc, 1);
+  //OS_InitSemaphore(&Readyc, 1);
   NumCreated = 0 ;
   OS_AddButtonTask(&BackgroundThread5c,2);
   NumCreated += OS_AddThread(&Thread2c,128,2); 
@@ -464,7 +464,7 @@ void Thread4d(void){ int i;
 void BackgroundThread5d(void){   // called when Select button pushed
   NumCreated += OS_AddThread(&Thread4d,128,3); 
 }
-int main(void){   // Testmain4
+int Testmain4(void){   // Testmain4
   Count4 = 0;          
   OS_Init();           // initialize, disable interrupts
   NumCreated = 0 ;
@@ -517,7 +517,7 @@ void Thread7(void){  // foreground thread
   oLED_Message(1,0,"\n\rEE345M/EE380L, Lab 3 Preparation 2\n\r",-0);
   OS_Sleep(5000);   // 10 seconds        
   Jitter();         // print jitter information
-  printf("\n\r\n\r");
+  //printf("\n\r\n\r");
   OS_Kill();
 }
 #define workA 500       // {5,50,500 us} work in Task A
@@ -536,7 +536,7 @@ void TaskB(void){       // called every pB in background
   GPIO_PB2 = 0x00;      // debugging profile  
 }
 
-int Testmain5(void){       // Testmain5
+int main5(void){       // Testmain5
   volatile unsigned long delay;
   SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOB; // activate port B
   delay = SYSCTL_RCGC2_R;     // allow time to finish activating
@@ -572,14 +572,17 @@ unsigned long WaitCount2;     // number of times s is successfully waited on
 unsigned long WaitCount3;     // number of times s is successfully waited on
 #define MAXCOUNT 20000
 void OutputThread(void){  // foreground thread
-  printf("\n\rEE345M/EE380L, Lab 3 Preparation 4\n\r");
+  //printf("\n\rEE345M/EE380L, Lab 3 Preparation 4\n\r");
+  oLED_Message(1,0,"\n\rEE345M/EE380L, Lab 3 Preparation 4\n\r",-0);
   while(SignalCount1+SignalCount2+SignalCount3<100*MAXCOUNT){
     OS_Sleep(1000);   // 1 second
-    printf(".");
+    oLED_Message(1,0,".",-0);
+	//printf(".");
   }       
-  printf(" done\n\r");
-  printf("Signalled=%u, Waited=%u\n\r",SignalCount1+SignalCount2+SignalCount3,WaitCount1+WaitCount2+WaitCount3);
-
+  //printf(" done\n\r");
+  oLED_Message(1,0," done\n\r",-0);
+  //printf("Signalled=%u, Waited=%u\n\r",SignalCount1+SignalCount2+SignalCount3,WaitCount1+WaitCount2+WaitCount3);
+  oLED_Message(1,0,"Signalled=  Waited= ",-0);
   OS_Kill();
 }
 void Wait1(void){  // foreground thread

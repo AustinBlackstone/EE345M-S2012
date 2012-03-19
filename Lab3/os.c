@@ -33,6 +33,7 @@ tcbType *RUNPT;
 tcbType *NEXTRUNPT;
 
 //globals 
+int deleteme;
 int IDCOUNT;	//incrimented to generate unique thread id's
 long int OSMAILBOX; // contains mailbox data for OSMailBox
 void (*BUTTONTASK)(void);   // pointer to task that gets called when you press a button 
@@ -63,6 +64,7 @@ void OS_Init(void){
 	DisableInterrupts();
 	RUNPT=0;
 	JitterInit();
+	deleteme=0;
 
 // Enable processor interrupts.
     //
@@ -82,11 +84,12 @@ void OS_Init(void){
 	// Timers galore!
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER0);
 	TimerConfigure(TIMER0_BASE, (TIMER_CFG_16_BIT_PAIR | TIMER_CFG_A_PERIODIC | TIMER_CFG_B_PERIODIC));
-	TimerControlTrigger(TIMER0_BASE, TIMER_A, true);  // TIMELORD Updater
-	TimerControlTrigger(TIMER0_BASE, TIMER_B, true);  // ADC_Collect Timer
+	//TimerControlTrigger(TIMER0_BASE, TIMER_A, false);  // TIMELORD Updater
+	//TimerControlTrigger(TIMER0_BASE, TIMER_B, true);  // ADC_Collect Timer
 	TimerLoadSet(TIMER0_BASE, TIMER_A, SysCtlClockGet()/1000);
 	TimerIntEnable(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
 	TimerIntEnable(TIMER0_BASE, TIMER_TIMB_TIMEOUT);
+	TimerEnable(TIMER0_BASE, TIMER_BOTH);
 	IntEnable(INT_TIMER0A);
 	  
 	SysCtlPeripheralEnable(SYSCTL_PERIPH_TIMER1);
@@ -187,9 +190,10 @@ void OS_Wait(Sema4Type *s){
 		NUMBLOCKEDTHREADS++;
 		RUNPT->blockedOn=s;			//set in TCB what sema4 its blocked on (for debug info)
 		if(s->blockedThreads[(s->bIndex+1)%NUMTHREADS]==EMPTY){
-			s->bIndex=s->bIndex+1;
+			s->bIndex=(s->bIndex+1)%NUMTHREADS;
 			s->blockedThreads[(s->bIndex)%NUMTHREADS]=RUNPT;	//add thread to array of blocked threads
 			NVIC_ST_CURRENT_R = 0;
+			//EndCritical(status);
 			OS_SysTick_Handler();		//trigger thread switch
 		}
 	
@@ -220,7 +224,7 @@ void OS_Signal(Sema4Type *s){
 	int i,j,k;
 	status=StartCritical();	 	//save Ibit
 
-	if(s->Value<=0){
+	if(s->Value<0){
 	//WAKE UP BLOCKED
 		
 		if(RRSCHEDULER){	 
@@ -481,7 +485,7 @@ return 0;
 void OS_Sleep(unsigned long sleepTime){
 	RUNPT->sleep = sleepTime;
 	//cause SYSTICK Interrupt / switch threads
-	NVIC_ST_CURRENT_R =0;
+//	NVIC_ST_CURRENT_R =0;
 	OS_SysTick_Handler();
 	//NVIC_INT_CTRL_R = 0x04000000; // TODO: Why not set the Systick counter to 0?
 
@@ -501,7 +505,7 @@ void OS_Kill(void){
 	RUNPT->next->prev=RUNPT->prev;
 	RUNPT->id=0xDEADDEAD; //get it, the threads dead, hehehe, clever little bastard aint i?
 	//trigger SysTick, .'. the thread scheduler to run, next loop around this thread wont be here
-	NVIC_ST_CURRENT_R=0;
+	//NVIC_ST_CURRENT_R=0;
 	//NVIC_INT_CTRL_R = 0x04000000;
 	EnableInterrupts();
 	OS_SysTick_Handler();
@@ -732,7 +736,9 @@ void OS_SysTick_Handler(void){
 	//PRIORITY SCHEDULER
 		pri=7;
 		j=RUNPT->next;
+		x=0;
 		do{
+			x++;
 			//find thread with highest priority that isnt sleeping or blocked
 			if(j->blockedOn==NULL && j->sleep==0 && j->workingPriority<pri){
 				pri=j->workingPriority;
@@ -740,7 +746,8 @@ void OS_SysTick_Handler(void){
 			}
 		
 			j=j->next;
-		}while(j!=RUNPT->next);
+		//}while(j!=RUNPT->next);
+		}while(x<NUMTHREADS);
 
 
 	/* 	//Priority Scheduler, failed for case where lowest thread got blocked.
@@ -757,7 +764,8 @@ void OS_SysTick_Handler(void){
 			//}
 
 		NEXTRUNPT=i;
-		RUNPT->lastRun=OS_Time();		
+		RUNPT->lastRun=OS_Time();
+		RUNPT->workingPriority = RUNPT->realPriority;		
 	
 	}
 	  
@@ -831,7 +839,8 @@ void Timer0A_Handler(){	//happens every 1ms
   // Update global 1ms timer
   TIMELORD++; 
    for(i=0,j=RUNPT;i<NUMTHREADS;i++,j=j->next){	  //cycle through all threads
-  		// Decriment Sleep Timers on Everything
+  		deleteme++;
+		// Decriment Sleep Timers on Everything
    		if(j->sleep>0){
 			j->sleep = j->sleep-1; //deriment sleep counter
 		}
