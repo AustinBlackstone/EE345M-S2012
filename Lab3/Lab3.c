@@ -232,7 +232,7 @@ extern void Interpreter(void); // Pipe to UART Parser (localvars in uart.c, etc.
 //--------------end of Task 5-----------------------------
 
 //*******************final user main DEMONTRATE THIS TO TA**********
-int main(void){        // lab 3 real main
+int mainmain(void){        // lab 3 real main
   OS_Init();           // initialize, disable interrupts
 
   DataLost = 0;        // lost data between producer and consumer
@@ -536,7 +536,7 @@ void TaskB(void){       // called every pB in background
   GPIO_PB2 = 0x00;      // debugging profile  
 }
 
-int main5(void){       // Testmain5
+int main(void){       // Testmain5
   volatile unsigned long delay;
   SYSCTL_RCGC2_R |= SYSCTL_RCGC2_GPIOB; // activate port B
   delay = SYSCTL_RCGC2_R;     // allow time to finish activating
