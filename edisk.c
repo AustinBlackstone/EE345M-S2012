@@ -26,10 +26,10 @@
 #include "edisk.h"
 
 /* Definitions for MMC/SDC command */
-#define CMD0    (0x40+0)    /* GO_IDLE_STATE */
-#define CMD1    (0x40+1)    /* SEND_OP_COND */
-#define CMD8    (0x40+8)    /* SEND_IF_COND */
-#define CMD9    (0x40+9)    /* SEND_CSD */
+#define CMD0     (0x40+ 0)    /* GO_IDLE_STATE */
+#define CMD1     (0x40+ 1)    /* SEND_OP_COND */
+#define CMD8     (0x40+ 8)    /* SEND_IF_COND */
+#define CMD9     (0x40+ 9)    /* SEND_CSD */
 #define CMD10    (0x40+10)    /* SEND_CID */
 #define CMD12    (0x40+12)    /* STOP_TRANSMISSION */
 #define CMD16    (0x40+16)    /* SET_BLOCKLEN */

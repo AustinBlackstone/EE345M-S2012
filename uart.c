@@ -107,3 +107,7 @@ void UARTInit(){
     UARTCharPutNonBlocking(UART0_BASE, '$');
     UARTCharPutNonBlocking(UART0_BASE, ' ');
 }
+
+int UARTPut(unsigned char data){
+	return UARTOutFifo_Put(data);
+}

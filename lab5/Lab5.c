@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "inc/hw_types.h"
-#include "serial.h"
+#include "uart.h"
 #include "adc.h"
 #include "os.h"
 #include "lm3s8962.h"
@@ -141,7 +141,7 @@ int realmain(void){        // lab 5 real main
 
 //*******attach background tasks***********
   OS_AddButtonTask(&ButtonPush,2);
-  OS_AddButtonTask(&DownPush,3);
+  OS_AddDownTask(&DownPush,3);
   OS_AddPeriodicThread(disk_timerproc,10*TIME_1MS,5);
 
   NumCreated = 0 ;
@@ -222,7 +222,8 @@ void TestFile(void){   int i; char data;
   // simple test of eFile
   if(eFile_Init())              diskError("eFile_Init",0); 
   if(eFile_Format())            diskError("eFile_Format",0); 
-  eFile_Directory(&Serial_OutChar);
+  //eFile_Directory(&Serial_OutChar);
+  eFile_Directory(&UARTPut);
   if(eFile_Create("file1"))     diskError("eFile_Create",0);
   if(eFile_WOpen("file1"))      diskError("eFile_WOpen",0);
   for(i=0;i<1000;i++){
@@ -233,14 +234,17 @@ void TestFile(void){   int i; char data;
     }
   }
   if(eFile_WClose())            diskError("eFile_Close",0);
-  eFile_Directory(&Serial_OutChar);
+  //eFile_Directory(&Serial_OutChar);
+  eFile_Directory(&UARTPut);
   if(eFile_ROpen("file1"))      diskError("eFile_ROpen",0);
   for(i=0;i<1000;i++){
     if(eFile_ReadNext(&data))   diskError("eFile_ReadNext",i);
-    Serial_OutChar(data);
+    //Serial_OutChar(data);
+	UARTPut(data);
   }
   if(eFile_Delete("file1"))     diskError("eFile_Delete",0);
-  eFile_Directory(&Serial_OutChar);
+  //eFile_Directory(&Serial_OutChar);
+  eFile_Directory(&UARTPut);
   printf("Successful test of creating a file\n\r");
   OS_Kill();
 }

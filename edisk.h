@@ -37,6 +37,8 @@ typedef enum {
 // since this program initializes the disk, it must run with 
 //    the disk periodic task operating
 DSTATUS eDisk_Init(BYTE drive);
+
+
 //*************** eDisk_Status ***********
 // Check the status of the SD card
 // Inputs: drive number (only drive 0 is supported)
@@ -65,6 +67,7 @@ DRESULT eDisk_Read (
   DWORD sector, // Start sector number (LBA)
   BYTE count);  // Sector count (1..255)
 
+
 //*************** eDisk_ReadBlock ***********
 // Read 1 block of 512 bytes from the SD card  (write to RAM)
 // Inputs: pointer to an empty RAM buffer
@@ -80,6 +83,7 @@ DRESULT eDisk_ReadBlock (
     DWORD sector);      /* Start sector number (LBA) */
 
 #if	_READONLY == 0
+
 
 //*************** eDisk_Write ***********
 // (read from RAM) Write data to the SD card
@@ -98,6 +102,7 @@ DRESULT eDisk_Write (
   const BYTE *buff, // Pointer to the data to be written
   DWORD sector,     // Start sector number (LBA)
   BYTE count);      // Sector count (1..255)
+
 
 //*************** eDisk_WriteBlock ***********
 // Write 1 block of 512 bytes of data to the SD card

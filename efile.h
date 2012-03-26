@@ -4,6 +4,38 @@
 // Middle-level routines to implement a solid-state disk 
 // Jonathan W. Valvano 3/16/11
 
+
+ #ifndef __EFILE_H
+ #define __EFILE_H 1
+ 
+ #define FHEADERSIZE 16
+ #define BLOCKSIZE 512
+ #define FREESPACEINDEX 31 
+ #define TOTALNUMBLOCKS 255
+
+// Struct for directory File header
+// 16bytes total, 16total of these per directory entry, 
+// last one is reserved as free space pointer
+struct fHeader{
+	char name[10]; 			// 10 bytes	// name of file, 9 characters null terminated
+	unsigned char next;		// 1 byte	// next block (1->TOTALNUMBLOCKS)
+	unsigned char prev;		// 1 byte	// prev block (1->TOTALNUMBLOCKS)
+	unsigned short size;	// 2 bytes	//total size of file (in bytes)
+	unsigned short empty;	// 2 bytes 	// dead space, 
+};
+typedef struct fHeader fHeaderType;
+
+// Struct for node (aka block of file)
+// total of 512 bytes
+struct fNode{
+	unsigned short num;	  	// 2 bytes 	// number of used bytes in this file
+	unsigned char next;		// 1 byte	// next block (1->TOTALNUMBLOCKS)
+	unsigned char prev;		// 1 byte	// prev block (1->TOTALNUMBLOCKS)
+	unsigned char   data[508];	// 508 bytes// bytes of data
+};
+typedef struct fNode fNodeType;
+
+
 //---------- eFile_Init-----------------
 // Activate the file system, without formating
 // Input: none
@@ -74,7 +106,7 @@ int eFile_RClose(void); // close the file for writing
 // Input: pointer to a function that outputs ASCII characters to display
 // Output: characters returned by reference
 //         0 if successful and 1 on failure (e.g., trouble reading from flash)
-int eFile_Directory(void(*fp)(unsigned char));   
+int eFile_Directory(int(*fp)(unsigned char));   
 
 //---------- eFile_Delete-----------------
 // delete this file
@@ -94,3 +126,18 @@ int eFile_RedirectToFile(char *name);
 // redirect printf data back to UART
 // Output: 0 if successful and 1 on failure (e.g., wasn't open)
 int eFile_EndRedirectToFile(void);
+
+//---------- eFile_EmptyFileIndex-----------------
+// finds the first available empty file index
+// Input: none
+// Output: index of first available empty file, 
+// ERRORS: outputs index of free space pointer if no file names are available
+int eFile_EmptyFileIndex(void);
+						   
+//---------- eFile_WriteFileIndex-----------------
+// write provided information to file index
+// Input: name, next pt, prev pt, size
+// Output: 0=sucess, 1=failure 
+int eFile_WriteFileIndex(int index,char *name, unsigned char nextpt, unsigned char prevpt, unsigned short totalSize);
+
+#endif

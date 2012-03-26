@@ -407,16 +407,6 @@
               <FilePath>.\os_asm.s</FilePath>
             </File>
             <File>
-              <FileName>cr4_fft_64_stm32.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\cr4_fft_64_stm32.s</FilePath>
-            </File>
-            <File>
-              <FileName>PID_stm32.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\PID_stm32.s</FilePath>
-            </File>
-            <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\adc.c</FilePath>
@@ -425,6 +415,36 @@
               <FileName>uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>Lab5.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Lab5.c</FilePath>
+            </File>
+            <File>
+              <FileName>edisk.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\edisk.c</FilePath>
+            </File>
+            <File>
+              <FileName>edisk.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\edisk.h</FilePath>
+            </File>
+            <File>
+              <FileName>efile.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\efile.h</FilePath>
+            </File>
+            <File>
+              <FileName>efile.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\efile.c</FilePath>
+            </File>
+            <File>
+              <FileName>debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\debug.c</FilePath>
             </File>
           </Files>
         </Group>

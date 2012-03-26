@@ -33,7 +33,6 @@ tcbType *RUNPT;
 tcbType *NEXTRUNPT;
 
 //globals 
-int deleteme;
 int IDCOUNT;	//incrimented to generate unique thread id's
 long int OSMAILBOX; // contains mailbox data for OSMailBox
 void (*BUTTONTASK)(void);   // pointer to task that gets called when you press a button 
@@ -51,7 +50,7 @@ Sema4Type oled_free;
 Sema4Type OSMailBoxSema4;
 
 //Fifos
-#define	OSFIFOSIZE	64
+#define	OSFIFOSIZE	512
 AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 
 
@@ -63,8 +62,7 @@ AddIndexFifo(OS , OSFIFOSIZE ,long int, 1, 0 )
 void OS_Init(void){
 	DisableInterrupts();
 	RUNPT=0;
-	JitterInit();
-	deleteme=0;
+//	JitterInit();
 
 // Enable processor interrupts.
     //
@@ -839,7 +837,6 @@ void Timer0A_Handler(){	//happens every 1ms
   // Update global 1ms timer
   TIMELORD++; 
    for(i=0,j=RUNPT;i<NUMTHREADS;i++,j=j->next){	  //cycle through all threads
-  		deleteme++;
 		// Decriment Sleep Timers on Everything
    		if(j->sleep>0){
 			j->sleep = j->sleep-1; //deriment sleep counter
