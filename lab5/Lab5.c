@@ -13,7 +13,6 @@
 #include "adc.h"
 #include "os.h"
 #include "lm3s8962.h"
-#include "edisk.h"
 #include "efile.h"
 
 unsigned long NumCreated;   // number of foreground threads created

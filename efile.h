@@ -4,6 +4,7 @@
 // Middle-level routines to implement a solid-state disk 
 // Jonathan W. Valvano 3/16/11
 
+ #include "edisk.h"
 
  #ifndef __EFILE_H
  #define __EFILE_H 1
@@ -12,6 +13,10 @@
  #define BLOCKSIZE 512
  #define FREESPACEINDEX 31 
  #define TOTALNUMBLOCKS 255
+ #define NUMFILES 31
+ #define DRIVE 0
+
+ int OPENFILEINDEX;
 
 // Struct for directory File header
 // 16bytes total, 16total of these per directory entry, 
@@ -21,7 +26,7 @@ struct fHeader{
 	unsigned char next;		// 1 byte	// next block (1->TOTALNUMBLOCKS)
 	unsigned char prev;		// 1 byte	// prev block (1->TOTALNUMBLOCKS)
 	unsigned short size;	// 2 bytes	//total size of file (in bytes)
-	unsigned short empty;	// 2 bytes 	// dead space, 
+	unsigned short padding;	// 2 bytes 	// dead space, 
 };
 typedef struct fHeader fHeaderType;
 
@@ -31,10 +36,19 @@ struct fNode{
 	unsigned short num;	  	// 2 bytes 	// number of used bytes in this file
 	unsigned char next;		// 1 byte	// next block (1->TOTALNUMBLOCKS)
 	unsigned char prev;		// 1 byte	// prev block (1->TOTALNUMBLOCKS)
-	unsigned char   data[508];	// 508 bytes// bytes of data
+	char   data[508];	// 508 bytes// bytes of data
 };
 typedef struct fNode fNodeType;
 
+union dirUnion{					   // union used for file directory
+	BYTE byte[512];			   // used for eDisk_Write
+	fHeaderType headers[NUMFILES+1];   // used to access with struct
+} DIRBlock;
+
+union nodeUnion{
+	BYTE byte[512];
+	fNodeType node;
+} FileBlock;
 
 //---------- eFile_Init-----------------
 // Activate the file system, without formating
@@ -127,17 +141,38 @@ int eFile_RedirectToFile(char *name);
 // Output: 0 if successful and 1 on failure (e.g., wasn't open)
 int eFile_EndRedirectToFile(void);
 
-//---------- eFile_EmptyFileIndex-----------------
+//---------- eFileRAM_EmptyFileIndex-----------------
 // finds the first available empty file index
 // Input: none
 // Output: index of first available empty file, 
 // ERRORS: outputs index of free space pointer if no file names are available
-int eFile_EmptyFileIndex(void);
+int eFileRAM_EmptyFileIndex(void);
 						   
 //---------- eFile_WriteFileIndex-----------------
 // write provided information to file index
 // Input: name, next pt, prev pt, size
 // Output: 0=sucess, 1=failure 
 int eFile_WriteFileIndex(int index,char *name, unsigned char nextpt, unsigned char prevpt, unsigned short totalSize);
+
+//---------- eFile_GetBlock-----------------
+// take block from beggining of free space
+// Input:  none
+// Output: sector # removed from head of free list
+// ERRORS: 0 on failure, address of free sector on success
+int eFile_GetBlock(void);
+
+//---------- eFileRAM_DIRWriteName-----------------
+// write given file name to DIR
+// Input:  char pointer to name of file
+// Output: none
+// NOTE: this only modifies the DIR in RAM, it doesnt write or read from memory
+void eFileRAM_DIRWriteName(int index, char *name);
+
+//---------- eFileRAM_ClearFileBlock-----------------
+// clear all feilds in RAM FileBlock
+// Input:  none
+// Output: none
+// NOTE: this only modifies the DIR in RAM, it doesnt write or read from memory
+void eFileRAM_ClearFileBlock(void);
 
 #endif
