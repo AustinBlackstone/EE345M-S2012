@@ -200,7 +200,7 @@ void RunTest(void){
 //******************* test main1 **********
 // SYSTICK interrupts, period established by OS_Launch
 // Timer interrupts, period established by first call to OS_AddPeriodicThread
-int main(void){   // testmain1
+int main1(void){   // testmain1
   OS_Init();           // initialize, disable interrupts
 
 //*******attach background tasks***********
@@ -264,4 +264,32 @@ int testmain2(void){
  
   OS_Launch(10*TIME_1MS); // doesn't return, interrupts enabled in here
   return 0;               // this never executes
+}
+
+//******************* Custom Test Main 3 **********
+//do single eFile functions and check what they return.
+int main(void){
+	int x;
+	char name[2];
+	extern union dirUnion DIRBlock; 
+	name[0]='a';
+	name[1]='\0';
+
+
+
+	x=eFile_Init();
+
+	x=eDisk_ReadBlock(DIRBlock.byte,0);
+	DIRBlock.headers[0].name[0]='A';
+	eDisk_ReadBlock(DIRBlock.byte,0);
+	x=x;
+	x=eFile_Format();
+	x=x;
+	x=eFile_Create(name);
+	x=x;
+	x=eFile_GetBlock();
+	
+	while(1){
+	;}
+	return 0;
 }

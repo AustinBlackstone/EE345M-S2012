@@ -6,6 +6,12 @@
 
 
 #include "efile.h"
+#include "uart.h"
+
+ int OPENFILEINDEX;
+ union dirUnion DIRBlock;
+ union nodeUnion FileBlock;
+ int StreamToFile=0;
 
 
 //---------- eFile_Init-----------------
@@ -15,8 +21,9 @@
 // since this program initializes the disk, it must run with 
 //    the disk periodic task operating
 int eFile_Init(void){ // initialize file system
-	return eDisk_Init(DRIVE);			//use eDisk init fn
-
+	int x;
+	x= eDisk_Init(DRIVE);			//use eDisk init fn
+	return x;
 }
 
 //---------- eFile_Format-----------------
@@ -33,7 +40,8 @@ int eFile_Format(void){ // erase disk, add format
 	empty.next=0;
 	empty.prev=0;
 	empty.size=0;
-	empty.padding=0;
+	empty.padding=0xFFFF;
+	for(x=0;x<10;x++){empty.name[x]=0;}
 
 //write to all entries in DIRBlock
 	for(x=0;x<NUMFILES;x++){DIRBlock.headers[x]=empty;}		//clears all entries in DIR except for free space
@@ -286,19 +294,23 @@ int eFile_Delete( char name[]){  // remove this file
 // Input: file name is a single ASCII letter
 // stream printf data into file
 // Output: 0 if successful and 1 on failure (e.g., trouble read/write to flash)
+//NOTE: copied directly from lab5.pdf
 int eFile_RedirectToFile(char *name){
- 	//TODO: i have no clue what to do here....
-	return 1;
+	eFile_Create(name); // ignore error if file already exists
+	if(eFile_WOpen(name)) return 1; // cannot open file
+	StreamToFile = 1;
+	return 0;
 }
 
 //---------- eFile_EndRedirectToFile-----------------
 // close the previously open file
 // redirect printf data back to UART
 // Output: 0 if successful and 1 on failure (e.g., wasn't open)
+//NOTE: copied directly from lab5.pdf
 int eFile_EndRedirectToFile(void){
- 	//TODO: again, no clue what do to here...
-	
-	return 1;
+	StreamToFile = 0;
+	if(eFile_WClose()) return 1; // cannot close file
+	return 0;
 }
 
 //---------- eFileRAM_EmptyFileIndex-----------------
@@ -311,7 +323,7 @@ int eFileRAM_EmptyFileIndex(void){
 	//struct fHeader dirNode[32];
 	
 	//eDisk_ReadBlock(DIRBlock.byte,0);
-	for(x=0; 0 != DIRBlock.headers[x].name ; x++){;}
+	for(x=0; 0 != DIRBlock.headers[x].name && x<10 ; x++){;}
 	return x;	
 }
 
@@ -414,6 +426,36 @@ void eFileRAM_ClearFileBlock(void){
 		FileBlock.node.data[x]=0;
 	}
 	return;
+}
+
+//---------- fputc-----------------
+// redirects printf stream to File
+// Input:  
+// Output: 
+
+int fputc (int ch, struct fNode file) {
+	if(StreamToFile){
+		if(eFile_Write(ch)){ // close file on error
+			eFile_EndRedirectToFile(); // cannot write to file
+			return 1; // failure
+		}
+	return 0; // success writing
+	}
+
+	// regular UART output
+	UARTPut(ch);
+	return 0;
+}
+
+//---------- fgetc-----------------
+// redirect for serial outputs
+// Input:  
+// Output: 
+
+int fgetc (struct fNode f){
+	//return(Serial_InChar());
+//TODO: implement this shit... not sure what to do....	
+	return 1;
 }
 
 

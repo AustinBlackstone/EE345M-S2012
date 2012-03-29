@@ -111,3 +111,7 @@ void UARTInit(){
 int UARTPut(unsigned char data){
 	return UARTOutFifo_Put(data);
 }
+
+int UARTInGet(char * data){
+	return UARTInFifo_Get(data);
+}

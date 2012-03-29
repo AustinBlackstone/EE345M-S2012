@@ -16,7 +16,7 @@
  #define NUMFILES 31
  #define DRIVE 0
 
- int OPENFILEINDEX;
+
 
 // Struct for directory File header
 // 16bytes total, 16total of these per directory entry, 
@@ -43,12 +43,12 @@ typedef struct fNode fNodeType;
 union dirUnion{					   // union used for file directory
 	BYTE byte[512];			   // used for eDisk_Write
 	fHeaderType headers[NUMFILES+1];   // used to access with struct
-} DIRBlock;
+};
 
 union nodeUnion{
 	BYTE byte[512];
 	fNodeType node;
-} FileBlock;
+};
 
 //---------- eFile_Init-----------------
 // Activate the file system, without formating
